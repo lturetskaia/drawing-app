@@ -1,34 +1,34 @@
-function LineToTool(){
-	this.icon = "assets/lineTo.jpg";
-	this.name = "LineTo";
+function LineToTool() {
+  this.icon = "assets/lineTo.jpg";
+  this.name = "LineTo";
 
-	var startMouseX = -1;
-	var startMouseY = -1;
-	var drawing = false;
+  // default value of the starting point of a line
+  var startMouseX = -1;
+  var startMouseY = -1;
+  var drawing = false;
 
-	this.draw = function(){
+  this.draw = function () {
+    if (mouseIsPressed) {
+      if (startMouseX == -1) {
+        // initializes the starting point of the line to the current mouse position
+        // and the drawing state to true
+        startMouseX = mouseX;
+        startMouseY = mouseY;
+        drawing = true;
 
-		if(mouseIsPressed){
-			if(startMouseX == -1){
-				startMouseX = mouseX;
-				startMouseY = mouseY;
-				drawing = true;
-				loadPixels();
-			}
-
-			else{
-				updatePixels();
-				line(startMouseX, startMouseY, mouseX, mouseY);
-			}
-
-		}
-
-		else if(drawing){
-			drawing = false;
-			startMouseX = -1;
-			startMouseY = -1;
-		}
-	};
-
-
+        //save the state of pixels
+        loadPixels();
+      } else {
+        // display the last saved state of pixels
+        updatePixels();
+        line(startMouseX, startMouseY, mouseX, mouseY);
+      }
+    } else if (drawing) {
+      // when the mouse is released set drawing state to false
+      // and the starting point to the default value -1
+      drawing = false;
+      startMouseX = -1;
+      startMouseY = -1;
+    }
+  };
 }
