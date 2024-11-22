@@ -3,9 +3,9 @@ function LineToTool() {
   this.name = "LineTo";
 
   // default value of the starting point of a line
-  var startMouseX = -1;
-  var startMouseY = -1;
-  var drawing = false;
+  let startMouseX = -1;
+  let startMouseY = -1;
+  let drawing = false;
 
   this.draw = function () {
     if (mouseIsPressed) {

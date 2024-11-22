@@ -4,9 +4,9 @@ function RectangleTool() {
 
   // starting point of a rectangle
   // set to default value -1
-  var startMouseX = -1;
-  var startMouseY = -1;
-  var drawing = false;
+  let startMouseX = -1;
+  let startMouseY = -1;
+  let drawing = false;
 
   this.draw = function () {
     if (mouseIsPressed) {
@@ -14,7 +14,7 @@ function RectangleTool() {
         // initialize the starting point of a rectangle
         startMouseX = mouseX;
         startMouseY = mouseY;
-        // save the state of pixels 
+        // save the state of pixels
         loadPixels();
       } else {
         // display the last saved state of pixels
@@ -27,7 +27,6 @@ function RectangleTool() {
           mouseX - startMouseX,
           mouseY - startMouseY
         );
-        
       }
     } else {
       startMouseX = -1;

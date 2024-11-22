@@ -8,7 +8,7 @@ function SprayCanTool() {
       //spread describes how far to spread the paint from the mouse pointer
       //points holds how many pixels of paint for each mouse press.
       if (mouseIsPressed) {
-        for (var i = 0; i < this.points; i++) {
+        for (let i = 0; i < this.points; i++) {
           point(
             random(mouseX - this.spread, mouseX + this.spread),
             random(mouseY - this.spread, mouseY + this.spread)
