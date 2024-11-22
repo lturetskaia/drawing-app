@@ -20,7 +20,7 @@ function RectangleTool() {
         // display the last saved state of pixels
         updatePixels();
         fill(255);
-        strokeWeight(10);
+        strokeWeight(1);
         rect(
           startMouseX,
           startMouseY,

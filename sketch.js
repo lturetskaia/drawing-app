@@ -23,9 +23,9 @@ function setup() {
 	//add the tools to the toolbox.
 	toolbox.addTool(new FreehandTool());
 	toolbox.addTool(new LineToTool());
-	toolbox.addTool(new SprayCanTool);
+	toolbox.addTool(new SprayCanTool());
 	toolbox.addTool(new MirrorDrawTool());
-	toolbox.addTool(new RectangleTool);
+	toolbox.addTool(new RectangleTool());
 	background(255);
 
 }
