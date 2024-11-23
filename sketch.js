@@ -3,7 +3,6 @@
 
 let toolbox;
 
-
 function setup() {
   //create a canvas to fill the content div from index.html
 

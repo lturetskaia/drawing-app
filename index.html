@@ -7,29 +7,42 @@
     <script src="sketch.js"></script>
 
     <!-- add extra scripts below -->
-    <script src="toolbox.js"></script>
-    <script src="colourPalette.js"></script>
-    <script src="helperFunctions.js"></script>
+    <script src="./components/toolbox.js"></script>
+    <script src="./components/colourPalette.js"></script>
+    <script src="./components/helperFunctions.js"></script>
 
-    <script src="freehandTool.js"></script>
-    <script src="lineToTool.js"></script>
-    <script src="mirrorDrawTool.js"></script>
-    <script src="sprayCanTool.js"></script>
-    <script src="rectangleTool.js"></script>
+    <script src="./components/tools/freehandTool.js"></script>
+    <script src="./components/tools/lineToTool.js"></script>
+    <script src="./components/tools/mirrorDrawTool.js"></script>
+    <script src="./components/tools/sprayCanTool.js"></script>
+    <script src="./components/tools/rectangleTool.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Henny+Penny&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" type="text/css" href="style.css" />
   </head>
   <body>
-  	<div class="wrapper">
-      <div class="box header">My Drawing App
-
+    <div class="wrapper">
+      <div class="box header">
+        <h1>My Drawing App</h1>
+      </div>
+      <div class="box menu">
         <button id="clearButton">Clear</button>
         <button id="saveImageButton">Save Image</button>
       </div>
-      <div class="box" id="sidebar"></div>
+      <div class="box sidebar"></div>
       <div id="content"></div>
-      <div class="box colourPalette"></div>
+      <div class="box colourOptions">
+        <div class="box colourPalette"></div>
+        <div class="colourPicker">
+          <input type="color">
+        </div>
+      </div>
       <div class="box options"></div>
-	</div>
+    </div>
   </body>
 </html>

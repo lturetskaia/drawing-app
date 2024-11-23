@@ -7,56 +7,89 @@ body {
 .wrapper {
   display: grid;
   height: 100%;
-  grid-template-columns: 70px 230px minmax(500px, 1fr);
-  grid-template-rows: 35px minmax(500px, 1fr) 160px;
+  grid-template-columns: 100px 400px minmax(1200px, auto);
+  grid-template-rows: 100px 50px minmax(900px, auto) 170px;
   grid-template-areas:
-    "header header header"
+    "header header header "
+    "menu menu menu"
     "sidebar content content"
     "colourP colourP options";
-  background-color: #fff;
+  background-color: #444;
   color: #444;
-}
-
-#sidebar {
-  grid-area: sidebar;
-  overflow-y: scroll;
-}
-
-#content {
-  grid-area: content;
 }
 
 .header {
   grid-area: header;
-  font-family: Helvetica, sans-serif;
+  font-family: "Henny penny", Helvetica, sans-serif;
+}
+
+.header h1 {
+  margin: 0;
+  text-align: center;
+  font-size: 2.3rem;
+}
+
+.menu {
+  grid-area: menu;
+}
+
+.sidebar {
+  padding-top: 20px;
+  grid-area: sidebar;
+  grid-row: 3/5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.sideBarItem {
+  display: block;
+  box-sizing: border-box;
+  height: 50px;
+  width: 50px;
+  border-radius: 4px;
+}
+
+.sideBarItem img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+#content {
+  grid-area: content;
+  background-color: #fff;
 }
 
 .footer {
   grid-area: footer;
 }
 
-.sideBarItem {
-  max-height: 50px;
-  max-width: 50px;
-  padding: 5px;
-}
-
-.sideBarItem img {
-  max-height: 50px;
-  max-width: 50px;
+.colourOptions {
+  grid-area: colourP;
+  margin-left: 100px ;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
 
 .colourPalette {
-  grid-area: colourP;
-  display: flex;
-  flex-direction: grid;
-  flex-flow: wrap;
+  display: grid;
+  grid-template-columns: repeat(6, 40px);
+  grid-template-rows: repeat(3, 40px);
+  gap: 10px;
 }
 
-.options {
-  grid-area: options;
-  padding: 15px;
+.colourPicker{
+  display: flex;
+  height: 100%;
+  width: 100px;
+  justify-content: center;
+  align-items: center;
 }
+
 
 .colourSwatches {
   box-sizing: border-box;
@@ -64,15 +97,16 @@ body {
   height: 40px;
   max-height: 40px;
   max-width: 40px;
-  margin: 5px;
+  border-radius: 3px;
 }
+.options {
+  grid-area: options;
+  padding: 15px;
+}
+
 
 .box {
   background-color: #444;
   color: #fff;
   font-size: 150%;
-}
-
-.header {
-  background-color: #999;
 }

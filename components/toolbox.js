@@ -24,7 +24,8 @@ function Toolbox() {
     const sideBarItem = createDiv("<img src='" + icon + "'></div>");
     sideBarItem.class("sideBarItem");
     sideBarItem.id(name + "sideBarItem");
-    sideBarItem.parent("sidebar");
+    const sidebar = select('.sidebar');
+    sideBarItem.parent(sidebar);
     sideBarItem.mouseClicked(toolbarItemClick);
   };
 
