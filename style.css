@@ -2,18 +2,18 @@ html,
 body {
   margin: 0px;
   height: 100%;
+  background-color: #444;
 }
 
 .wrapper {
   display: grid;
   height: 100%;
-  grid-template-columns: 100px 400px minmax(1200px, auto);
-  grid-template-rows: 100px 50px minmax(900px, auto) 170px;
+  grid-template-columns: 100px 200px 400px auto;
+  grid-template-rows: 75px 150px 1fr;
   grid-template-areas:
-    "header header header "
-    "menu menu menu"
-    "sidebar content content"
-    "colourP colourP options";
+    "header header header header "
+    "menu menu colours options"
+    "sidebar content content content";
   background-color: #444;
   color: #fff;
 }
@@ -31,6 +31,42 @@ body {
 
 .menu {
   grid-area: menu;
+}
+
+.colours {
+  grid-area: colours;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.colourPalette {
+  display: grid;
+  grid-template-columns: repeat(6, 40px);
+  grid-template-rows: repeat(3, 40px);
+  gap: 4px;
+}
+
+.colourSwatches {
+  box-sizing: border-box;
+  width: 35px;
+  height: 35px;
+  max-height: 35px;
+  max-width: 35px;
+  border-radius: 2px;
+}
+
+.colourPicker{
+  display: flex;
+  height: 100%;
+  width: 100px;
+  justify-content: center;
+  align-items: center;
+}
+
+.options {
+  grid-area: options;
+  padding: 15px;
 }
 
 .sidebar {
@@ -60,52 +96,15 @@ body {
 
 #content {
   grid-area: content;
+  background-color: #b6b3b3;
 }
 
-.footer {
+/* .footer {
   grid-area: footer;
-}
+} */
 
-.colourOptions {
-  grid-area: colourP;
-  margin-left: 100px ;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-}
-
-.colourPalette {
-  display: grid;
-  grid-template-columns: repeat(6, 40px);
-  grid-template-rows: repeat(3, 40px);
-  gap: 10px;
-}
-
-.colourPicker{
-  display: flex;
-  height: 100%;
-  width: 100px;
-  justify-content: center;
-  align-items: center;
-}
-
-
-.colourSwatches {
-  box-sizing: border-box;
-  width: 40px;
-  height: 40px;
-  max-height: 40px;
-  max-width: 40px;
-  border-radius: 3px;
-}
-.options {
-  grid-area: options;
-  padding: 15px;
-}
-
-
-.box {
+/* .box {
   background-color: #444;
   color: #fff;
   font-size: 150%;
-}
+} */
