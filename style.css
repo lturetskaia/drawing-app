@@ -15,7 +15,7 @@ body {
     "sidebar content content"
     "colourP colourP options";
   background-color: #444;
-  color: #444;
+  color: #fff;
 }
 
 .header {
@@ -60,7 +60,6 @@ body {
 
 #content {
   grid-area: content;
-  background-color: #fff;
 }
 
 .footer {
