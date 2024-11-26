@@ -1,6 +1,5 @@
 //Displays and handles the colour palette.
 function ColourPalette() {
-
   this.colours = [
     { name: "black", rgb: [0, 0, 0] },
     { name: "white", rgb: [255, 255, 255] },
@@ -25,18 +24,30 @@ function ColourPalette() {
   this.mode = "stroke";
 
   //initial colours for fill and stroke
-  this.selectedStrokeColour = "black";
-  this.selectedFillColour = "white";
+  this.selectedStrokeColour = {
+    rgb: [0, 0, 0],
+    presetName: "black",
+  };
+  this.selectedFillColour = {
+    rgb: [255, 255, 255],
+    presetName: "white",
+  };
   this.opacity = 0;
 
   const changeColour = (event) => {
     //remove border on colour swatches
-    if (typeof this.selectedFillColour === "string") {
-      select("#" + this.selectedFillColour + "Swatch").style("border", "0");
+    if (this.selectedFillColour.presetName !== null) {
+      select("#" + this.selectedFillColour.presetName + "Swatch").style(
+        "border",
+        "0"
+      );
     }
 
-    if (typeof this.selectedStrokeColour === "string") {
-      select("#" + this.selectedStrokeColour + "Swatch").style("border", "0");
+    if (this.selectedStrokeColour.presetName !== null) {
+      select("#" + this.selectedStrokeColour.presetName + "Swatch").style(
+        "border",
+        "0"
+      );
     }
 
     // get new colour value and P5.Color object
@@ -47,25 +58,27 @@ function ColourPalette() {
     if (isColourInput) {
       newColourObject = color(event.target.value);
       console.log(event.target.value);
-      newColour = [...newColourObject.levels];
-      console.log(newColour);
+      newColour = { rgb: [...newColourObject.levels], presetName: null };
     } else {
       const colourName = event.target.id.split("Swatch")[0];
       const selectedColour = this.colours.filter(
         (colour) => colour.name === colourName
       );
-      newColour = [selectedColour[0].rgb];
-      newColourObject = color(...newColour);
+      newColour = {
+        rgb: [...selectedColour[0].rgb],
+        presetName: selectedColour[0].name,
+      };
+      newColourObject = color(...newColour.rgb);
     }
 
     //set the selected colour to fill or stroke
     //and update the corresponding colour mode element
     if (this.mode === "stroke") {
-      this.selectedStrokeColour = newColour;
+      this.selectedStrokeColour = { ...newColour };
       select("#strokeColour").style("background-color", newColourObject);
       stroke(newColourObject);
     } else {
-      this.selectedFillColour = newColour;
+      this.selectedFillColour = { ...newColour };
       select("#fillColour").style("background-color", newColourObject);
       fill(newColourObject);
     }
@@ -146,7 +159,7 @@ function ColourPalette() {
     select(".colourSamples").child(strokeColourSwatch);
     select("#strokeColour").style(
       "background-color",
-      this.selectedStrokeColour
+      color(this.selectedStrokeColour.rgb)
     );
     strokeColourSwatch.mouseClicked(colourModeClick);
 
@@ -154,7 +167,10 @@ function ColourPalette() {
     fillColourSwatch.id("fillColour");
 
     select(".colourSamples").child(fillColourSwatch);
-    select("#fillColour").style("background-color", this.selectedFillColour);
+    select("#fillColour").style(
+      "background-color",
+      color(this.selectedFillColour.rgb)
+    );
     fillColourSwatch.mouseClicked(colourModeClick);
   };
 
@@ -194,25 +210,33 @@ function ColourPalette() {
   };
 
   const changeOpacity = (event) => {
-    fill(...coloursArr);
-    // const opacityValue = +event.target.value;
-    // console.log(opacityValue);
-    // if (this.mode === "stroke") {
-    //   this.selectedStrokeColour.levels[3] = opacityValue;
-    //   stroke(this.selectedStrokeColour);
-    // } else {
-    //   this.selectedFillColour.levels[3] = opacityValue;
-    //   fill(this.selectedFillColour);
-    //   console.log(this.selectedFillColour);
-    // }
+    const opacityValue = +event.target.value;
+
+    //check validity of user input
+    if (opacityValue > 255 || opacityValue < 0) {
+      return;
+    }
+
+    //map opacity %  values (0-100) to rbg alpha (0-255)
+    const alpha = map(opacityValue, 0, 100, 255, 0).toFixed();
+    console.log(opacityValue, alpha);
+
+
+    if (this.mode === "stroke") {
+      this.selectedStrokeColour.rgb[3] = +opacityValue;
+      stroke(this.selectedStrokeColour.rgb);
+    } else {
+      this.selectedFillColour.rgb[3] = +opacityValue;
+      fill(this.selectedFillColour.rgb);
+    }
   };
 
   //load in the colours
   this.loadColours = function () {
     //set the fill to white and stroke to black
     //at the start of the programme running
-    fill(color(this.colours[1].rgb));
-    stroke(color(this.colours[0].rgb));
+    fill(color(this.selectedFillColour.rgb));
+    stroke(color(this.selectedStrokeColour.rgb));
 
     //create preset colour swatches, mode samples, rgb wheel, opacity input
     addColourSwatches();
