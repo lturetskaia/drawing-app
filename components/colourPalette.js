@@ -24,6 +24,7 @@ function ColourPalette() {
   this.mode = "stroke";
 
   //initial colours for fill and stroke
+  // if the colour is a preset, presetName has a name - otherwise it's null
   this.selectedStrokeColour = {
     rgb: [0, 0, 0],
     presetName: "black",
@@ -32,6 +33,7 @@ function ColourPalette() {
     rgb: [255, 255, 255],
     presetName: "white",
   };
+  
   this.opacity = 0;
 
   const changeColour = (event) => {
@@ -93,16 +95,24 @@ function ColourPalette() {
     select(`#${this.mode}Colour`).style("border", "0");
 
     //remove the old border on current swatch colour
-    const isStrokeandString =
-      this.mode === "stroke" && typeof this.selectedStrokeColour === "string";
-    const isFillandString =
-      this.mode === "fill" && typeof this.selectedFillColour === "string";
+    const isStrokePreset =
+      this.mode === "stroke" && this.selectedStrokeColour.presetName !== null;
+    const isFillPreset =
+      this.mode === "fill" && this.selectedFillColour.presetName !== null;
 
-    if (isStrokeandString) {
-      console.log(this.selectedStrokeColour);
-      select("#" + this.selectedStrokeColour + "Swatch").style("border", "0");
-    } else if (isFillandString) {
-      select("#" + this.selectedFillColour + "Swatch").style("border", "0");
+    //reset opacity
+    select("#opacity").value("0");
+
+    if (isStrokePreset) {
+      select("#" + this.selectedStrokeColour.presetName + "Swatch").style(
+        "border",
+        "0"
+      );
+    } else if (isFillPreset) {
+      select("#" + this.selectedFillColour.presetName + "Swatch").style(
+        "border",
+        "0"
+      );
     }
 
     // set the selected mode to fill or stroke
@@ -113,13 +123,13 @@ function ColourPalette() {
     select(`#${this.mode}Colour`).style("border", "2px solid blue");
 
     // add new border on the colour swatch of the selected mode
-    if (isStrokeandString) {
-      select("#" + this.selectedStrokeColour + "Swatch").style(
+    if (this.mode === "stroke" && this.selectedStrokeColour.presetName !== null) {
+      select("#" + this.selectedStrokeColour.presetName + "Swatch").style(
         "border",
         "2px solid blue"
       );
-    } else if (isFillandString) {
-      select("#" + this.selectedFillColour + "Swatch").style(
+    } else if (this.mode === "fill" && this.selectedFillColour.presetName !== null) {
+      select("#" + this.selectedFillColour.presetName + "Swatch").style(
         "border",
         "2px solid blue"
       );
@@ -131,8 +141,6 @@ function ColourPalette() {
     //for each colour create a new div in the html for the colourSwatches
     for (let i = 0; i < this.colours.length; i++) {
       const colourID = this.colours[i].name + "Swatch";
-      const colourObject = color(this.colours[i].rgb);
-      console.log(colourObject);
 
       //using p5.dom add the swatch to the palette and set its background colour
       //to be the colour value.
@@ -149,7 +157,7 @@ function ColourPalette() {
     }
   };
 
-  //create samples of fill and stroke colour
+  //create fill and stroke colour samples
   const addColourSamples = () => {
     //for stroke/fill samples create a new div
     //set the background colour to selectedStrokeColour or selectedFillColour
@@ -220,7 +228,6 @@ function ColourPalette() {
     //map opacity %  values (0-100) to rbg alpha (0-255)
     const alpha = map(opacityValue, 0, 100, 255, 0).toFixed();
     console.log(opacityValue, alpha);
-
 
     if (this.mode === "stroke") {
       this.selectedStrokeColour.rgb[3] = +opacityValue;
