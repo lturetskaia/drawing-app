@@ -125,6 +125,35 @@ function ColourPalette() {
     fillColourSwatch.mouseClicked(colourModeClick);
   };
 
+  const addRGBWheel = () => {
+    //create an RGB button and a hidden colour input
+    const RGBButton = createButton("");
+    const colourInput = createInput("#000000", "color");
+    colourInput.id("colourInput");
+
+    RGBButton.parent("#colourWheel");
+    colourInput.parent("#colourWheel");
+
+    RGBButton.mouseClicked(RGBButtonClick);
+  };
+
+  const RGBButtonClick = (event) => {
+    //imitates a click on the hidden colour input element
+    console.log("RGB Wheel clicked");
+    const colourInput = select("#colourInput").elt;
+    colourInput.click();
+  };
+
+  const addOpacityInput = () => {
+    //create opacity label and input
+    const opacityInput = createInput("0", "number");
+    opacityInput.id("opacity");
+    const opacityLabel = createElement("label", "Opacity:");
+    opacityLabel.attribute("for", "opacity");
+    opacityLabel.parent("#opacityInput");
+    opacityInput.parent("#opacityInput");
+  };
+
   //load in the colours
   this.loadColours = function () {
     //set the fill to white and stroke to black
@@ -132,9 +161,11 @@ function ColourPalette() {
     fill(this.colours[1]);
     stroke(this.colours[0]);
 
-    //create preset colour swatches
+    //create preset colour swatches, mode samples, rgb wheel, opacity input
     addColourSwatches();
     addColourSamples();
+    addRGBWheel();
+    addOpacityInput();
 
     select(".colourSwatches").style("border", "2px solid blue");
     select("#strokeColour").style("border", "2px solid blue");
