@@ -6,7 +6,6 @@ function RectangleTool() {
   // set to default value -1
   let startMouseX = -1;
   let startMouseY = -1;
-  let drawing = false;
 
   this.draw = function () {
     if (mouseIsPressed) {
@@ -30,7 +29,6 @@ function RectangleTool() {
     } else {
       startMouseX = -1;
       startMouseY = -1;
-      drawing = false;
     }
   };
 }

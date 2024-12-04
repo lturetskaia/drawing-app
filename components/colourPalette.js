@@ -54,11 +54,38 @@ function ColourPalette() {
         color(this.colours[i].rgba)
       );
 
-      colourSwatch.mouseClicked(changeColour);
+      colourSwatch.mouseClicked(setColour);
     }
   };
 
-  const changeColour = (event) => {
+  //create fill and stroke colour samples
+  const addColourModeSamples = () => {
+    //for stroke/fill samples create a new div
+    //set the background colour to selectedStrokeColour or selectedFillColour
+    const strokeColourSwatch = createDiv();
+    strokeColourSwatch.id("strokeColour");
+
+    select(".colourSamples").child(strokeColourSwatch);
+    select("#strokeColour").style(
+      "background-color",
+      color(this.selectedStrokeColour.rgba)
+    );
+
+    const fillColourSwatch = createDiv();
+    fillColourSwatch.id("fillColour");
+
+    select(".colourSamples").child(fillColourSwatch);
+    select("#fillColour").style(
+      "background-color",
+      color(this.selectedFillColour.rgba)
+    );
+
+    //add event listeners
+    strokeColourSwatch.mouseClicked(colourModeClick);
+    fillColourSwatch.mouseClicked(colourModeClick);
+  };
+
+  const setColour = (event) => {
     //remove border on colour swatches
     if (this.selectedFillColour.presetName !== null) {
       select("#" + this.selectedFillColour.presetName + "Swatch").removeClass(
@@ -100,7 +127,7 @@ function ColourPalette() {
       stroke(newColourObject);
       resetOpacityValue();
       console.log(
-        `Changed stroke colour to rgba(${this.selectedStrokeColour.rgba})`
+        `Set stroke colour to rgba(${this.selectedStrokeColour.rgba})`
       );
     } else {
       this.selectedFillColour = { ...newColour };
@@ -108,38 +135,11 @@ function ColourPalette() {
       fill(newColourObject);
       resetOpacityValue();
       console.log(
-        `Changed fill colour to rgba(${this.selectedFillColour.rgba})`
+        `Set fill colour to rgba(${this.selectedFillColour.rgba})`
       );
     }
 
     isColourInput ? null : select(`#${event.target.id}`).addClass("active");
-  };
-
-  //create fill and stroke colour samples
-  const addColourModeSamples = () => {
-    //for stroke/fill samples create a new div
-    //set the background colour to selectedStrokeColour or selectedFillColour
-    const strokeColourSwatch = createDiv();
-    strokeColourSwatch.id("strokeColour");
-
-    select(".colourSamples").child(strokeColourSwatch);
-    select("#strokeColour").style(
-      "background-color",
-      color(this.selectedStrokeColour.rgba)
-    );
-
-    const fillColourSwatch = createDiv();
-    fillColourSwatch.id("fillColour");
-
-    select(".colourSamples").child(fillColourSwatch);
-    select("#fillColour").style(
-      "background-color",
-      color(this.selectedFillColour.rgba)
-    );
-
-    //add event listeners
-    strokeColourSwatch.mouseClicked(colourModeClick);
-    fillColourSwatch.mouseClicked(colourModeClick);
   };
 
   const colourModeClick = (event) => {
@@ -201,10 +201,10 @@ function ColourPalette() {
 
     // add event listeners
     RGBButton.mouseClicked(RGBButtonClick);
-    colourInput.changed(changeColour);
+    colourInput.changed(setColour);
   };
 
-  const RGBButtonClick = (event) => {
+  const RGBButtonClick = () => {
     //imitates a click on the hidden colour input element
     const colourInput = select("#colourInput").elt;
     colourInput.click();
@@ -222,10 +222,10 @@ function ColourPalette() {
     opacityLabel.parent("#opacityInput");
     opacityInput.parent("#opacityInput");
 
-    opacityInput.changed(changeOpacity);
+    opacityInput.changed(setOpacity);
   };
 
-  const changeOpacity = (event) => {
+  const setOpacity = (event) => {
     const opacityValue = +event.target.value;
 
     //check validity of user input
@@ -262,7 +262,7 @@ function ColourPalette() {
   };
 
   //load in the colours
-  this.loadColours = function () {
+  this.loadColoursMenu = function () {
     //set the fill to white and stroke to black
     //at the start of the programme running
     fill(color(this.selectedFillColour.rgba));
@@ -278,5 +278,5 @@ function ColourPalette() {
     select("#strokeColour").addClass("active");
   };
   //call the loadColours function now it is declared
-  this.loadColours();
+  this.loadColoursMenu();
 }
