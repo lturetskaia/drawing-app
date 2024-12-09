@@ -3,6 +3,7 @@ body {
   margin: 0px;
   height: 100%;
   background-color: #444;
+  font-family: Helvetica, sans-serif;
 }
 
 input {
@@ -187,6 +188,31 @@ button :hover {
 #content {
   grid-area: content;
   background-color: #b6b3b3;
+}
+
+#slider{
+  padding: 20px 0px;
+  display: block;
+}
+
+#slider p{
+  text-align: center;
+  font-weight: bolder;
+  margin: 0;
+  background-color: #ffffffd2;
+  color: black;
+  border-radius: 2px;
+  padding: 1px;
+}
+
+input[type="range"]{
+  opacity: 0.6;
+  writing-mode: vertical-lr;
+  direction: rtl;
+  height: 200px;
+}
+input[type="range"] {
+  opacity: 1;
 }
 
 /* .footer {
