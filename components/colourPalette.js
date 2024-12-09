@@ -214,8 +214,8 @@ function ColourPalette() {
     //create opacity label and input
     const opacityInput = createInput("0", "number");
     opacityInput.id("opacity");
-    opacityInput.attribute("min", "0");
-    opacityInput.attribute("max", "100");
+    opacityInput.attribute("min", 0);
+    opacityInput.attribute("max", 100);
 
     const opacityLabel = createElement("label", "Opacity %");
     opacityLabel.attribute("for", "opacity");
@@ -228,8 +228,9 @@ function ColourPalette() {
   const setOpacity = (event) => {
     const opacityValue = +event.target.value;
 
-    //check validity of user input
+    //check validity of user input and reset if invalid
     if (opacityValue > 255 || opacityValue < 0) {
+      resetOpacityValue();
       return;
     }
 

@@ -1,7 +1,7 @@
 class Stroke {
     strokeWeight = 1;
 
-  changeStroke(value) {
+  setStrokeWeight(value) {
     strokeWeight(value);
     this.strokeWeight = value;
     //chnage value on the label
@@ -29,7 +29,7 @@ class Stroke {
 
     //slider event handler
     select("#strokeSlider").changed((event) =>
-      this.changeStroke(event.target.value)
+      this.setStrokeWeight(event.target.value)
     );
   }
 }
