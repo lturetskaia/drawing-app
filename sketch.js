@@ -29,6 +29,9 @@ function setup() {
   toolbox.addTool(new MirrorDrawTool());
   toolbox.addTool(new RectangleTool());
 
+  const stroke = new Stroke();
+  stroke.loadStrokeSlider();
+
   background(255);
 }
 
