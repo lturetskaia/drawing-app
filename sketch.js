@@ -19,6 +19,8 @@ function setup() {
   //create helper functions and the colour palette
   const helpers = new HelperFunctions();
   const colourPalette = new ColourPalette();
+  const menu = new Menu();
+  menu.loadMenu();
 
   //add the tools to the toolbox.
   toolbox.addTool(new FreehandTool());
