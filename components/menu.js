@@ -1,5 +1,5 @@
 class Menu {
-  addMenuButton(name) {
+  #addMenuButton(name) {
     const newBtn = createButton('');
     newBtn.id(`${name}Button`);
     select(".menu").child(newBtn);
@@ -18,8 +18,8 @@ class Menu {
   }
 
   loadMenu() {
-    this.addMenuButton("clear");
-    this.addMenuButton("saveImage");
+    this.#addMenuButton("clear");
+    this.#addMenuButton("saveImage");
     select("#clearButton").mouseClicked(() => this.clearCanvas());
 
     //event handler for the save image button. saves the canvas to the
