@@ -134,9 +134,7 @@ function ColourPalette() {
       select("#fillColour").style("background-color", newColourObject);
       fill(newColourObject);
       resetOpacityValue();
-      console.log(
-        `Set fill colour to rgba(${this.selectedFillColour.rgba})`
-      );
+      console.log(`Set fill colour to rgba(${this.selectedFillColour.rgba})`);
     }
 
     isColourInput ? null : select(`#${event.target.id}`).addClass("active");
@@ -229,7 +227,7 @@ function ColourPalette() {
     const opacityValue = +event.target.value;
 
     //check validity of user input and reset if invalid
-    if (opacityValue > 255 || opacityValue < 0) {
+    if (opacityValue > 100 || opacityValue < 0) {
       resetOpacityValue();
       return;
     }
@@ -238,15 +236,7 @@ function ColourPalette() {
     const alphaValue = map(opacityValue, 0, 100, 255, 0).toFixed();
 
     //set opacity on stroke or fill
-    if (this.mode === "stroke") {
-      this.selectedStrokeColour.rgba[3] = +alphaValue;
-      stroke(this.selectedStrokeColour.rgba);
-      console.log(
-        `Opacity set to ${+alphaValue}(${opacityValue}%) on current stroke colour(${
-          this.selectedStrokeColour.rgba
-        })`
-      );
-    } else {
+    if (this.mode === "fill") {
       this.selectedFillColour.rgba[3] = +alphaValue;
       fill(this.selectedFillColour.rgba);
       console.log(
@@ -254,7 +244,16 @@ function ColourPalette() {
           this.selectedFillColour.rgba
         })`
       );
-    }
+    } 
+    // else {
+    //   this.selectedStrokeColour.rgba[3] = +alphaValue;
+    //   stroke(this.selectedStrokeColour.rgba);
+    //   console.log(
+    //     `Opacity set to ${+alphaValue}(${opacityValue}%) on current stroke colour(${
+    //       this.selectedStrokeColour.rgba
+    //     })`
+    //   );
+    // }
   };
 
   const resetOpacityValue = () => {
