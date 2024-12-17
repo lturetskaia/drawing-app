@@ -19,7 +19,7 @@ class Menu {
     this.#addMenuButton("upload");
   }
 
-  getImage() {
+  uploadImage() {
     const imageFile = select("#fileInput").elt.files[0];
     // prevent image loading if the user cancels without picking a file
     if (!imageFile) {
@@ -59,6 +59,6 @@ class Menu {
     select("#uploadButton").mouseClicked(() =>
       select("#fileInput").elt.click()
     );
-    select("#fileInput").changed(() => this.getImage());
+    select("#fileInput").changed(() => this.uploadImage());
   }
 }
