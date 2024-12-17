@@ -16,9 +16,9 @@ function setup() {
   //create a toolbox for storing the tools
   toolbox = new Toolbox();
 
-  //create helper functions and the colour palette
-  const helpers = new HelperFunctions();
+  //create the colour palette
   const colourPalette = new ColourPalette();
+  
   const menu = new Menu();
   menu.loadMenu();
 

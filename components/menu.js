@@ -7,7 +7,7 @@ class Menu {
     buttonImg.parent(`${name}Button`);
   }
 
-  addFileInput() {
+  #addFileInput() {
     //create hidden file input
     const fileInput = createInput("");
     fileInput.attribute("type", "file");
@@ -47,14 +47,15 @@ class Menu {
   }
 
   loadMenu() {
-    this.#addMenuButton("clear");
     this.#addMenuButton("saveImage");
-    this.addFileInput();
+    this.#addFileInput();
+    this.#addMenuButton("clear");
     select("#clearButton").mouseClicked(() => this.clearCanvas());
 
-    //event handler for the save image button. saves the canvas to the
+    //event handler for the save image button. Saves the canvas to the
     //local file system.
     select("#saveImageButton").mouseClicked(() => saveCanvas("image", "jpg"));
+    //event handler for the upload image image button. Opens file input
     select("#uploadButton").mouseClicked(() =>
       select("#fileInput").elt.click()
     );

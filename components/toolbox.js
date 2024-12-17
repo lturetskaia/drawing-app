@@ -1,7 +1,6 @@
 //container object for storing the tools. Functions to add new tools and select a tool
 function Toolbox() {
   const self = this;
-
   this.tools = [];
   this.selectedTool = null;
 
