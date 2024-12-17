@@ -1,0 +1,56 @@
+class MenuBox {
+  options = [];
+
+  addOption(option) {
+    if (!option.hasOwnProperty("icon") || !option.hasOwnProperty("name")) {
+      alert("Make sure your menu option has both a name and an icon!");
+    }
+    this.options.push(option);
+
+
+    if (option.isInput) {
+        //when adding an input, add a hidden input and a button
+      this.addFileInput(option.name);
+      this.addMenuButton(option.name, option.icon);
+      // button event handler opens the file input
+      select(`#${option.name}Btn`).mouseClicked(() =>
+        select(`#${option.name}Input`).elt.click()
+      );
+      //event handler for file picking
+      select(`#${option.name}Input`).changed(() =>
+        this.selectOption(option.name)
+      );
+    } else {
+        // when adding a button, add a button and click event handler
+      this.addMenuButton(option.name, option.icon);
+      select(`#${option.name}Btn`).mouseClicked((event) =>
+        this.selectOption(event.target.id)
+      );
+    }
+  }
+
+  addMenuButton(name, icon) {
+    // create a button
+    const newBtn = createButton("");
+    newBtn.id(`${name}Btn`);
+    select(".menu").child(newBtn);
+
+    // add button icon
+    const buttonImg = createImg(icon, name);
+    buttonImg.id(name);
+    buttonImg.parent(`${name}Btn`);
+  }
+
+  addFileInput(name) {
+    //create hidden file input
+    const fileInput = createInput("");
+    fileInput.attribute("type", "file");
+    fileInput.attribute("accept", "image/png, image/jpeg");
+    fileInput.id(`${name}Input`);
+    select(".menu").child(fileInput);
+  }
+
+  selectOption(optionName) {
+    this.options.filter((option) => option.name === optionName)[0].click();
+  }
+}

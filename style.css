@@ -71,7 +71,7 @@ button :hover {
   box-shadow: 2px 2px 4px rgba(247, 245, 245, 150);
 }
 
-#fileInput {
+#imageUploadInput {
   width: 0;
   height: 0;
   display: none;

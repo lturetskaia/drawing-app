@@ -19,8 +19,11 @@ function setup() {
   //create the colour palette
   const colourPalette = new ColourPalette();
   
-  const menu = new Menu();
-  menu.loadMenu();
+  const menu = new MenuBox();
+  // menu.loadMenu();
+  menu.addOption(new SaveCanvasOption);
+  menu.addOption(new ClearCanvasOption);
+  menu.addOption(new ImageUploadOption);
 
   //add the tools to the toolbox.
   toolbox.addTool(new FreehandTool());
