@@ -245,15 +245,15 @@ function ColourPalette() {
         })`
       );
     } 
-    // else {
-    //   this.selectedStrokeColour.rgba[3] = +alphaValue;
-    //   stroke(this.selectedStrokeColour.rgba);
-    //   console.log(
-    //     `Opacity set to ${+alphaValue}(${opacityValue}%) on current stroke colour(${
-    //       this.selectedStrokeColour.rgba
-    //     })`
-    //   );
-    // }
+    else {
+      this.selectedStrokeColour.rgba[3] = +alphaValue;
+      stroke(this.selectedStrokeColour.rgba);
+      console.log(
+        `Opacity set to ${+alphaValue}(${opacityValue}%) on current stroke colour(${
+          this.selectedStrokeColour.rgba
+        })`
+      );
+    }
   };
 
   const resetOpacityValue = () => {

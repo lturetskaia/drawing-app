@@ -37,7 +37,7 @@ h1 {
 
 .header {
   grid-area: header;
-  font-family: "Henny penny", Helvetica, sans-serif;
+  font-family: Helvetica, sans-serif;
 }
 
 .menu {
