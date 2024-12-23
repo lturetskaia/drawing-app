@@ -25,7 +25,7 @@ h1 {
 .wrapper {
   display: grid;
   height: 100%;
-  grid-template-columns: 100px 70px 410px auto;
+  grid-template-columns: 100px 100px 410px auto;
   grid-template-rows: 75px 130px 1fr;
   grid-template-areas:
     "header header header header "
@@ -54,8 +54,8 @@ h1 {
   background-color: white;
   width: 47px;
   height: 47px;
-  min-height: 47px;
-  min-width: 47px;
+  /* min-height: 47px;
+  min-width: 47px; */
   border-radius: 4px;
   padding: 0;
 }
@@ -65,6 +65,21 @@ button img {
   height: 100%;
   object-fit: cover;
   border-radius: 4px;
+}
+
+#redoBtn,
+#undoBtn {
+  width: 32px;
+  height: 47px;
+}
+
+#redoBtn img,
+#undoBtn img {
+  object-fit: fill;
+}
+
+#redoBtn img {
+  transform: scaleX(-1);
 }
 
 button :hover {

@@ -1,7 +1,8 @@
-class ClearCanvasOption {
+class ClearCanvas {
   name = "clearCanvas";
   icon = "/assets/clearCanvas.png";
-  isInput = false;
+  // isInput = false;
+  type = 'btn';
 
 
   click() {

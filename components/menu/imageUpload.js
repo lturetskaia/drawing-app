@@ -1,7 +1,8 @@
-class ImageUploadOption {
+class ImageUpload {
   name = "imageUpload";
   icon = "/assets/imageUpload.png";
-  isInput = true;
+  // isInput = true;
+  type = 'input';
 
   click() {
     let imageFile = select(`#${this.name}Input`).elt.files[0];

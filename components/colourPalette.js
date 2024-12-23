@@ -259,11 +259,9 @@ function ColourPalette() {
     if (this.mode === 'stroke'){
       const alphaValue = this.selectedStrokeColour.rgba[3];
       opacityValue = map(alphaValue, 0, 255, 100, 0).toFixed();
-      console.log(opacityValue);
     } else {
       const alphaValue = this.selectedFillColour.rgba[3];
       opacityValue = map(alphaValue, 0, 255, 100, 0).toFixed();
-      console.log(opacityValue);
     }
     //show current opacity value %
     select("#opacity").value(opacityValue);

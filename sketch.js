@@ -21,9 +21,10 @@ function setup() {
   
   const menu = new MenuBox();
   // menu.loadMenu();
-  menu.addOption(new SaveCanvasOption);
-  menu.addOption(new ClearCanvasOption);
-  menu.addOption(new ImageUploadOption);
+  menu.addOption(new SaveCanvas);
+  menu.addOption(new ClearCanvas);
+  menu.addOption(new ImageUpload);
+  menu.addOption(new Undo);
 
   //add the tools to the toolbox.
   toolbox.addTool(new FreehandTool());

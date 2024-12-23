@@ -1,7 +1,8 @@
-class SaveCanvasOption {
+class SaveCanvas {
   name = "saveCanvas";
   icon = "/assets/saveCanvas.png";
-  isInput = false;
+  // isInput = false;
+  type = 'btn';
 
   click() {
     saveCanvas("image", "jpg");
