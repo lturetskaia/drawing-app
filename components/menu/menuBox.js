@@ -2,7 +2,6 @@ class MenuBox {
   options = [];
 
   addOption(option) {
-    console.log(option);
     if (!option.icon || !option.name || !option.type) {
       alert("Make sure your menu option has a name, an icon and a type!");
     }
@@ -21,9 +20,15 @@ class MenuBox {
         this.#selectOption(option.name)
       );
     } else if (option.type === "doubleBtn") {
-      console.log('btn');
+      // when adding a undo/redo button, add 2 buttons and click event handlers
       this.#addMenuButton(option.name[0], option.icon);
       this.#addMenuButton(option.name[1], option.icon);
+      select(`#${option.name[0]}Btn`).mouseClicked((event) =>
+        this.#selectOption(event.target.id)
+      );
+      select(`#${option.name[1]}Btn`).mouseClicked((event) =>
+        this.#selectOption(event.target.id)
+      );
     } else {
       // when adding a button, add a button and click event handler
       this.#addMenuButton(option.name, option.icon);
@@ -55,6 +60,11 @@ class MenuBox {
   }
 
   #selectOption(optionName) {
-    this.options.filter((option) => option.name === optionName)[0].click();
+    if (optionName === 'redo' || optionName === 'undo'){
+      this.options.filter((option) => option.name[0] === "undo")[0].click(optionName);
+    } else {
+      this.options.filter((option) => option.name === optionName)[0].click();
+    }
+    
   }
 }
