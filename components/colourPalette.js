@@ -125,7 +125,6 @@ function ColourPalette() {
       this.selectedStrokeColour = { ...newColour };
       select("#strokeColour").style("background-color", newColourObject);
       stroke(newColourObject);
-      resetOpacityValue();
       console.log(
         `Set stroke colour to rgba(${this.selectedStrokeColour.rgba})`
       );
@@ -133,7 +132,6 @@ function ColourPalette() {
       this.selectedFillColour = { ...newColour };
       select("#fillColour").style("background-color", newColourObject);
       fill(newColourObject);
-      resetOpacityValue();
       console.log(`Set fill colour to rgba(${this.selectedFillColour.rgba})`);
     }
 
@@ -150,9 +148,6 @@ function ColourPalette() {
     const isFillPreset =
       this.mode === "fill" && this.selectedFillColour.presetName !== null;
 
-    //reset opacity
-    select("#opacity").value("0");
-
     if (isStrokePreset) {
       select("#" + this.selectedStrokeColour.presetName + "Swatch").removeClass(
         "active"
@@ -166,6 +161,9 @@ function ColourPalette() {
     // set the selected mode to fill or stroke
     const newMode = event.target.id.split("Colour")[0];
     this.mode = newMode;
+
+    //update the opcity input value
+    updateOpacityInput();
 
     //add new border on active colour mode
     select(`#${this.mode}Colour`).addClass("active");
@@ -228,7 +226,7 @@ function ColourPalette() {
 
     //check validity of user input and reset if invalid
     if (opacityValue > 100 || opacityValue < 0) {
-      resetOpacityValue();
+      updateOpacityInput();
       return;
     }
 
@@ -256,9 +254,19 @@ function ColourPalette() {
     }
   };
 
-  const resetOpacityValue = () => {
+  const updateOpacityInput = () => {
+    let opacityValue;
+    if (this.mode === 'stroke'){
+      const alphaValue = this.selectedStrokeColour.rgba[3];
+      opacityValue = map(alphaValue, 0, 255, 100, 0).toFixed();
+      console.log(opacityValue);
+    } else {
+      const alphaValue = this.selectedFillColour.rgba[3];
+      opacityValue = map(alphaValue, 0, 255, 100, 0).toFixed();
+      console.log(opacityValue);
+    }
     //show current opacity value %
-    select("#opacity").value("0");
+    select("#opacity").value(opacityValue);
   };
 
   //load in the colours
