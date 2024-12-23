@@ -2,8 +2,9 @@ class MenuBox {
   options = [];
 
   addOption(option) {
-    if (!option.hasOwnProperty("icon") || !option.hasOwnProperty("name")) {
-      alert("Make sure your menu option has both a name and an icon!");
+    console.log(option);
+    if (!option.icon || !option.name || !option.type) {
+      alert("Make sure your menu option has a name, an icon and a type!");
     }
     this.options.push(option);
 

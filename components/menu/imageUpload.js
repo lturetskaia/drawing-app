@@ -1,8 +1,7 @@
-class ImageUpload {
-  name = "imageUpload";
-  icon = "/assets/imageUpload.png";
-  // isInput = true;
-  type = 'input';
+class ImageUpload extends MenuItem {
+  constructor(name, icon, type) {
+    super(name, icon, type);
+  }
 
   click() {
     let imageFile = select(`#${this.name}Input`).elt.files[0];

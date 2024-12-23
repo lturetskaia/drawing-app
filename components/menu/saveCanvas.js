@@ -1,8 +1,7 @@
-class SaveCanvas {
-  name = "saveCanvas";
-  icon = "/assets/saveCanvas.png";
-  // isInput = false;
-  type = 'btn';
+class SaveCanvas extends MenuItem{
+  constructor(name, icon, type) {
+    super(name, icon, type);
+  }
 
   click() {
     saveCanvas("image", "jpg");

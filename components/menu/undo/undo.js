@@ -1,5 +1,5 @@
-class Undo {
-  name = ["undo", "redo"];
-  icon = 'assets/undo.png';
-  type = "doubleBtn";
+class Undo extends MenuItem {
+  constructor(name, icon, type) {
+    super(name, icon, type);
+  }
 }

@@ -18,13 +18,17 @@ function setup() {
 
   //create the colour palette
   const colourPalette = new ColourPalette();
-  
+
   const menu = new MenuBox();
   // menu.loadMenu();
-  menu.addOption(new SaveCanvas);
-  menu.addOption(new ClearCanvas);
-  menu.addOption(new ImageUpload);
-  menu.addOption(new Undo);
+  menu.addOption(new SaveCanvas("saveCanvas", "/assets/saveCanvas.png", "btn"));
+  menu.addOption(
+    new ClearCanvas("clearCanvas", "/assets/clearCanvas.png", "btn")
+  );
+  menu.addOption(
+    new ImageUpload("imageUpload", "/assets/imageUpload.png", "input")
+  );
+  menu.addOption(new Undo(["undo", "redo"], "assets/undo.png", "doubleBtn"));
 
   //add the tools to the toolbox.
   toolbox.addTool(new FreehandTool());
