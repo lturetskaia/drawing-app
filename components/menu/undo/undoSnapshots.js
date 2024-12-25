@@ -30,9 +30,6 @@ class UndoSnapshots {
       this.history.push(newSnapshot);
       this.currentSnapshotIndex += 1;
     }
-    console.log(`Current index is ${this.currentSnapshotIndex}
-    Number of snapshots is ${this.history.length}`);
-    console.log(this.history);
   }
 
   prev() {
@@ -40,9 +37,6 @@ class UndoSnapshots {
       const prevSnapshot = this.history[this.currentSnapshotIndex - 1];
       set(0, 0, prevSnapshot);
       this.currentSnapshotIndex -= 1;
-      console.log(`Current index is ${this.currentSnapshotIndex}
-    Number of snapshots is ${this.history.length}`);
-      console.log(this.history);
     }
   }
 
@@ -51,9 +45,6 @@ class UndoSnapshots {
       const nextSnapshot = this.history[this.currentSnapshotIndex + 1];
       set(0, 0, nextSnapshot);
       this.currentSnapshotIndex += 1;
-      console.log(`Current index is ${this.currentSnapshotIndex}
-        Number of snapshots is ${this.history.length}`);
-          console.log(this.history);
     }
   }
 }

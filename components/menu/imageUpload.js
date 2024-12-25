@@ -4,8 +4,6 @@ class ImageUpload extends MenuItem {
   }
 
   click() {
-    console.log("image selected!");
-
     let imageFile = select(`#${this.name}Input`).elt.files[0];
     // prevent image loading if the user cancels without picking a file
     if (!imageFile) {
@@ -17,10 +15,11 @@ class ImageUpload extends MenuItem {
     fileReader.readAsDataURL(imageFile);
     // when finished data reading, load the image and add it to canvas
     fileReader.onloadend = function () {
-      console.log(fileReader.result);
-      img = loadImage(fileReader.result, () => image(img, 10, 10));
-      // save a snapshot to history
-      saveUndoSnapshot();
+      img = loadImage(fileReader.result, () => {
+        image(img, 10, 10);
+        // save an undo snapshot
+        saveUndoSnapshot();
+      });
     };
 
     //clear input files
