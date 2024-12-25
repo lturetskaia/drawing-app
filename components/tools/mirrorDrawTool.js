@@ -1,6 +1,9 @@
 function MirrorDrawTool() {
   this.name = "mirrorDraw";
   this.icon = "assets/mirrorDraw.jpg";
+  // detects the drawing state
+  // needed for undo to work correctly without saving the axis
+  this.isDrawing = false;
 
   //which axis is being mirrored (x or y) x is default
   this.axis = "x";
@@ -33,6 +36,8 @@ function MirrorDrawTool() {
         previousMouseY = mouseY;
         previousOppositeMouseX = this.calculateOpposite(mouseX, "x");
         previousOppositeMouseY = this.calculateOpposite(mouseY, "y");
+
+        this.isDrawing = true;
       }
 
       //if there are values in the previous locations
@@ -53,6 +58,12 @@ function MirrorDrawTool() {
     }
     //if the mouse isn't pressed reset the previous values to -1
     else {
+      if (this.isDrawing === true) {
+        // when the mouseButton is released after drawing
+        // save an undo snapshot and reset isDrawing to false
+        saveFrame();
+        this.isDrawing = false;
+      }
       previousMouseX = -1;
       previousMouseY = -1;
 

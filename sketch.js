@@ -2,6 +2,7 @@
 //amnd the helper functions
 
 let toolbox;
+let menu;
 
 function setup() {
   //create a canvas to fill the content div from index.html
@@ -11,7 +12,11 @@ function setup() {
     canvasContainer.size().width,
     canvasContainer.size().height
   );
+  background(255);
   canvas.parent("content");
+  canvas.mouseReleased((event) =>
+    toolbox.selectedTool.name !== "mirrorDraw" ? saveFrame(event) : null
+  );
 
   //create a toolbox for storing the tools
   toolbox = new Toolbox();
@@ -19,7 +24,7 @@ function setup() {
   //create the colour palette
   const colourPalette = new ColourPalette();
 
-  const menu = new MenuBox();
+  menu = new MenuBox();
   // menu.loadMenu();
   menu.addOption(new SaveCanvas("saveCanvas", "/assets/saveCanvas.png", "btn"));
   menu.addOption(

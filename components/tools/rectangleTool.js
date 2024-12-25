@@ -18,7 +18,6 @@ function RectangleTool() {
       } else {
         // display the last saved state of pixels
         updatePixels();
-        strokeWeight(1);
         rect(
           startMouseX,
           startMouseY,
