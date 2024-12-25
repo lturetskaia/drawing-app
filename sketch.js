@@ -15,7 +15,7 @@ function setup() {
   background(255);
   canvas.parent("content");
   canvas.mouseReleased(() =>
-    toolbox.selectedTool.name !== "mirrorDraw" ? saveFrame() : null
+    toolbox.selectedTool.name !== "mirrorDraw" ? saveUndoSnapshot() : null
   );
 
   //create a toolbox for storing the tools

@@ -1,5 +1,4 @@
-function saveFrame(event) {
-//   if (toolbox.selectedTool.name !== "mirrorDraw") {
-    const undo = menu.options[3].saveFrame();
-//   }
+function saveUndoSnapshot(event) {
+    const undo = menu.options[3].saveSnapshot();
+
 }

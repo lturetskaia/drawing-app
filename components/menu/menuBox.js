@@ -21,14 +21,19 @@ class MenuBox {
       );
     } else if (option.type === "doubleBtn") {
       // when adding a undo/redo button, add 2 buttons and click event handlers
+      // buttons are disabled by default
       this.#addMenuButton(option.name[0], option.icon);
       this.#addMenuButton(option.name[1], option.icon);
+      
       select(`#${option.name[0]}Btn`).mouseClicked((event) =>
         this.#selectOption(event.target.id)
       );
+      select(`#${option.name[0]}Btn`).attribute('disabled', 'true');
+
       select(`#${option.name[1]}Btn`).mouseClicked((event) =>
         this.#selectOption(event.target.id)
       );
+      select(`#${option.name[1]}Btn`).attribute('disabled', 'true');
     } else {
       // when adding a button, add a button and click event handler
       this.#addMenuButton(option.name, option.icon);

@@ -62,7 +62,7 @@ function MirrorDrawTool() {
       if (this.isDrawing === true && mouseOverCanvas) {
         // when the mouseButton is released after drawing
         // save an undo snapshot and reset isDrawing to false
-        saveFrame();
+        saveUndoSnapshot();
         this.isDrawing = false;
       }
       previousMouseX = -1;

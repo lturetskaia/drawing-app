@@ -14,5 +14,8 @@ class ClearCanvas extends MenuItem {
     //call loadPixels to update the drawing state
     //this is needed for the mirror tool
     loadPixels();
+    
+    // save a snapshot to history
+    saveUndoSnapshot();
   }
 }

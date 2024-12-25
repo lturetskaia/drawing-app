@@ -17,6 +17,8 @@ class ImageUpload extends MenuItem {
     fileReader.onloadend = function () {
       console.log(fileReader.result);
       img = loadImage(fileReader.result, () => image(img, 10, 10));
+      // save a snapshot to history
+      saveUndoSnapshot();
     };
   }
 }

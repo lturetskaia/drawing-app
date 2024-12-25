@@ -17,16 +17,45 @@ class Undo extends MenuItem {
   #undo() {
     console.log(`Undo clicked!`);
     this.snapshots.prev();
+    //disable undo btn if there are no more snapshots to undo
+    if (this.snapshots.currentSnapshotIndex === 0) {
+      this.btnChangeState("undo", true);
+    }
+
+    //enable redo btn if the current snapshot is not the last element in history
+    if (
+      this.snapshots.currentSnapshotIndex <
+      this.snapshots.history.length - 1
+    ) {
+      this.btnChangeState("redo", false);
+    }
   }
 
   #redo() {
     console.log(`Redo clicked!`);
     this.snapshots.next();
+    //disable redo btn if the current snapshot is the last element in history
+    if (
+      this.snapshots.currentSnapshotIndex ===
+      this.snapshots.history.length - 1
+    ) {
+      this.btnChangeState("redo", true);
+    }
+    //enable undo btn if the currentSnapshotIndex is greater than 0
+    if (this.snapshots.currentSnapshotIndex > 0) {
+      this.btnChangeState("undo", false);
+    }
   }
 
-  saveFrame() {
+  saveSnapshot() {
     this.snapshots.add();
+    this.btnChangeState("undo", false);
   }
 
-  btnChangeState(option) {}
+  btnChangeState(btn, disableValue) {
+    // change disabled state on a button
+    // disableValue should be boolean
+    const button = select(`#${btn}Btn`).elt;
+    button.disabled = disableValue;
+  }
 }
