@@ -18,14 +18,12 @@ function setup() {
     toolbox.selectedTool.name !== "mirrorDraw" ? saveUndoSnapshot() : null
   );
 
-  //create a toolbox for storing the tools
-  toolbox = new Toolbox();
-
+  
   //create the colour palette
   const colourPalette = new ColourPalette();
-
+  
+  // create menu and add menu options
   menu = new MenuBox();
-  // menu.loadMenu();
   menu.addOption(new SaveCanvas("saveCanvas", "/assets/saveCanvas.png", "btn"));
   menu.addOption(
     new ClearCanvas("clearCanvas", "/assets/clearCanvas.png", "btn")
@@ -34,6 +32,9 @@ function setup() {
     new ImageUpload("imageUpload", "/assets/imageUpload.png", "input")
   );
   menu.addOption(new Undo(["undo", "redo"], "assets/undo.png", "doubleBtn"));
+  
+  //create a toolbox for storing the tools
+  toolbox = new Toolbox();
 
   //add the tools to the toolbox.
   toolbox.addTool(new FreehandTool());
@@ -42,10 +43,9 @@ function setup() {
   toolbox.addTool(new MirrorDrawTool());
   toolbox.addTool(new RectangleTool());
 
+  //create stroke tool
   const stroke = new Stroke();
   stroke.loadStrokeSlider();
-
-  background(255);
 }
 
 function draw() {
