@@ -4,6 +4,8 @@ class ImageUpload extends MenuItem {
   }
 
   click() {
+    console.log("image selected!");
+
     let imageFile = select(`#${this.name}Input`).elt.files[0];
     // prevent image loading if the user cancels without picking a file
     if (!imageFile) {
@@ -20,5 +22,8 @@ class ImageUpload extends MenuItem {
       // save a snapshot to history
       saveUndoSnapshot();
     };
+
+    //clear input files
+    select(`#${this.name}Input`).elt.value = "";
   }
 }
