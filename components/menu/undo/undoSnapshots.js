@@ -3,7 +3,6 @@ class UndoSnapshots {
     this.history = [];
     this.history.push(get());
     this.currentSnapshotIndex = 0;
-    console.log(this.history);
     this.maxAmount = 10;
   }
 
@@ -44,6 +43,17 @@ class UndoSnapshots {
       console.log(`Current index is ${this.currentSnapshotIndex}
     Number of snapshots is ${this.history.length}`);
       console.log(this.history);
+    }
+  }
+
+  next() {
+    if (this.currentSnapshotIndex < this.history.length - 1) {
+      const nextSnapshot = this.history[this.currentSnapshotIndex + 1];
+      set(0, 0, nextSnapshot);
+      this.currentSnapshotIndex += 1;
+      console.log(`Current index is ${this.currentSnapshotIndex}
+        Number of snapshots is ${this.history.length}`);
+          console.log(this.history);
     }
   }
 }

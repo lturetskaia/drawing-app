@@ -21,6 +21,7 @@ class Undo extends MenuItem {
 
   #redo() {
     console.log(`Redo clicked!`);
+    this.snapshots.next();
   }
 
   saveFrame() {
