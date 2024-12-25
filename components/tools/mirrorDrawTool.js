@@ -58,7 +58,8 @@ function MirrorDrawTool() {
     }
     //if the mouse isn't pressed reset the previous values to -1
     else {
-      if (this.isDrawing === true) {
+      const mouseOverCanvas = mouseX >= 0 && mouseY <= width && mouseY >=0 && mouseY <= height;
+      if (this.isDrawing === true && mouseOverCanvas) {
         // when the mouseButton is released after drawing
         // save an undo snapshot and reset isDrawing to false
         saveFrame();
