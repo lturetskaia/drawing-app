@@ -31,7 +31,8 @@ function Toolbox() {
   //add a tool to the tools array
   this.addTool = function (tool) {
     //check that the object tool has an icon and a name
-    if (!tool.hasOwnProperty("icon") || !tool.hasOwnProperty("name")) {
+    // if (!tool.hasOwnProperty("icon") || !tool.hasOwnProperty("name")) {
+      if (!tool.icon || !tool.name) {
       alert("make sure your tool has both a name and an icon");
     }
     this.tools.push(tool);
@@ -51,7 +52,7 @@ function Toolbox() {
         //if the tool has an unselectTool method run it.
         if (
           this.selectedTool != null &&
-          this.selectedTool.hasOwnProperty("unselectTool")
+          this.selectedTool.unselectTool
         ) {
           this.selectedTool.unselectTool();
         }
@@ -60,7 +61,7 @@ function Toolbox() {
         select("#" + toolName + "sideBarItem").addClass("active");
 
         //if the tool has an options area. Populate it now.
-        if (this.selectedTool.hasOwnProperty("populateOptions")) {
+        if (this.selectedTool.populateOptions) {
           this.selectedTool.populateOptions();
         }
       }

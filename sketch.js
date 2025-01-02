@@ -41,7 +41,8 @@ function setup() {
   toolbox.addTool(new LineToTool());
   toolbox.addTool(new SprayCanTool());
   toolbox.addTool(new MirrorDrawTool());
-  toolbox.addTool(new RectangleTool());
+  toolbox.addTool(new RectangleTool("Rectangle","assets/rectangle.jpg"));
+  toolbox.addTool(new EraserTool('Eraser',"assets/eraser.jpg"))
 
   //create stroke tool
   const stroke = new Stroke();
@@ -53,7 +54,7 @@ function draw() {
   //hasOwnProperty is a javascript function that tests
   //if an object contains a particular method or property
   //if there isn't a draw method the app will alert the user
-  if (toolbox.selectedTool.hasOwnProperty("draw")) {
+  if (toolbox.selectedTool.draw) {
     toolbox.selectedTool.draw();
   } else {
     alert("it doesn't look like your tool has a draw method!");

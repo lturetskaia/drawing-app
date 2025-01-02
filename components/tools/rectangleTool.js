@@ -1,33 +1,36 @@
-function RectangleTool() {
-  this.name = "Reactangle";
-  this.icon = "assets/rectangle.jpg";
+class RectangleTool {
+  constructor(name, icon){
+    this.name = name
+    this.icon = icon;
+  }
+
 
   // starting point of a rectangle
   // set to default value -1
-  let startMouseX = -1;
-  let startMouseY = -1;
+  startMouseX = -1;
+  startMouseY = -1;
 
-  this.draw = function () {
+  draw() {
     if (mouseIsPressed) {
-      if (startMouseX === -1) {
+      if (this.startMouseX === -1) {
         // initialize the starting point of a rectangle
-        startMouseX = mouseX;
-        startMouseY = mouseY;
+        this.startMouseX = mouseX;
+        this.startMouseY = mouseY;
         // save the state of pixels
         loadPixels();
       } else {
         // display the last saved state of pixels
         updatePixels();
         rect(
-          startMouseX,
-          startMouseY,
-          mouseX - startMouseX,
-          mouseY - startMouseY
+          this.startMouseX,
+          this.startMouseY,
+          mouseX - this.startMouseX,
+          mouseY - this.startMouseY
         );
       }
     } else {
-      startMouseX = -1;
-      startMouseY = -1;
+      this.startMouseX = -1;
+      this.startMouseY = -1;
     }
   };
 }
