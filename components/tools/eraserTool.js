@@ -48,27 +48,9 @@ class EraserTool {
     //add dropdown event handler
     //change selectedShape to the selected value
     dropdown.changed(() => (this.selectedShape = dropdown.selected()));
-
   }
 
-  addSizeInput(){
-    // create a label for select element
-    const eraserSizeLabel = createElement("label", "Size: ");
-    dropdownLabel.attribute("for", "eraserSizeInput");
-    select(".options").child(dropdownLabel);
-
-    // create a select element with 2 options
-    const dropdown = createSelect();
-    dropdown.id("dropdown");
-    select(".options").child(dropdown);
-    dropdown.option("square");
-    dropdown.option("ellipse");
-    dropdown.selected("square");
-
-    //add dropdown event handler
-    //change selectedShape to the selected value
-    dropdown.changed(() => (this.selectedShape = dropdown.selected()));
-  }
+  addSizeInput() {}
 
   unselectTool() {
     console.log("Unselect eraser");
