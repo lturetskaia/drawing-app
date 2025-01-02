@@ -16,3 +16,5 @@ This a drawing app built by extending the initial template. The following featur
 * RectangleTool (basic version);
 * helperFunctions - saveUndoSnapshot() to save snapshots when changes to canvas have been made;
 
+All the code was written without assistance.
+

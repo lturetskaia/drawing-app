@@ -1,3 +1,4 @@
+// class for storing and manipulating undo snapshots
 class UndoSnapshots {
   constructor() {
     this.history = [];

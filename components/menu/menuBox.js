@@ -1,3 +1,4 @@
+//container class for menu options
 class MenuBox {
   options = [];
 
