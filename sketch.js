@@ -3,6 +3,7 @@
 
 let toolbox;
 let menu;
+let strokeSlider;
 
 function setup() {
   //create a canvas to fill the content div from index.html
@@ -45,8 +46,8 @@ function setup() {
   toolbox.addTool(new EraserTool('Eraser',"assets/eraser.jpg"))
 
   //create stroke tool
-  const stroke = new Stroke();
-  stroke.loadStrokeSlider();
+  strokeSlider = new StrokeSlider(1, 100);
+  strokeSlider.loadStrokeSlider();
 }
 
 function draw() {

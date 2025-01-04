@@ -216,12 +216,12 @@ button:disabled {
   background-color: #b6b3b3;
 }
 
-#slider {
+#strokeSlider {
   padding: 20px 0px;
   display: block;
 }
 
-#slider p {
+#strokeSlider p {
   text-align: center;
   font-weight: bolder;
   margin: 0;
@@ -231,15 +231,12 @@ button:disabled {
   padding: 1px;
 }
 
-input[type="range"] {
-  opacity: 0.6;
+#strokeSliderInput {
   writing-mode: vertical-lr;
   direction: rtl;
-  height: 200px;
+  height: 180px;
 }
-input[type="range"] {
-  opacity: 1;
-}
+
 
 /* .footer {
   grid-area: footer;

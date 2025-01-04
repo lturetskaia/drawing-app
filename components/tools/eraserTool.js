@@ -4,7 +4,8 @@ class EraserTool {
     this.icon = icon;
   }
 
-  selectedShape = "square";
+  
+  selectedShape = "square"; // 'square' is a default shape
 
   draw() {
     // console.log(`The selected shape is a ${this.selectedShape}`)
@@ -13,6 +14,7 @@ class EraserTool {
 
   erase() {
     if (mouseIsPressed) {
+      
       push();
       fill(255);
       noStroke();
@@ -28,7 +30,6 @@ class EraserTool {
 
     //add shape select element
     this.addShapeSelect();
-    this.addSizeInput();
   }
 
   addShapeSelect() {
@@ -49,8 +50,6 @@ class EraserTool {
     //change selectedShape to the selected value
     dropdown.changed(() => (this.selectedShape = dropdown.selected()));
   }
-
-  addSizeInput() {}
 
   unselectTool() {
     console.log("Unselect eraser");
