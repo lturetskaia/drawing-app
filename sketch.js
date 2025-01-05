@@ -42,8 +42,8 @@ function setup() {
   toolbox.addTool(new LineToTool());
   toolbox.addTool(new SprayCanTool());
   toolbox.addTool(new MirrorDrawTool());
-  toolbox.addTool(new RectangleTool("Rectangle","assets/rectangle.jpg"));
-  toolbox.addTool(new EraserTool('Eraser',"assets/eraser.jpg"))
+  toolbox.addTool(new RectangleTool("rectangle","assets/rectangle.jpg"));
+  toolbox.addTool(new EraserTool('eraser',"assets/eraser.jpg"))
 
   //create stroke tool
   strokeSlider = new StrokeSlider(1, 100);

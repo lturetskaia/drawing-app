@@ -3,14 +3,37 @@ class StrokeSlider {
     this.minValue = min;
     this.maxValue = max;
   }
-
-  strokeWeight = 1;
+  selectedMode = "brush"; // 'brush' or 'eraser'
+  eraserStrokeWeight = 40;
+  brushStrokeWeight = 1;
 
   setStrokeWeight(value) {
-    this.strokeWeight = value;
+    // set stroke weight for earser of brush
+    if (this.selectedMode === "eraser") {
+      this.eraserStrokeWeight = value;
+    } else {
+      this.brushStrokeWeight = value;
+    }
     strokeWeight(value);
     //change value on the label
     select("#strokeSliderLabel").html(value);
+  }
+
+  getEraserWeight(){
+    return Number(this.eraserStrokeWeight);
+  }
+
+  changeMode(mode) {
+    //changes between slider modes and corresponding values
+    this.selectedMode = mode;
+    console.log(strokeSlider.brushStrokeWeight);
+    const strokeValue =
+      this.selectedMode === "brush"
+        ? this.brushStrokeWeight
+        : this.eraserStrokeWeight;
+    select("#strokeSliderInput").value(strokeValue);
+    select("#strokeSliderLabel").html(strokeValue);
+    strokeWeight(strokeValue);
   }
 
   loadStrokeSlider() {
@@ -19,10 +42,12 @@ class StrokeSlider {
     container.id("strokeSlider");
 
     //create slider
-    const slider = createSlider(this.minValue, this.maxValue, this.strokeWeight);
+    const slider = createSlider(
+      this.minValue,
+      this.maxValue,
+      this.brushStrokeWeight
+    );
     slider.id("strokeSliderInput");
-    // slider.attribute('min', this.minValue);
-    // slider.attribute('max', this.maxValue);
 
     //create slider label
     const label = createElement("p", "1");
