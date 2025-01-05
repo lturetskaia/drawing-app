@@ -11,7 +11,7 @@ class RectangleTool {
   startMouseY = -1;
 
   draw() {
-    if (mouseIsPressed) {
+    if (mouseIsPressed && mouseButton === LEFT) {
       if (this.startMouseX === -1) {
         // initialize the starting point of a rectangle
         this.startMouseX = mouseX;

@@ -12,7 +12,7 @@ function FreehandTool() {
 
   this.draw = function () {
     //if the mouse is pressed
-    if (mouseIsPressed) {
+    if (mouseIsPressed && mouseButton === LEFT) {
       //check if they previousX and Y are -1. set them to the current
       //mouse X and Y if they are.
       if (previousMouseX == -1) {

@@ -8,7 +8,7 @@ function LineToTool() {
   let drawing = false;
 
   this.draw = function () {
-    if (mouseIsPressed) {
+    if (mouseIsPressed && mouseButton === LEFT) {
       if (startMouseX == -1) {
         // initializes the starting point of the line to the current mouse position
         // and the drawing state to true

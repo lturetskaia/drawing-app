@@ -6,8 +6,12 @@ class EraserTool {
 
   previousMouseX = -1;
   previousMouseY = -1;
+  strokeWeight = 20;
 
   selectedShape = "square"; // 'square' is a default shape
+  squaresAmountMin = 20; // amount of squares drawn to make a contunuous erased line at 100 width
+  squaresAmountMax = 700; // amount of squares drawn to make a contunuous erased line at 1px width
+  squaresNum = 20;
 
   draw() {
     // console.log(`The selected shape is a ${this.selectedShape}`)
@@ -15,21 +19,21 @@ class EraserTool {
   }
 
   erase() {
-    if (mouseIsPressed) {
+    if (mouseIsPressed && mouseButton === LEFT) {
       if (this.previousMouseX == -1) {
         this.previousMouseX = mouseX;
         this.previousMouseY = mouseY;
+        this.strokeWeight = strokeSlider.getEraserWeight();
+        this.squaresNum = map(this.strokeWeight, 1, 100, 700, 20);
       } else {
-        const strokeWeight = strokeSlider.getEraserWeight();
         push();
-
         this.selectedShape === "square"
-          ? this.eraseSquare(strokeWeight)
+          ? this.eraseSquare()
           : this.eraseEllipse();
         pop();
 
-        // this.previousMouseX = mouseX;
-        // this.previousMouseY = mouseY;
+        this.previousMouseX = mouseX;
+        this.previousMouseY = mouseY;
       }
     } else {
       this.previousMouseX = -1;
@@ -38,42 +42,43 @@ class EraserTool {
   }
 
   eraseEllipse() {
-    stroke(0);
+    stroke(255);
     line(this.previousMouseX, this.previousMouseY, mouseX, mouseY);
-    this.previousMouseX = mouseX;
-    this.previousMouseY = mouseY;
   }
 
-  eraseSquare(strokeWeight) {
-    fill(0);
+  eraseSquare() {
+    fill(255);
     noStroke();
-    const mousePosX = mouseX - strokeWeight / 2;
-    const mousePosY = mouseY - strokeWeight / 2;
+    // let prevMouseX = this.previousMouseX- strokeWeight / 2;
+    // let prevMouseY = this.previousMouseY- strokeWeight / 2;
+    // rect(prevMouseX, prevMouseY, strokeWeight, strokeWeight);
+    // stroke(0);
+    // line(this.previousMouseX, this.previousMouseY, mouseX, mouseY);
+
+    let prevMouseX = this.previousMouseX- this.strokeWeight / 2;
+    let prevMouseY = this.previousMouseY- this.strokeWeight / 2;
+    const mousePosX = mouseX - this.strokeWeight / 2;
+    const mousePosY = mouseY - this.strokeWeight / 2;
     // distance between current and previous position
-    const distX = mousePosX - this.previousMouseX;
-    const distY = mousePosY - this.previousMouseY;
-    // threshold value for drawing a continuous line
-    const threshold = strokeWeight/2 ;
+    const distX = mousePosX - prevMouseX;
+    const distY = mousePosY - prevMouseY;
+    // threshold value for drawing a sequence of squares
+    const threshold = this.strokeWeight /2;
 
     if (abs(distX) <= threshold && abs(distY) <= threshold) {
-      rect(mousePosX, mousePosY, strokeWeight, strokeWeight);
+      rect(mousePosX, mousePosY, this.strokeWeight, this.strokeWeight);
     } else {
-      const deltaX = distX / threshold;
-      const deltaY = distY / threshold;
+      // distance between squares for X and Y
+      const deltaX = distX / this.squaresNum;
+      const deltaY = distY / this.squaresNum;
 
-      const squaresNum = max(abs(deltaX), abs(deltaY));
-      console.log(squaresNum);
-
-      let posX = this.previousMouseX;
-      let posY = this.previousMouseY;
-      for (let i = 0; i < squaresNum; i++) {
-        rect(posX, posY, strokeWeight, strokeWeight);
-        posX += deltaX;
-        posY += deltaY;
+      // draw 
+      for (let i = 0; i < this.squaresNum; i++) {
+        rect(prevMouseX, prevMouseY, this.strokeWeight, this.strokeWeight);
+        prevMouseX += deltaX;
+        prevMouseY += deltaY;
       }
     }
-    this.previousMouseX = mousePosX;
-    this.previousMouseY = mousePosY;
   }
 
   populateOptions() {

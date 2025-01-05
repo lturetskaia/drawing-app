@@ -4,17 +4,18 @@ class StrokeSlider {
     this.maxValue = max;
   }
   selectedMode = "brush"; // 'brush' or 'eraser'
-  eraserStrokeWeight = 40;
+  eraserStrokeWeight = 20;
   brushStrokeWeight = 1;
 
   setStrokeWeight(value) {
-    // set stroke weight for earser of brush
+    // set stroke weight for earser or brush
     if (this.selectedMode === "eraser") {
-      this.eraserStrokeWeight = value;
+      this.eraserStrokeWeight = Number(value);
+      strokeWeight(value);
     } else {
-      this.brushStrokeWeight = value;
+      this.brushStrokeWeight = Number(value);
+      strokeWeight(value);
     }
-    strokeWeight(value);
     //change value on the label
     select("#strokeSliderLabel").html(value);
   }
