@@ -14,31 +14,63 @@ class EraserTool {
   squaresNum = 20;
 
   draw() {
-    // console.log(`The selected shape is a ${this.selectedShape}`)
-    this.erase();
-  }
-
-  erase() {
+    this.displayCursor();
+    // draw on left mouse press
     if (mouseIsPressed && mouseButton === LEFT) {
-      if (this.previousMouseX == -1) {
-        this.previousMouseX = mouseX;
-        this.previousMouseY = mouseY;
-        this.strokeWeight = strokeSlider.getEraserWeight();
-        this.squaresNum = map(this.strokeWeight, 1, 100, 700, 20);
-      } else {
-        push();
-        this.selectedShape === "square"
-          ? this.eraseSquare()
-          : this.eraseEllipse();
-        pop();
-
-        this.previousMouseX = mouseX;
-        this.previousMouseY = mouseY;
-      }
+      this.erase();
     } else {
       this.previousMouseX = -1;
       this.previousMouseY = -1;
     }
+  }
+
+  erase() {
+    if (this.previousMouseX == -1) {
+      this.previousMouseX = mouseX;
+      this.previousMouseY = mouseY;
+      this.strokeWeight = strokeSlider.getEraserWeight();
+      this.squaresNum = map(this.strokeWeight, 1, 100, 700, 20);
+    } else {
+      updatePixels(); // remove the cursor image
+      push();
+      this.selectedShape === "square"
+        ? this.eraseSquare()
+        : this.eraseEllipse();
+      pop();
+      loadPixels(); // save the new image
+
+      this.previousMouseX = mouseX;
+      this.previousMouseY = mouseY;
+    }
+  }
+
+  displayCursor() {
+    // update and load image for the cursor to move
+    updatePixels();
+    loadPixels();
+
+    push();
+    fill(255);
+    stroke(0);
+    strokeWeight(1);
+
+    //display cursor depending on the shape of eraser
+    if (this.selectedShape === "square") {
+      rect(
+        mouseX - this.strokeWeight / 2,
+        mouseY - this.strokeWeight / 2,
+        this.strokeWeight,
+        this.strokeWeight
+      );
+    } else {
+      ellipse(
+        mouseX - this.strokeWeight / 2,
+        mouseY - this.strokeWeight / 2,
+        this.strokeWeight,
+        this.strokeWeight
+      );
+    }
+    pop();
   }
 
   eraseEllipse() {
@@ -49,21 +81,16 @@ class EraserTool {
   eraseSquare() {
     fill(255);
     noStroke();
-    // let prevMouseX = this.previousMouseX- strokeWeight / 2;
-    // let prevMouseY = this.previousMouseY- strokeWeight / 2;
-    // rect(prevMouseX, prevMouseY, strokeWeight, strokeWeight);
-    // stroke(0);
-    // line(this.previousMouseX, this.previousMouseY, mouseX, mouseY);
 
-    let prevMouseX = this.previousMouseX- this.strokeWeight / 2;
-    let prevMouseY = this.previousMouseY- this.strokeWeight / 2;
+    let prevMouseX = this.previousMouseX - this.strokeWeight / 2;
+    let prevMouseY = this.previousMouseY - this.strokeWeight / 2;
     const mousePosX = mouseX - this.strokeWeight / 2;
     const mousePosY = mouseY - this.strokeWeight / 2;
     // distance between current and previous position
     const distX = mousePosX - prevMouseX;
     const distY = mousePosY - prevMouseY;
     // threshold value for drawing a sequence of squares
-    const threshold = this.strokeWeight /2;
+    const threshold = this.strokeWeight / 2;
 
     if (abs(distX) <= threshold && abs(distY) <= threshold) {
       rect(mousePosX, mousePosY, this.strokeWeight, this.strokeWeight);
@@ -72,7 +99,7 @@ class EraserTool {
       const deltaX = distX / this.squaresNum;
       const deltaY = distY / this.squaresNum;
 
-      // draw 
+      // draw
       for (let i = 0; i < this.squaresNum; i++) {
         rect(prevMouseX, prevMouseY, this.strokeWeight, this.strokeWeight);
         prevMouseX += deltaX;
