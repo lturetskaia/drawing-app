@@ -14,6 +14,7 @@ class EraserTool {
   squaresNum = 20;
 
   draw() {
+    this.updateStrokeWidth();
     this.displayCursor();
     // draw on left mouse press
     if (mouseIsPressed && mouseButton === LEFT) {
@@ -28,7 +29,6 @@ class EraserTool {
     if (this.previousMouseX == -1) {
       this.previousMouseX = mouseX;
       this.previousMouseY = mouseY;
-      this.strokeWeight = strokeSlider.getEraserWeight();
       this.squaresNum = map(this.strokeWeight, 1, 100, 700, 20);
     } else {
       updatePixels(); // remove the cursor image
@@ -140,5 +140,12 @@ class EraserTool {
     select(".options").html("");
     // change slider mode back to 'brush'
     strokeSlider.changeMode("brush");
+  }
+
+  updateStrokeWidth() {
+    const eraserWeight = select("#strokeSliderInput").value();
+    if (this.strokeWeight !== eraserWeight) {
+      this.strokeWeight = eraserWeight;
+    }
   }
 }
