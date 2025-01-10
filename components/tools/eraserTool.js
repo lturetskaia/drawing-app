@@ -1,7 +1,6 @@
-class EraserTool {
+class EraserTool extends ToolItem {
   constructor(name, icon) {
-    this.name = name;
-    this.icon = icon;
+    super(name, icon);
   }
 
   previousMouseX = -1;
@@ -63,12 +62,7 @@ class EraserTool {
         this.strokeWeight
       );
     } else {
-      ellipse(
-        mouseX - this.strokeWeight / 2,
-        mouseY - this.strokeWeight / 2,
-        this.strokeWeight,
-        this.strokeWeight
-      );
+      ellipse(mouseX, mouseY, this.strokeWeight, this.strokeWeight);
     }
     pop();
   }

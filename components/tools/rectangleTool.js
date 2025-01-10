@@ -1,7 +1,6 @@
-class RectangleTool {
+class RectangleTool extends ToolItem{
   constructor(name, icon){
-    this.name = name
-    this.icon = icon;
+    super(name, icon);
   }
 
 
