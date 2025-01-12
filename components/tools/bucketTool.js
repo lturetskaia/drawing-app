@@ -12,6 +12,8 @@ class BucketTool extends ToolItem {
     const pointIsValid =
       mouseX >= 0 && mouseX <= width && mouseY >= 0 && mouseY <= height;
     if (pointIsValid) {
+      const start = new Date();
+
       const x = floor(mouseX);
       const y = floor(mouseY);
       // set new and old colour value
@@ -30,6 +32,10 @@ class BucketTool extends ToolItem {
       this.image = drawingContext.getImageData(0, 0, width, height);
 
       this.floodFill(x, y);
+
+      const end = new Date();
+      const dif = (end - start) / 1000;
+      console.log(dif + " seconds");
     }
   }
 
@@ -48,7 +54,7 @@ class BucketTool extends ToolItem {
       currentPixel = queue.pop();
       this.colourPixel(currentPixel.index); // colour the pixel
       let neighbours = this.findNeighbours(currentPixel); // find valid neighbours
-      queue.push(...neighbours);
+      queue.push(...neighbours); // add valid neigbours to queue
     }
 
     //load the new image to the canvas

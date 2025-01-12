@@ -1,8 +1,7 @@
-class RectangleTool extends ToolItem{
-  constructor(name, icon){
+class RectangleTool extends ToolItem {
+  constructor(name, icon) {
     super(name, icon);
   }
-
 
   // starting point of a rectangle
   // set to default value -1
@@ -20,16 +19,29 @@ class RectangleTool extends ToolItem{
       } else {
         // display the last saved state of pixels
         updatePixels();
+        
         rect(
           this.startMouseX,
           this.startMouseY,
           mouseX - this.startMouseX,
           mouseY - this.startMouseY
         );
+
+        push();
+        fill(0);
+        noStroke();
+        textSize(14);
+        text(
+          `${mouseX - this.startMouseX} x ${mouseY - this.startMouseY}`,
+          mouseX + 5,
+          mouseY - 5
+        );
+        pop();
+
       }
     } else {
       this.startMouseX = -1;
       this.startMouseY = -1;
     }
-  };
+  }
 }
