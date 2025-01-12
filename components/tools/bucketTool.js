@@ -34,29 +34,56 @@ class BucketTool extends ToolItem {
   }
 
   floodFill(initialX, initialY) {
-    let currentPixel = { x: initialX, y: initialY };
-    // find index of the first pixel value (R)
-    // let index = (currentPixel.x + currentPixel.y * width) * 4;
-    let index = this.getIndex(currentPixel);
-    // colour the pixel
-    this.colourPixel(index);
-    this.findNeighbours(currentPixel, index);
+    let currentPixel = {
+      x: initialX,
+      y: initialY,
+      index: this.getIndex(initialX, initialY),
+    };
+
+    //create a queue for finding and colouring neighbouring  pixels
+    let queue = [];
+    queue.push(currentPixel);
+
+    while (queue.length > 0) {
+      currentPixel = queue.pop();
+      this.colourPixel(currentPixel.index); // colour the pixel
+      let neighbours = this.findNeighbours(currentPixel); // find valid neighbours
+      queue.push(...neighbours);
+    }
 
     //load the new image to the canvas
     drawingContext.putImageData(this.image, 0, 0);
-
-    //create a queue for colouring pixels
   }
 
-  findNeighbours(currentPixel, index) {
+  findNeighbours(currentPixel) {
     //find the neighbouring pixels of the current pixel (left,right, top, bottom)
     const possibleNeighbours = [
-      { x: currentPixel.x - 1, y: currentPixel.y }, // left
-      { x: currentPixel.x + 1, y: currentPixel.y }, //right
-      { x: currentPixel.x, y: currentPixel.y - 1 }, // top
-      { x: currentPixel.x, y: currentPixel.y + 1 }, //bottom
+      {
+        // left
+        x: currentPixel.x - 1,
+        y: currentPixel.y,
+        index: currentPixel.index - 4,
+      },
+      {
+        //right
+        x: currentPixel.x + 1,
+        y: currentPixel.y,
+        index: currentPixel.index + 4,
+      },
+      {
+        // top
+        x: currentPixel.x,
+        y: currentPixel.y - 1,
+        index: currentPixel.index - width * 4,
+      },
+      {
+        //bottom
+        x: currentPixel.x,
+        y: currentPixel.y + 1,
+        index: currentPixel.index + width * 4,
+      },
     ];
-    console.log(currentPixel, index, possibleNeighbours);
+    // console.log(currentPixel, possibleNeighbours);
 
     const validNeighbours = [];
 
@@ -68,6 +95,7 @@ class BucketTool extends ToolItem {
     }
 
     // console.log(validNeighbours);
+    return validNeighbours;
   }
 
   colourPixel(index) {
@@ -86,26 +114,27 @@ class BucketTool extends ToolItem {
     const isInsideCanvas =
       pixel.x >= 0 && pixel.x < width && pixel.y >= 0 && pixel.y < height;
 
-    console.log(pixel);
-    console.log(isInsideCanvas);
+    // console.log(pixel);
+    // console.log("Inside canvas: " + isInsideCanvas);
 
     // check if the pixel is the same colour as the seed point
+    let isSeedColour = true;
     if (isInsideCanvas) {
-      let isSeedColour = true;
-      let pixelIndex = this.getIndex(pixel);
+      let pixelIndex = pixel.index;
       for (let i = 0; i < 4; i++) {
         if (this.image.data[pixelIndex] !== this.seedColour[i]) {
-          console.log(this.image.data[pixelIndex], this.seedColour[i]);
+          // console.log(this.image.data[pixelIndex], this.seedColour[i]);
           isSeedColour = false;
           break;
         }
         pixelIndex++;
       }
-      console.log(isSeedColour);
+      // console.log("Valid colour: " + isSeedColour);
     }
+    const pixelIsValid = isInsideCanvas && isSeedColour;
+    return pixelIsValid;
   }
-
-  getIndex(pixel) {
-    return (pixel.x + pixel.y * width) * 4;
+  getIndex(x, y) {
+    return (x + y * width) * 4;
   }
 }
