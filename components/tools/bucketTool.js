@@ -3,9 +3,9 @@ class BucketTool extends ToolItem {
     super(name, icon);
   }
 
-  imagePixels;
-  newColour = [];
-  seedColour = [];
+  #image;
+  #newColour = [];
+  #seedColour = [];
 
   draw(colour) {
     //check if click is on the canvas
@@ -17,33 +17,26 @@ class BucketTool extends ToolItem {
       const x = floor(mouseX);
       const y = floor(mouseY);
       // set new and old colour value
-      this.newColour = colour;
-      this.seedColour = get(x, y);
+      this.#newColour = colour;
+      this.#seedColour = get(x, y);
 
       //if the seed and new colours are tha same, do nothing
-      if (this.newColour.toString() === this.seedColour.toString()) {
+      if (this.#newColour.toString() === this.#seedColour.toString()) {
         return;
       }
 
-      console.log(`// Old colour: ${this.seedColour} 
-    // New colour: ${this.newColour} `);
-
       //store current image
-      this.image = drawingContext.getImageData(0, 0, width, height);
+      this.#image = drawingContext.getImageData(0, 0, width, height);
 
-      this.floodFill(x, y);
-
-      const end = new Date();
-      const dif = (end - start) / 1000;
-      console.log(dif + " seconds");
+      this.#floodFill(x, y);
     }
   }
 
-  floodFill(initialX, initialY) {
+  #floodFill(initialX, initialY) {
     let currentPixel = {
       x: initialX,
       y: initialY,
-      index: this.getIndex(initialX, initialY),
+      index: this.#getIndex(initialX, initialY),
     };
 
     //create a queue for finding and colouring neighbouring  pixels
@@ -52,16 +45,16 @@ class BucketTool extends ToolItem {
 
     while (queue.length > 0) {
       currentPixel = queue.pop();
-      this.colourPixel(currentPixel.index); // colour the pixel
-      let neighbours = this.findNeighbours(currentPixel); // find valid neighbours
+      this.#colourPixel(currentPixel.index); // colour the pixel
+      let neighbours = this.#findNeighbours(currentPixel); // find valid neighbours
       queue.push(...neighbours); // add valid neigbours to queue
     }
 
     //load the new image to the canvas
-    drawingContext.putImageData(this.image, 0, 0);
+    drawingContext.putImageData(this.#image, 0, 0);
   }
 
-  findNeighbours(currentPixel) {
+  #findNeighbours(currentPixel) {
     //find the neighbouring pixels of the current pixel (left,right, top, bottom)
     const possibleNeighbours = [
       {
@@ -89,58 +82,51 @@ class BucketTool extends ToolItem {
         index: currentPixel.index + width * 4,
       },
     ];
-    // console.log(currentPixel, possibleNeighbours);
 
     const validNeighbours = [];
 
     //check if the neighbours are valid and fill validNeighbours array
     for (let i = 0; i < possibleNeighbours.length; i++) {
-      if (this.isValidPixel(possibleNeighbours[i])) {
+      if (this.#isValidPixel(possibleNeighbours[i])) {
         validNeighbours.push(possibleNeighbours[i]);
       }
     }
-
-    // console.log(validNeighbours);
     return validNeighbours;
   }
 
-  colourPixel(index) {
-    const imagePixels = this.image.data; // access pixel array within image
+  #colourPixel(index) {
+    const imagePixels = this.#image.data; // access pixel array within image
     let pixelIndex = index; // starting point
 
     // find the four values of the pixel and change them to the corresponding new values
     for (let i = 0; i < 4; i++) {
-      imagePixels[pixelIndex] = this.newColour[i];
+      imagePixels[pixelIndex] = this.#newColour[i];
       pixelIndex++;
     }
   }
 
-  isValidPixel(pixel) {
+  #isValidPixel(pixel) {
     // check if the pixel is inside the canvas
     const isInsideCanvas =
       pixel.x >= 0 && pixel.x < width && pixel.y >= 0 && pixel.y < height;
-
-    // console.log(pixel);
-    // console.log("Inside canvas: " + isInsideCanvas);
 
     // check if the pixel is the same colour as the seed point
     let isSeedColour = true;
     if (isInsideCanvas) {
       let pixelIndex = pixel.index;
       for (let i = 0; i < 4; i++) {
-        if (this.image.data[pixelIndex] !== this.seedColour[i]) {
-          // console.log(this.image.data[pixelIndex], this.seedColour[i]);
+        if (this.#image.data[pixelIndex] !== this.#seedColour[i]) {
           isSeedColour = false;
           break;
         }
         pixelIndex++;
       }
-      // console.log("Valid colour: " + isSeedColour);
     }
     const pixelIsValid = isInsideCanvas && isSeedColour;
     return pixelIsValid;
   }
-  getIndex(x, y) {
+
+  #getIndex(x, y) {
     return (x + y * width) * 4;
   }
 }

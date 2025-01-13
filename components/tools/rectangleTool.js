@@ -26,17 +26,17 @@ class RectangleTool extends ToolItem {
           mouseX - this.startMouseX,
           mouseY - this.startMouseY
         );
-
-        push();
-        fill(0);
-        noStroke();
-        textSize(14);
-        text(
-          `${mouseX - this.startMouseX} x ${mouseY - this.startMouseY}`,
-          mouseX + 5,
-          mouseY - 5
-        );
-        pop();
+        // display size of the area
+        // push();
+        // fill(0);
+        // noStroke();
+        // textSize(14);
+        // text(
+        //   `${mouseX - this.startMouseX} x ${mouseY - this.startMouseY}`,
+        //   mouseX + 5,
+        //   mouseY - 5
+        // );
+        // pop();
 
       }
     } else {
