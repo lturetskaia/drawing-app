@@ -27,12 +27,13 @@ function FreehandTool() {
         previousMouseY = mouseY;
       }
     }
-    //if the user has released the mouse we want to set the previousMouse values
-    //back to -1.
-    //try and comment out these lines and see what happens!
+    //if the mouse id released set the previousMouse values back to -1.
     else {
-      previousMouseX = -1;
-      previousMouseY = -1;
+      if (previousMouseX != -1) {
+        previousMouseX = -1;
+        previousMouseY = -1;
+        console.log("log");
+      }
     }
   };
 }
