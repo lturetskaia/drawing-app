@@ -68,6 +68,7 @@ button img {
 button:hover:not([disabled]) {
   box-shadow: 1px 1px 3px rgba(190, 190, 190, 150);
 }
+
 button:disabled {
   background-color: dimgrey;
 }

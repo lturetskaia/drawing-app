@@ -21,7 +21,11 @@ function setup() {
   background(255);
   canvas.parent("content");
   canvas.mouseReleased(() =>
-    toolbox.selectedTool.name !== "mirrorDraw" && toolbox.selectedTool.name !=='rectangle' ? saveUndoSnapshot() : null
+    (toolbox.selectedTool.name !== "mirrorDraw" &&
+      toolbox.selectedTool.name !== "rectangle") &&
+    toolbox.selectedTool.name !== "editImage"
+      ? saveUndoSnapshot()
+      : null
   );
 
   //create the colour palette
@@ -43,7 +47,7 @@ function setup() {
   toolbox = new Toolbox();
 
   //add the tools to the toolbox.
-  toolbox.addTool( new EditImageTool('editImage', 'assets/editImage.jpg'));
+  toolbox.addTool(new EditImageTool("editImage", "assets/editImage.jpg"));
   toolbox.addTool(new FreehandTool());
   toolbox.addTool(new LineToTool());
   toolbox.addTool(new SprayCanTool());
