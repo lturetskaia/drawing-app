@@ -9,6 +9,7 @@ class UndoSnapshots {
 
   add() {
     const newSnapshot = get();
+
     if (this.currentSnapshotIndex === this.history.length - 1) {
       // when the current snapshot is the latest snapshot saved (no undo was done)
       // and the history array is not full, push a new snapshot to history
@@ -35,16 +36,24 @@ class UndoSnapshots {
 
   prev() {
     if (this.currentSnapshotIndex > 0) {
+      //if the current snapshot is not the oldest snapshot saved
+      // switch to the previous snapshot
+      console.log(this.currentSnapshotIndex);
       const prevSnapshot = this.history[this.currentSnapshotIndex - 1];
       set(0, 0, prevSnapshot);
       this.currentSnapshotIndex -= 1;
+      console.log(this.currentSnapshotIndex);
+      console.log(this.history);
     }
   }
 
   next() {
     if (this.currentSnapshotIndex < this.history.length - 1) {
+      // if the current snapshot is not the last snapshot saved
+      // switch to the next snapshot
       const nextSnapshot = this.history[this.currentSnapshotIndex + 1];
       set(0, 0, nextSnapshot);
+      // updatePixels();
       this.currentSnapshotIndex += 1;
     }
   }

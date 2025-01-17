@@ -32,7 +32,6 @@ function FreehandTool() {
       if (previousMouseX != -1) {
         previousMouseX = -1;
         previousMouseY = -1;
-        console.log("log");
       }
     }
   };

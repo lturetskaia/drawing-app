@@ -21,7 +21,7 @@ function setup() {
   background(255);
   canvas.parent("content");
   canvas.mouseReleased(() =>
-    toolbox.selectedTool.name !== "mirrorDraw" ? saveUndoSnapshot() : null
+    toolbox.selectedTool.name !== "mirrorDraw" && toolbox.selectedTool.name !=='rectangle' ? saveUndoSnapshot() : null
   );
 
   //create the colour palette

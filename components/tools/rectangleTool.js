@@ -10,14 +10,15 @@ class RectangleTool extends ToolItem {
   image;
 
   draw() {
-    if (mouseIsPressed && mouseButton === LEFT) {
-      console.log(pixels);
+    //check if mouse is in drawing position
+    let mouseOverCanvas = mouseX >= 0 && mouseX < width && mouseY >= 0 && mouseX < height;
+    if (mouseIsPressed && mouseButton === LEFT && mouseOverCanvas) {
       if (this.startMouseX === -1) {
         // initialize the starting point of a rectangle
         this.startMouseX = mouseX;
         this.startMouseY = mouseY;
         loadPixels();
-        this.image = get(); // save the state of the canvas
+        // this.image = get(); // save the state of the canvas
         // save the state of pixels
       } else {
         // display the last saved state of pixels
@@ -45,7 +46,7 @@ class RectangleTool extends ToolItem {
       if (this.startMouseX !== -1) {
         // when the drawing is done display the previous state before drawing
         // this is needed to erase the dimesions label
-        image(this.image, 0, 0); 
+        updatePixels();
         // draw the final version of the rectangle
         rect(
           this.startMouseX,
@@ -53,7 +54,10 @@ class RectangleTool extends ToolItem {
           mouseX - this.startMouseX,
           mouseY - this.startMouseY
         );
+        // save a new history snapshot
+        saveUndoSnapshot();
 
+        //reset the initial drawing point to default
         this.startMouseX = -1;
         this.startMouseY = -1;
       }
