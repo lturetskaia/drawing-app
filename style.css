@@ -195,6 +195,12 @@ button:disabled {
   border-radius: 4px;
   padding: 0;
 }
+.options select {
+  height: 30px;
+  width: 80px;
+  border-radius: 4px;
+
+}
 
 #directionButton {
   width: 80px;
