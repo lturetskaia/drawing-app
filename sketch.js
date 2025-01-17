@@ -29,6 +29,7 @@ function setup() {
 
   // create menu and add menu options
   menu = new MenuBox();
+
   menu.addOption(new SaveCanvas("saveCanvas", "/assets/saveCanvas.png", "btn"));
   menu.addOption(
     new ClearCanvas("clearCanvas", "/assets/clearCanvas.png", "btn")
@@ -42,6 +43,7 @@ function setup() {
   toolbox = new Toolbox();
 
   //add the tools to the toolbox.
+  toolbox.addTool( new EditImageTool('editImage', 'assets/editImage.jpg'));
   toolbox.addTool(new FreehandTool());
   toolbox.addTool(new LineToTool());
   toolbox.addTool(new SprayCanTool());

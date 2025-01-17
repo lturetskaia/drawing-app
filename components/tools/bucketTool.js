@@ -1,6 +1,6 @@
 class BucketTool extends ToolItem {
-  constructor(name, icon) {
-    super(name, icon);
+  constructor(name) {
+    super(name);
   }
 
   #image;

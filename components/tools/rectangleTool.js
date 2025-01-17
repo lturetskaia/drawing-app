@@ -1,6 +1,6 @@
 class RectangleTool extends ToolItem {
-  constructor(name, icon) {
-    super(name, icon);
+  constructor(name) {
+    super(name);
   }
 
   // starting point of a rectangle
