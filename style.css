@@ -49,11 +49,13 @@ h1 {
   padding: 15px 20px 10px 25px;
 }
 
-.menu button {
+.menu button,
+.options button {
   box-sizing: border-box;
   background-color: white;
   width: 47px;
   height: 47px;
+  border: 1px solid rgb(40,40,40,255);
   border-radius: 4px;
   padding: 0;
 }
@@ -188,14 +190,14 @@ button:disabled {
   display: flex;
   gap: 20px;
 }
-.options button {
+/* .options button {
   box-sizing: border-box;
   background-color: white;
   width: 47px;
   height: 47px;
   border-radius: 4px;
   padding: 0;
-}
+} */
 .options select {
   height: 30px;
   width: 80px;
