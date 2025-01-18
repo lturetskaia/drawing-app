@@ -11,7 +11,7 @@ class EditImageTool extends ToolItem {
     let mouseOverCanvas =
       mouseX >= 0 && mouseX < width && mouseY >= 0 && mouseX < height;
 
-      // mode 'select' - select the area, then save it to this.image
+    // mode 'select' - select the area, then save it to this.image
     if (
       mouseOverCanvas &&
       mouseIsPressed &&
@@ -20,18 +20,32 @@ class EditImageTool extends ToolItem {
     ) {
       this.select();
     } else if (this.startMouseX !== -1 && this.mode === "select") {
-      this.saveSelectedArea();
+      updatePixels(); // remove selection visualization
+      this.saveSelectedArea(); // save the selected image
+      this.markSelectedArea(); // add selection visualization
+      // make copy, delete and cut buttons active
+      this.changeBtnState("copy", false);
+      this.changeBtnState("delete", false);
+      this.changeBtnState("cut", false);
     }
-
-    //
-    // cursor(CROSS);
   }
 
   populateOptions() {
     this.addButton("copy");
+    select("#copyBtn").mouseClicked(() => this.copyImage());
     this.addButton("delete");
+    select("#deleteBtn").mouseClicked(() => this.deleteImage());
     this.addButton("cut");
+    select("#cutBtn").mouseClicked(() => this.cutImage());
     this.addButton("paste");
+    select("#copyBtn").mouseClicked(() => this.pasteImage());
+
+    select ('canvas').mouseClicked(()=> {
+      if (this.mode === 'paste'){
+        this.image.paste();
+      }
+    })
+
   }
 
   select() {
@@ -48,7 +62,13 @@ class EditImageTool extends ToolItem {
       // display the last saved state of pixels
       updatePixels();
 
-      push();
+      this.markSelectedArea();
+    }
+  }
+  
+  markSelectedArea(){
+    // mark the selected area with dashed lines
+    push();
       drawingContext.setLineDash([5, 5]); // make lines dashed
       fill(255, 255, 255, 0);
 
@@ -59,7 +79,6 @@ class EditImageTool extends ToolItem {
         mouseY - this.startMouseY
       );
       pop();
-    }
   }
 
   saveSelectedArea() {
@@ -69,7 +88,20 @@ class EditImageTool extends ToolItem {
     // resert the start values to default
     this.startMouseX = -1;
     this.startMouseY = -1;
-    this.mode = 'edit';
+    this.mode = "edit";
+  }
+
+  copyImage() {
+    this.mode = "copy";
+    this.changeBtnState("copy", true);
+    this.changeBtnState("delete", true);
+    this.changeBtnState("cut", true);
+    this.changeBtnState("paste", false);
+  }
+
+  pasteImage(){
+    this.mode = 'paste';
+    this.changeBtnState("paste", false);
   }
 
   addButton(name) {
@@ -79,12 +111,18 @@ class EditImageTool extends ToolItem {
     newBtn.id(`${name}Btn`);
     select(".options").child(newBtn);
     //disable the buttons by default
-    select(`#${name}Btn`).attribute("disabled", "true");
+    newBtn.attribute("disabled", "true");
 
     // add button icon
     const buttonImg = createImg(icon, name);
     buttonImg.id(`${name}Img`);
     buttonImg.parent(`${name}Btn`);
+  }
+
+  changeBtnState(btn, disableValue) {
+    //make buttons active/disabled
+    const button = select(`#${btn}Btn`).elt;
+    button.disabled = disableValue;
   }
 
   unselectTool() {
