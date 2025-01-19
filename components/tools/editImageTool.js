@@ -22,7 +22,12 @@ class EditImageTool extends ToolItem {
     } else if (this.startMouseX !== -1 && this.mode === "select") {
       updatePixels(); // remove selection visualization
       this.saveSelectedArea(); // save the selected image
-      this.markSelectedArea(this.image.selectedArea.x, this.image.selectedArea.y); // add selection visualization
+      this.markSelectedArea(
+        this.image.selectedArea.x,
+        this.image.selectedArea.y,
+        this.image.selectedArea.width,
+        this.image.selectedArea.height
+      ); // add selection visualization
       // make copy, delete and cut buttons active
       this.changeBtnState("copy", false);
       this.changeBtnState("delete", false);
@@ -39,16 +44,31 @@ class EditImageTool extends ToolItem {
     this.addButton("cut");
     select("#cutBtn").mouseClicked(() => this.cutImage());
     this.addButton("paste");
-    select("#copyBtn").mouseClicked(() => this.pasteImage());
+    select("#copyBtn").mouseClicked(() => this.activatePaste());
     this.addButton("cancelSelection");
     select("#cancelSelectionBtn").mouseClicked(() => this.cancelSelection());
 
     //add even handler for canvas
-    select("canvas").mouseClicked(() => {
-      if (this.mode === "paste") {
-        this.image.paste();
-      }
-    });
+    const canvas = select('canvas');
+  
+    // canvas.mouseReleased((event) => {
+    //   console.log(event);
+    //   if (this.mode === "paste") {
+    //     //if canvas is clicked while in 'paste' mode
+    //     updatePixels(); // clear the selection frame
+    //     this.image.paste(); // paste the image
+    //     loadPixels(); // save
+    //     console.log('Snapshot saved');
+    //     saveUndoSnapshot(); // make an undo snapshot
+    //     this.markSelectedArea(
+    //       this.image.selectedArea.x,
+    //       this.image.selectedArea.y,
+    //       this.image.selectedArea.width,
+    //       this.image.selectedArea.height
+    //     );
+    //     console.log('paste end');
+    //   }
+    // });
   }
 
   select() {
@@ -65,17 +85,22 @@ class EditImageTool extends ToolItem {
       // display the last saved state of pixels
       updatePixels();
 
-      this.markSelectedArea(this.startMouseX, this.startMouseY);
+      this.markSelectedArea(
+        this.startMouseX,
+        this.startMouseY,
+        mouseX - this.startMouseX,
+        mouseY - this.startMouseY
+      );
     }
   }
 
-  markSelectedArea(x, y) {
+  markSelectedArea(x, y, width, height) {
     // mark the selected area with dashed lines
     push();
     drawingContext.setLineDash([5, 5]); // make lines dashed
     fill(255, 255, 255, 0);
 
-    rect(x, y, mouseX - x, mouseY - y);
+    rect(x, y, width, height);
     pop();
   }
 
@@ -97,7 +122,24 @@ class EditImageTool extends ToolItem {
     this.changeBtnState("paste", false);
   }
 
-  pasteImage() {
+  pasteImage(){
+    // if canvas is clicked while in 'paste' mode
+        updatePixels(); // clear the selection frame
+        this.image.paste(); // paste the image
+        loadPixels(); // save
+        console.log('Snapshot saved');
+        saveUndoSnapshot(); // make an undo snapshot
+        this.markSelectedArea(
+          this.image.selectedArea.x,
+          this.image.selectedArea.y,
+          this.image.selectedArea.width,
+          this.image.selectedArea.height
+        );
+        console.log('paste end');
+  }
+
+  activatePaste() {
+    // switches to paste mode
     this.mode = "paste";
     this.changeBtnState("paste", false);
   }
@@ -125,6 +167,11 @@ class EditImageTool extends ToolItem {
 
   unselectTool() {
     console.log("Unselect edit image");
+    this.mode = "select";
+    this.image = null;
+    // this.startMouseX = -1;
+    // this.startMouseY = -1;
+    updatePixels();
     //clear options
     select(".options").html("");
   }

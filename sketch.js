@@ -20,13 +20,18 @@ function setup() {
   });
   background(255);
   canvas.parent("content");
-  canvas.mouseReleased(() =>
-    (toolbox.selectedTool.name !== "mirrorDraw" &&
-      toolbox.selectedTool.name !== "rectangle") &&
-    toolbox.selectedTool.name !== "editImage"
-      ? saveUndoSnapshot()
-      : null
-  );
+
+  canvas.mouseReleased(() => {
+    if (toolbox.selectedTool.name !== "mirrorDraw" &&
+        toolbox.selectedTool.name !== "rectangle" &&
+        toolbox.selectedTool.name !== "editImage") {
+          saveUndoSnapshot();
+        } else if ( (toolbox.selectedTool.name === "editImage" &&
+        toolbox.selectedTool.mode === "paste")){
+          toolbox.selectedTool.pasteImage();
+
+        }
+  });
 
   //create the colour palette
   const colourPalette = new ColourPalette();
