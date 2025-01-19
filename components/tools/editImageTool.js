@@ -22,16 +22,17 @@ class EditImageTool extends ToolItem {
     } else if (this.startMouseX !== -1 && this.mode === "select") {
       updatePixels(); // remove selection visualization
       this.saveSelectedArea(); // save the selected image
-      this.markSelectedArea(
-        this.image.selectedArea.x,
-        this.image.selectedArea.y,
-        this.image.selectedArea.width,
-        this.image.selectedArea.height
-      ); // add selection visualization
-      // make copy, delete and cut buttons active
-      this.changeBtnState("copy", false);
-      this.changeBtnState("delete", false);
-      this.changeBtnState("cut", false);
+      // this.markSelectedArea(
+      //   this.image.selectedArea.x,
+      //   this.image.selectedArea.y,
+      //   this.image.selectedArea.width,
+      //   this.image.selectedArea.height
+      // ); // add selection visualization
+      // // make copy, delete and cut buttons active
+      // this.changeBtnState("copy", false);
+      // this.changeBtnState("delete", false);
+      // this.changeBtnState("cut", false);
+      // this.changeBtnState("cancelSelection", false);
     }
   }
 
@@ -47,28 +48,6 @@ class EditImageTool extends ToolItem {
     select("#copyBtn").mouseClicked(() => this.activatePaste());
     this.addButton("cancelSelection");
     select("#cancelSelectionBtn").mouseClicked(() => this.cancelSelection());
-
-    //add even handler for canvas
-    const canvas = select('canvas');
-  
-    // canvas.mouseReleased((event) => {
-    //   console.log(event);
-    //   if (this.mode === "paste") {
-    //     //if canvas is clicked while in 'paste' mode
-    //     updatePixels(); // clear the selection frame
-    //     this.image.paste(); // paste the image
-    //     loadPixels(); // save
-    //     console.log('Snapshot saved');
-    //     saveUndoSnapshot(); // make an undo snapshot
-    //     this.markSelectedArea(
-    //       this.image.selectedArea.x,
-    //       this.image.selectedArea.y,
-    //       this.image.selectedArea.width,
-    //       this.image.selectedArea.height
-    //     );
-    //     console.log('paste end');
-    //   }
-    // });
   }
 
   select() {
@@ -111,7 +90,20 @@ class EditImageTool extends ToolItem {
     // resert the start values to default
     this.startMouseX = -1;
     this.startMouseY = -1;
+
+    this.markSelectedArea(
+      this.image.selectedArea.x,
+      this.image.selectedArea.y,
+      this.image.selectedArea.width,
+      this.image.selectedArea.height
+    ); // add selection visualization
+
     this.mode = "edit";
+    // make copy, delete and cut buttons active
+    this.changeBtnState("copy", false);
+    this.changeBtnState("delete", false);
+    this.changeBtnState("cut", false);
+    this.changeBtnState("cancelSelection", false);
   }
 
   copyImage() {
@@ -122,26 +114,27 @@ class EditImageTool extends ToolItem {
     this.changeBtnState("paste", false);
   }
 
-  pasteImage(){
+  pasteImage() {
     // if canvas is clicked while in 'paste' mode
-        updatePixels(); // clear the selection frame
-        this.image.paste(); // paste the image
-        loadPixels(); // save
-        console.log('Snapshot saved');
-        saveUndoSnapshot(); // make an undo snapshot
-        this.markSelectedArea(
-          this.image.selectedArea.x,
-          this.image.selectedArea.y,
-          this.image.selectedArea.width,
-          this.image.selectedArea.height
-        );
-        console.log('paste end');
+    updatePixels(); // clear the selection frame
+    this.image.paste(); // paste the image
+    loadPixels(); // save
+    console.log("Snapshot saved");
+    saveUndoSnapshot(); // make an undo snapshot
+    this.markSelectedArea(
+      this.image.selectedArea.x,
+      this.image.selectedArea.y,
+      this.image.selectedArea.width,
+      this.image.selectedArea.height
+    );
+    console.log("paste end");
   }
 
   activatePaste() {
     // switches to paste mode
     this.mode = "paste";
     this.changeBtnState("paste", false);
+    this.changeBtnState("cancelSelection", false);
   }
 
   addButton(name) {

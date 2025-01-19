@@ -24,6 +24,8 @@ class EditableImage {
 
   paste(){
     set (mouseX, mouseY, this.image);
+    this.selectedArea.x = mouseX;
+    this.selectedArea.y = mouseY;
 
 
   }
