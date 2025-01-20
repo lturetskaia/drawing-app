@@ -125,6 +125,11 @@ class EditImageTool extends ToolItem {
     loadPixels(); // save the new image
     saveUndoSnapshot(); // save a snapshot
     //reset to select mode
+    this.cancelSelection();
+  }
+
+  cancelSelection(){
+    updatePixels();
     this.image = null;
     this.mode = 'select';
   }
