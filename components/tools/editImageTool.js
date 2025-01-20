@@ -5,23 +5,81 @@ class EditImageTool extends ToolItem {
     this.image = null; // no selected image by default
     this.startMouseX = -1;
     this.startMouseY = -1;
+    this.savedCanvas = null;
   }
 
   draw() {
-    let mouseOverCanvas =
+    const mouseOverCanvas =
       mouseX >= 0 && mouseX < width && mouseY >= 0 && mouseX < height;
 
     //define cursor shape
     if (this.mode === "select") {
       cursor(CROSS);
-    } else if (this.mode === "move") {
-      cursor(MOVE);
-    } else {
+    }
+    // else if (this.mode === "move") {
+    //   const mouseOverImage =
+    //     mouseX >= this.image.selectedArea.x &&
+    //     mouseX < this.image.selectedArea.x + this.image.selectedArea.width &&
+    //     mouseY >= this.image.selectedArea.y &&
+    //     mouseX < this.image.selectedArea.y + this.image.selectedArea.height;
+
+    //   mouseOverImage ? cursor(MOVE) : null;
+    // }
+    else {
       cursor(ARROW);
     }
+    if (this.mode === "edit") {
+      //check if mouse is over the selected area
+      const mouseOverImage =
+        mouseX >= this.image.selectedArea.x &&
+        mouseX < this.image.selectedArea.x + this.image.selectedArea.width &&
+        mouseY >= this.image.selectedArea.y &&
+        mouseY < this.image.selectedArea.y + this.image.selectedArea.height;
+      if (mouseOverImage) {
+        cursor(MOVE);
+      }
 
-    // mode 'select' - select the area, then save it to this.image
-    if (
+      if (mouseOverImage && mouseIsPressed && mouseButton === LEFT) {
+        //if mouse is pressed over the selected are switch to mode 'move'
+        this.mode = "move";
+        //calculate mouse shift relative to the starting point of the image
+        this.image.calculateMouseShift();
+        updatePixels(); // clear selection marks
+        this.image.delete(); // delete the moved image at initial position
+        this.savedCanvas = get(); // save the state  of canvas before moving
+        console.log("Move image");
+      }
+    } else if (this.mode === "move") {
+      if (mouseIsPressed) {
+        //if the mouse is pressed in move mode
+        // update canvas from the initial state before moving
+        set(0, 0, this.savedCanvas); 
+        this.image.move(); // move the image
+        this.markSelectedArea(
+          this.image.selectedArea.x,
+          this.image.selectedArea.y,
+          this.image.selectedArea.width,
+          this.image.selectedArea.height
+        ); // mark the selected area
+      } else {
+        // if mouse was released while moving
+        // update canvas from the initial state before moving
+        set(0, 0, this.savedCanvas);
+        // apply the last move
+        this.image.move();
+        loadPixels(); // save the new pixels array
+        saveUndoSnapshot(); // save an undo snapshot
+        this.markSelectedArea(
+          this.image.selectedArea.x,
+          this.image.selectedArea.y,
+          this.image.selectedArea.width,
+          this.image.selectedArea.height
+        );
+        // return to edit mode
+        this.mode = "edit";
+        console.log("edit mode");
+      }
+    } else if (
       mouseOverCanvas &&
       mouseIsPressed &&
       mouseButton === LEFT &&
@@ -32,6 +90,19 @@ class EditImageTool extends ToolItem {
       updatePixels(); // remove selection visualization
       this.saveSelectedArea(); // save the selected image
     }
+
+    // // mode 'select' - select the area, then save it to this.image
+    // if (
+    //   mouseOverCanvas &&
+    //   mouseIsPressed &&
+    //   mouseButton === LEFT &&
+    //   this.mode === "select"
+    // ) {
+    //   this.select();
+    // } else if (this.startMouseX !== -1 && this.mode === "select") {
+    //   updatePixels(); // remove selection visualization
+    //   this.saveSelectedArea(); // save the selected image
+    // }
   }
 
   populateOptions() {
@@ -50,7 +121,6 @@ class EditImageTool extends ToolItem {
 
   select() {
     // selects an area for editing
-    console.log("selecting");
     if (this.startMouseX === -1) {
       // initialize the starting point of the selection
       this.startMouseX = mouseX;

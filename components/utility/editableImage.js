@@ -5,6 +5,8 @@ class EditableImage {
       y: y,
       width: mouseX - x,
       height: mouseY - y,
+      shiftX: 0,
+      shiftY: 0,
     };
 
     this.image = get(x, y, this.selectedArea.width, this.selectedArea.height);
@@ -25,11 +27,26 @@ class EditableImage {
     pop();
   }
 
+  move() {
+    console.log("Moving");
+    // this.delete();
+    this.selectedArea.x = mouseX - this.selectedArea.shiftX;
+    this.selectedArea.y = mouseY - this.selectedArea.shiftY;
+    set(this.selectedArea.x, this.selectedArea.y, this.image);
+
+  }
+
   cut() {}
 
   paste() {
     set(mouseX, mouseY, this.image);
     this.selectedArea.x = mouseX;
     this.selectedArea.y = mouseY;
+  }
+
+  calculateMouseShift() {
+    this.selectedArea.shiftX = mouseX - this.selectedArea.x;
+    this.selectedArea.shiftY = mouseY - this.selectedArea.y;
+    console.log(this.selectedArea.shiftX, this.selectedArea.shiftY);
   }
 }
