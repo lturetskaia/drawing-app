@@ -73,10 +73,13 @@ function draw() {
   //if there isn't a draw method the app will alert the user
   if (toolbox.selectedTool.draw) {
     if (toolbox.selectedTool.name === "bucket") {
+      //no auto use of draw() on bucket tool
+      // it is activated by the event listener on canvas
       return;
     }
     toolbox.selectedTool.draw();
   } else {
     alert("it doesn't look like your tool has a draw method!");
   }
+
 }

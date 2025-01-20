@@ -9,10 +9,13 @@ function SprayCanTool() {
     //points holds how many pixels of paint for each mouse press.
     if (mouseIsPressed && mouseButton === LEFT) {
       for (let i = 0; i < this.points; i++) {
+        push ();
+        strokeWeight(1);
         point(
           random(mouseX - this.spread, mouseX + this.spread),
           random(mouseY - this.spread, mouseY + this.spread)
         );
+        pop ();
       }
     }
   };

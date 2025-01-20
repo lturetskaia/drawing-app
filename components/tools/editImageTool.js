@@ -65,6 +65,8 @@ class EditImageTool extends ToolItem {
   markSelectedArea(x, y, width, height) {
     // mark the selected area with dashed lines
     push();
+    stroke(0);
+    strokeWeight(1);
     drawingContext.setLineDash([5, 5]); // make lines dashed
     fill(255, 255, 255, 0);
 
