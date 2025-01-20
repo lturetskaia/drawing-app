@@ -11,6 +11,15 @@ class EditImageTool extends ToolItem {
     let mouseOverCanvas =
       mouseX >= 0 && mouseX < width && mouseY >= 0 && mouseX < height;
 
+    //define cursor shape
+    if (this.mode === "select") {
+      cursor(CROSS);
+    } else if (this.mode === "move") {
+      cursor(MOVE);
+    } else {
+      cursor(ARROW);
+    }
+
     // mode 'select' - select the area, then save it to this.image
     if (
       mouseOverCanvas &&
@@ -90,6 +99,7 @@ class EditImageTool extends ToolItem {
     ); // add selection visualization
 
     this.mode = "edit";
+
     // make copy, delete and cut buttons active
     this.changeBtnState("copy", false);
     this.changeBtnState("delete", false);
@@ -121,16 +131,16 @@ class EditImageTool extends ToolItem {
     console.log("paste end");
   }
 
-  deleteImage(){
+  deleteImage() {
     updatePixels(); // clear the selection frame
-    this.image.delete(); 
+    this.image.delete();
     loadPixels(); // save the new image
     saveUndoSnapshot(); // save a snapshot
     //reset to select mode
     this.cancelSelection();
   }
 
-  cutImage(){
+  cutImage() {
     updatePixels();
     this.image.delete();
     loadPixels();
@@ -141,10 +151,10 @@ class EditImageTool extends ToolItem {
     this.changeBtnState("paste", false);
   }
 
-  cancelSelection(){
+  cancelSelection() {
     updatePixels();
     this.image = null;
-    this.mode = 'select';
+    this.mode = "select";
   }
 
   activatePaste() {
@@ -152,7 +162,6 @@ class EditImageTool extends ToolItem {
     this.mode = "paste";
     this.changeBtnState("paste", false);
     this.changeBtnState("cancelSelection", false);
-    
   }
 
   addButton(name) {
@@ -177,6 +186,7 @@ class EditImageTool extends ToolItem {
   }
 
   unselectTool() {
+    cursor(ARROW);
     console.log("Unselect edit image");
     this.mode = "select";
     this.image = null;
