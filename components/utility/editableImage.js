@@ -10,23 +10,26 @@ class EditableImage {
     this.image = get(x, y, this.selectedArea.width, this.selectedArea.height);
   }
 
-  copy(){
+  copy() {}
 
+  delete() {
+    push();
+    fill(255);
+    noStroke();
+    rect(
+      this.selectedArea.x,
+      this.selectedArea.y,
+      this.selectedArea.width,
+      this.selectedArea.height
+    );
+    pop();
   }
 
-  delete(){
+  cut() {}
 
-  }
-
-  cut(){
-
-  }
-
-  paste(){
-    set (mouseX, mouseY, this.image);
+  paste() {
+    set(mouseX, mouseY, this.image);
     this.selectedArea.x = mouseX;
     this.selectedArea.y = mouseY;
-
-
   }
 }

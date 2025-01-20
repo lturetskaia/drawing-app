@@ -22,17 +22,6 @@ class EditImageTool extends ToolItem {
     } else if (this.startMouseX !== -1 && this.mode === "select") {
       updatePixels(); // remove selection visualization
       this.saveSelectedArea(); // save the selected image
-      // this.markSelectedArea(
-      //   this.image.selectedArea.x,
-      //   this.image.selectedArea.y,
-      //   this.image.selectedArea.width,
-      //   this.image.selectedArea.height
-      // ); // add selection visualization
-      // // make copy, delete and cut buttons active
-      // this.changeBtnState("copy", false);
-      // this.changeBtnState("delete", false);
-      // this.changeBtnState("cut", false);
-      // this.changeBtnState("cancelSelection", false);
     }
   }
 
@@ -128,6 +117,16 @@ class EditImageTool extends ToolItem {
       this.image.selectedArea.height
     );
     console.log("paste end");
+  }
+
+  deleteImage(){
+    updatePixels(); // clear the selection frame
+    this.image.delete(); 
+    loadPixels(); // save the new image
+    saveUndoSnapshot(); // save a snapshot
+    //reset to select mode
+    this.image = null;
+    this.mode = 'select';
   }
 
   activatePaste() {
