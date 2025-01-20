@@ -16,15 +16,6 @@ class EditImageTool extends ToolItem {
     if (this.mode === "select") {
       cursor(CROSS);
     }
-    // else if (this.mode === "move") {
-    //   const mouseOverImage =
-    //     mouseX >= this.image.selectedArea.x &&
-    //     mouseX < this.image.selectedArea.x + this.image.selectedArea.width &&
-    //     mouseY >= this.image.selectedArea.y &&
-    //     mouseX < this.image.selectedArea.y + this.image.selectedArea.height;
-
-    //   mouseOverImage ? cursor(MOVE) : null;
-    // }
     else {
       cursor(ARROW);
     }
@@ -90,19 +81,6 @@ class EditImageTool extends ToolItem {
       updatePixels(); // remove selection visualization
       this.saveSelectedArea(); // save the selected image
     }
-
-    // // mode 'select' - select the area, then save it to this.image
-    // if (
-    //   mouseOverCanvas &&
-    //   mouseIsPressed &&
-    //   mouseButton === LEFT &&
-    //   this.mode === "select"
-    // ) {
-    //   this.select();
-    // } else if (this.startMouseX !== -1 && this.mode === "select") {
-    //   updatePixels(); // remove selection visualization
-    //   this.saveSelectedArea(); // save the selected image
-    // }
   }
 
   populateOptions() {

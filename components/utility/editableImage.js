@@ -29,7 +29,6 @@ class EditableImage {
 
   move() {
     console.log("Moving");
-    // this.delete();
     this.selectedArea.x = mouseX - this.selectedArea.shiftX;
     this.selectedArea.y = mouseY - this.selectedArea.shiftY;
     set(this.selectedArea.x, this.selectedArea.y, this.image);
