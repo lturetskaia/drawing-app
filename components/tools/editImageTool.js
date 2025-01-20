@@ -34,7 +34,7 @@ class EditImageTool extends ToolItem {
     this.addButton("cut");
     select("#cutBtn").mouseClicked(() => this.cutImage());
     this.addButton("paste");
-    select("#copyBtn").mouseClicked(() => this.activatePaste());
+    select("#pasteBtn").mouseClicked(() => this.activatePaste());
     this.addButton("cancelSelection");
     select("#cancelSelectionBtn").mouseClicked(() => this.cancelSelection());
   }
@@ -128,6 +128,17 @@ class EditImageTool extends ToolItem {
     this.cancelSelection();
   }
 
+  cutImage(){
+    updatePixels();
+    this.image.delete();
+    loadPixels();
+    // this.activatePaste();
+    this.changeBtnState("copy", true);
+    this.changeBtnState("delete", true);
+    this.changeBtnState("cut", true);
+    this.changeBtnState("paste", false);
+  }
+
   cancelSelection(){
     updatePixels();
     this.image = null;
@@ -139,6 +150,7 @@ class EditImageTool extends ToolItem {
     this.mode = "paste";
     this.changeBtnState("paste", false);
     this.changeBtnState("cancelSelection", false);
+    
   }
 
   addButton(name) {
