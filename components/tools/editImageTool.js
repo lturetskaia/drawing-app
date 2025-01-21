@@ -8,7 +8,7 @@ class EditImageTool extends ToolItem {
     this.savedCanvas = null;
   }
 
-  draw() {
+  draw() {   
     const mouseOverCanvas =
       mouseX >= 0 && mouseX < width && mouseY >= 0 && mouseY < height;
 
@@ -19,7 +19,9 @@ class EditImageTool extends ToolItem {
       cursor(ARROW);
     }
 
+    // switching between modes logic
     if (this.mode === "edit") {
+      // if edit mode is active
       //check if mouse is over the selected area
       const mouseOverImage =
         mouseX >= this.image.selectedArea.x &&
@@ -31,7 +33,7 @@ class EditImageTool extends ToolItem {
       }
 
       if (mouseOverImage && mouseIsPressed && mouseButton === LEFT) {
-        //if mouse is pressed over the selected are switch to mode 'move'
+        //if mouse is pressed over the selected area, switch to mode 'move'
         this.mode = "move";
         //calculate mouse shift relative to the starting point of the image
         this.image.calculateMouseShift();
@@ -46,12 +48,7 @@ class EditImageTool extends ToolItem {
         // update canvas from the initial state before moving
         set(0, 0, this.savedCanvas);
         this.image.move(); // move the image
-        this.markSelectedArea(
-          this.image.selectedArea.x,
-          this.image.selectedArea.y,
-          this.image.selectedArea.width,
-          this.image.selectedArea.height
-        ); // mark the selected area
+        this.markSelectedArea(this.image.selectedArea);// mark the selected area
       } else {
         // if mouse was released while moving
         // update canvas from the initial state before moving
@@ -60,13 +57,7 @@ class EditImageTool extends ToolItem {
         this.image.move();
         loadPixels(); // save the new pixels array
         saveUndoSnapshot(); // save an undo snapshot
-
-        this.markSelectedArea(
-          this.image.selectedArea.x,
-          this.image.selectedArea.y,
-          this.image.selectedArea.width,
-          this.image.selectedArea.height
-        );
+        this.markSelectedArea(this.image.selectedArea); // add selection visualization
         // return to edit mode
         this.mode = "edit";
         console.log("edit mode");
@@ -77,19 +68,23 @@ class EditImageTool extends ToolItem {
       mouseButton === LEFT &&
       this.mode === "select"
     ) {
+      //if the mouse was pressed in select mode
+      // display selection
       this.selectArea();
     } else if (
       !mouseIsPressed &&
       this.startMouseX !== -1 &&
       this.mode === "select"
     ) {
+       //if the mouse was released after area selection
+      // display selection
       updatePixels(); // remove selection visualization
       this.saveSelectedArea(); // save the selected image
     }
   }
 
   populateOptions() {
-    //add buttons and event handlers
+    //add option buttons and event handlers
     this.addButton("copy");
     select("#copyBtn").mouseClicked(() => this.copyImage());
     this.addButton("delete");
@@ -114,48 +109,24 @@ class EditImageTool extends ToolItem {
     } else {
       // display the last saved state of pixels
       updatePixels();
-      const selectedArea = {
-        x: this.startMouseX,
-        y: this.startMouseY,
-        width: mouseX - this.startMouseX,
-        height: mouseY - this.startMouseY,
-      };
-      const adjustedArea = this.adjustArea(selectedArea);
-
-      this.markSelectedArea(
-        adjustedArea.x,
-        adjustedArea.y,
-        adjustedArea.width,
-        adjustedArea.height
-      );
-
-      // this.markSelectedArea(
-      //   this.startMouseX,
-      //   this.startMouseY,
-      //   mouseX - this.startMouseX,
-      //   mouseY - this.startMouseY
-      // );
+      const adjustedArea = this.getAdjustedArea();
+      this.markSelectedArea(adjustedArea); // add selection visualization
     }
   }
 
-  markSelectedArea(x, y, areaWidth, areaHeight) {
+  markSelectedArea(selectedArea) {
     // mark the selected area with dashed lines
     push();
     stroke(0);
     strokeWeight(1);
     drawingContext.setLineDash([5, 5]); // make lines dashed
     fill(255, 255, 255, 0);
-    // if (x + areaWidth < 0) {
-    //   areaWidth = -x;
-    // } else if (x + areaWidth > width) {
-    //   areaWidth = width - x;
-    // }
-    // if (y + areaHeight < 0) {
-    //   areaHeight = -y;
-    // } else if (y + areaHeight > height) {
-    //   areaHeight = height - y;
-    // }
-    rect(x, y, areaWidth, areaHeight);
+    rect(
+      selectedArea.x,
+      selectedArea.y,
+      selectedArea.width,
+      selectedArea.height
+    );
     pop();
   }
 
@@ -177,7 +148,9 @@ class EditImageTool extends ToolItem {
     return selectedArea;
   }
 
-  saveSelectedArea() {
+  getAdjustedArea(){
+    //gets the selected area, adjust it to fit the canvas boundaries
+    //and return the adjustedArea object
     const selectedArea = {
       x: this.startMouseX,
       y: this.startMouseY,
@@ -185,21 +158,20 @@ class EditImageTool extends ToolItem {
       height: mouseY - this.startMouseY,
     };
     const adjustedArea = this.adjustArea(selectedArea);
+    return adjustedArea;
+  }
 
-    //construct a new editable object
-    // this.image = new EditableImage(this.startMouseX, this.startMouseY);
+  saveSelectedArea() {
+     const adjustedArea = this.getAdjustedArea();
+
+    //construct a new editable object;
     this.image = new EditableImage(adjustedArea);
     console.log(this.image);
     // resert the start values to default
     this.startMouseX = -1;
     this.startMouseY = -1;
 
-    this.markSelectedArea(
-      this.image.selectedArea.x,
-      this.image.selectedArea.y,
-      this.image.selectedArea.width,
-      this.image.selectedArea.height
-    ); // add selection visualization
+    this.markSelectedArea(this.image.selectedArea); // add selection visualization
 
     this.mode = "edit";
 
@@ -225,12 +197,7 @@ class EditImageTool extends ToolItem {
     loadPixels(); // save
     console.log("Snapshot saved");
     saveUndoSnapshot(); // make an undo snapshot
-    this.markSelectedArea(
-      this.image.selectedArea.x,
-      this.image.selectedArea.y,
-      this.image.selectedArea.width,
-      this.image.selectedArea.height
-    );
+    this.markSelectedArea(this.image.selectedArea);
     console.log("paste end");
   }
 
@@ -258,6 +225,11 @@ class EditImageTool extends ToolItem {
     updatePixels();
     this.image = null;
     this.mode = "select";
+    this.changeBtnState("copy", true);
+    this.changeBtnState("delete", true);
+    this.changeBtnState("cut", true);
+    this.changeBtnState("paste", true);
+    this.changeBtnState("cancelSelection", true);
   }
 
   activatePaste() {

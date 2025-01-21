@@ -31,9 +31,8 @@ class EditableImage {
     );
   }
 
-  copy() {}
-
   delete() {
+    //delete the image by drawing a white rectangle over it
     push();
     fill(255);
     noStroke();
@@ -47,23 +46,23 @@ class EditableImage {
   }
 
   move() {
+    //move the image with the mouse
     console.log("Moving");
     this.selectedArea.x = mouseX - this.selectedArea.shiftX;
     this.selectedArea.y = mouseY - this.selectedArea.shiftY;
     set(this.selectedArea.x, this.selectedArea.y, this.image);
   }
 
-  cut() {}
-
   paste() {
+    //paste the image at the indicated point
     set(mouseX, mouseY, this.image);
     this.selectedArea.x = mouseX;
     this.selectedArea.y = mouseY;
   }
 
   calculateMouseShift() {
+    // calculates the shift of the image with respect to the mouse
     this.selectedArea.shiftX = mouseX - this.selectedArea.x;
     this.selectedArea.shiftY = mouseY - this.selectedArea.y;
-    console.log(this.selectedArea.shiftX, this.selectedArea.shiftY);
   }
 }
