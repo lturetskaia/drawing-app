@@ -60,6 +60,7 @@ class EditImageTool extends ToolItem {
         this.image.move();
         loadPixels(); // save the new pixels array
         saveUndoSnapshot(); // save an undo snapshot
+
         this.markSelectedArea(
           this.image.selectedArea.x,
           this.image.selectedArea.y,
@@ -76,8 +77,12 @@ class EditImageTool extends ToolItem {
       mouseButton === LEFT &&
       this.mode === "select"
     ) {
-      this.select();
-    } else if (!mouseIsPressed && this.startMouseX !== -1 && this.mode === "select") {
+      this.selectArea();
+    } else if (
+      !mouseIsPressed &&
+      this.startMouseX !== -1 &&
+      this.mode === "select"
+    ) {
       updatePixels(); // remove selection visualization
       this.saveSelectedArea(); // save the selected image
     }
@@ -97,7 +102,7 @@ class EditImageTool extends ToolItem {
     select("#cancelSelectionBtn").mouseClicked(() => this.cancelSelection());
   }
 
-  select() {
+  selectArea() {
     // selects an area for editing
     if (this.startMouseX === -1) {
       // initialize the starting point of the selection
@@ -109,13 +114,27 @@ class EditImageTool extends ToolItem {
     } else {
       // display the last saved state of pixels
       updatePixels();
+      const selectedArea = {
+        x: this.startMouseX,
+        y: this.startMouseY,
+        width: mouseX - this.startMouseX,
+        height: mouseY - this.startMouseY,
+      };
+      const adjustedArea = this.adjustArea(selectedArea);
 
       this.markSelectedArea(
-        this.startMouseX,
-        this.startMouseY,
-        mouseX - this.startMouseX,
-        mouseY - this.startMouseY
+        adjustedArea.x,
+        adjustedArea.y,
+        adjustedArea.width,
+        adjustedArea.height
       );
+
+      // this.markSelectedArea(
+      //   this.startMouseX,
+      //   this.startMouseY,
+      //   mouseX - this.startMouseX,
+      //   mouseY - this.startMouseY
+      // );
     }
   }
 
@@ -126,23 +145,50 @@ class EditImageTool extends ToolItem {
     strokeWeight(1);
     drawingContext.setLineDash([5, 5]); // make lines dashed
     fill(255, 255, 255, 0);
-    if (x + areaWidth < 0) {
-      areaWidth = -x;
-    } else if (x + areaWidth > width) {
-      areaWidth = width - x;
-    }
-    if (y + areaHeight < 0) {
-      areaHeight = -y;
-    } else if (y + areaHeight > height) {
-      areaHeight = height - y;
-    }
+    // if (x + areaWidth < 0) {
+    //   areaWidth = -x;
+    // } else if (x + areaWidth > width) {
+    //   areaWidth = width - x;
+    // }
+    // if (y + areaHeight < 0) {
+    //   areaHeight = -y;
+    // } else if (y + areaHeight > height) {
+    //   areaHeight = height - y;
+    // }
     rect(x, y, areaWidth, areaHeight);
     pop();
   }
 
+  adjustArea(selectedArea) {
+    //checks if the area is within the canvas boundaries
+    // adjusts it if it's not and returns a valid area object
+
+    if (selectedArea.x + selectedArea.width < 0) {
+      selectedArea.width = -selectedArea.x;
+    } else if (selectedArea.x + selectedArea.width > width) {
+      selectedArea.width = width - selectedArea.x;
+    }
+
+    if (selectedArea.y + selectedArea.height < 0) {
+      selectedArea.height = -selectedArea.y;
+    } else if (selectedArea.y + selectedArea.height > height) {
+      selectedArea.height = height - selectedArea.y;
+    }
+    return selectedArea;
+  }
+
   saveSelectedArea() {
+    const selectedArea = {
+      x: this.startMouseX,
+      y: this.startMouseY,
+      width: mouseX - this.startMouseX,
+      height: mouseY - this.startMouseY,
+    };
+    const adjustedArea = this.adjustArea(selectedArea);
+
     //construct a new editable object
-    this.image = new EditableImage(this.startMouseX, this.startMouseY);
+    // this.image = new EditableImage(this.startMouseX, this.startMouseY);
+    this.image = new EditableImage(adjustedArea);
     console.log(this.image);
     // resert the start values to default
     this.startMouseX = -1;
