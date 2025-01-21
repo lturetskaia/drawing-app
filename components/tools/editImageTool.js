@@ -21,8 +21,10 @@ class EditImageTool extends ToolItem {
 
     // switching between modes logic
     if (this.mode === "edit") {
+      //perform editing logic
       this.editImage();
     } else if (this.mode === "move") {
+      //perform moving logic
       this.moveImage();  
     } else if (
       mouseOverCanvas &&
@@ -30,8 +32,7 @@ class EditImageTool extends ToolItem {
       mouseButton === LEFT &&
       this.mode === "select"
     ) {
-      //if the mouse was pressed in select mode
-      // display selection
+      //if the mouse was pressed in select mode, display selection
       this.selectArea();
     } else if (
       !mouseIsPressed &&
@@ -39,7 +40,6 @@ class EditImageTool extends ToolItem {
       this.mode === "select"
     ) {
       //if the mouse was released after area selection
-      // display selection
       updatePixels(); // remove selection visualization
       this.saveSelectedArea(); // save the selected image
     }
@@ -243,7 +243,7 @@ class EditImageTool extends ToolItem {
   activatePaste() {
     // switches to paste mode
     this.mode = "paste";
-    this.changeBtnState("paste", false);
+    this.changeBtnState("paste", true);
     this.changeBtnState("cancelSelection", false);
   }
 
