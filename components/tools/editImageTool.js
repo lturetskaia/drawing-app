@@ -10,7 +10,7 @@ class EditImageTool extends ToolItem {
 
   draw() {
     const mouseOverCanvas =
-      mouseX >= 0 && mouseX < width && mouseY >= 0 && mouseX < height;
+      mouseX >= 0 && mouseX < width && mouseY >= 0 && mouseY < height;
 
     //define cursor shape
     if (this.mode === "select") {
@@ -19,6 +19,7 @@ class EditImageTool extends ToolItem {
     else {
       cursor(ARROW);
     }
+
     if (this.mode === "edit") {
       //check if mouse is over the selected area
       const mouseOverImage =
@@ -119,7 +120,7 @@ class EditImageTool extends ToolItem {
     }
   }
 
-  markSelectedArea(x, y, width, height) {
+  markSelectedArea(x, y, areaWidth, areaHeight) {
     // mark the selected area with dashed lines
     push();
     stroke(0);
@@ -127,7 +128,14 @@ class EditImageTool extends ToolItem {
     drawingContext.setLineDash([5, 5]); // make lines dashed
     fill(255, 255, 255, 0);
 
-    rect(x, y, width, height);
+    // if(x+areaWidth <0){
+    //   areaWidth = -x;
+    // } 
+    // else if (x+areaWidth > width) {
+    //   areaWidth = width-x;
+    // }
+
+    rect(x, y, areaWidth, areaHeight);
     pop();
   }
 
