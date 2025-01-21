@@ -8,7 +8,7 @@ class EditImageTool extends ToolItem {
     this.savedCanvas = null;
   }
 
-  draw() {   
+  draw() {
     const mouseOverCanvas =
       mouseX >= 0 && mouseX < width && mouseY >= 0 && mouseY < height;
 
@@ -21,47 +21,9 @@ class EditImageTool extends ToolItem {
 
     // switching between modes logic
     if (this.mode === "edit") {
-      // if edit mode is active
-      //check if mouse is over the selected area
-      const mouseOverImage =
-        mouseX >= this.image.selectedArea.x &&
-        mouseX < this.image.selectedArea.x + this.image.selectedArea.width &&
-        mouseY >= this.image.selectedArea.y &&
-        mouseY < this.image.selectedArea.y + this.image.selectedArea.height;
-      if (mouseOverImage) {
-        cursor(MOVE);
-      }
-
-      if (mouseOverImage && mouseIsPressed && mouseButton === LEFT) {
-        //if mouse is pressed over the selected area, switch to mode 'move'
-        this.mode = "move";
-        //calculate mouse shift relative to the starting point of the image
-        this.image.calculateMouseShift();
-        updatePixels(); // clear selection marks
-        this.image.delete(); // delete the moved image at initial position
-        this.savedCanvas = get(); // save the state  of canvas before moving
-        console.log("Move image");
-      }
+      this.editImage();
     } else if (this.mode === "move") {
-      if (mouseIsPressed) {
-        //if the mouse is pressed in move mode
-        // update canvas from the initial state before moving
-        set(0, 0, this.savedCanvas);
-        this.image.move(); // move the image
-        this.markSelectedArea(this.image.selectedArea);// mark the selected area
-      } else {
-        // if mouse was released while moving
-        // update canvas from the initial state before moving
-        set(0, 0, this.savedCanvas);
-        // apply the last move
-        this.image.move();
-        loadPixels(); // save the new pixels array
-        saveUndoSnapshot(); // save an undo snapshot
-        this.markSelectedArea(this.image.selectedArea); // add selection visualization
-        // return to edit mode
-        this.mode = "edit";
-        console.log("edit mode");
-      }
+      this.moveImage();  
     } else if (
       mouseOverCanvas &&
       mouseIsPressed &&
@@ -76,7 +38,7 @@ class EditImageTool extends ToolItem {
       this.startMouseX !== -1 &&
       this.mode === "select"
     ) {
-       //if the mouse was released after area selection
+      //if the mouse was released after area selection
       // display selection
       updatePixels(); // remove selection visualization
       this.saveSelectedArea(); // save the selected image
@@ -114,6 +76,52 @@ class EditImageTool extends ToolItem {
     }
   }
 
+  editImage() {
+    // if edit mode is active
+    //check if mouse is over the selected area
+    const mouseOverImage =
+      mouseX >= this.image.selectedArea.x &&
+      mouseX < this.image.selectedArea.x + this.image.selectedArea.width &&
+      mouseY >= this.image.selectedArea.y &&
+      mouseY < this.image.selectedArea.y + this.image.selectedArea.height;
+    if (mouseOverImage) {
+      cursor(MOVE);
+    }
+
+    if (mouseOverImage && mouseIsPressed && mouseButton === LEFT) {
+      //if mouse is pressed over the selected area, switch to mode 'move'
+      this.mode = "move";
+      //calculate mouse shift relative to the starting point of the image
+      this.image.calculateMouseShift();
+      updatePixels(); // clear selection marks
+      this.image.delete(); // delete the moved image at initial position
+      this.savedCanvas = get(); // save the state  of canvas before moving
+      console.log("Move image");
+    }
+  }
+
+  moveImage() {
+    if (mouseIsPressed) {
+      //if the mouse is pressed in move mode
+      // update canvas from the initial state before moving
+      set(0, 0, this.savedCanvas);
+      this.image.move(); // move the image
+      this.markSelectedArea(this.image.selectedArea); // mark the selected area
+    } else {
+      // if mouse was released while moving
+      // update canvas from the initial state before moving
+      set(0, 0, this.savedCanvas);
+      // apply the last move
+      this.image.move();
+      loadPixels(); // save the new pixels array
+      saveUndoSnapshot(); // save an undo snapshot
+      this.markSelectedArea(this.image.selectedArea); // add selection visualization
+      // return to edit mode
+      this.mode = "edit";
+      console.log("edit mode");
+    }
+  }
+
   markSelectedArea(selectedArea) {
     // mark the selected area with dashed lines
     push();
@@ -148,7 +156,7 @@ class EditImageTool extends ToolItem {
     return selectedArea;
   }
 
-  getAdjustedArea(){
+  getAdjustedArea() {
     //gets the selected area, adjust it to fit the canvas boundaries
     //and return the adjustedArea object
     const selectedArea = {
@@ -162,7 +170,7 @@ class EditImageTool extends ToolItem {
   }
 
   saveSelectedArea() {
-     const adjustedArea = this.getAdjustedArea();
+    const adjustedArea = this.getAdjustedArea();
 
     //construct a new editable object;
     this.image = new EditableImage(adjustedArea);
