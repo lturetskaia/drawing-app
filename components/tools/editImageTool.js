@@ -15,8 +15,7 @@ class EditImageTool extends ToolItem {
     //define cursor shape
     if (this.mode === "select") {
       cursor(CROSS);
-    }
-    else {
+    } else {
       cursor(ARROW);
     }
 
@@ -45,7 +44,7 @@ class EditImageTool extends ToolItem {
       if (mouseIsPressed) {
         //if the mouse is pressed in move mode
         // update canvas from the initial state before moving
-        set(0, 0, this.savedCanvas); 
+        set(0, 0, this.savedCanvas);
         this.image.move(); // move the image
         this.markSelectedArea(
           this.image.selectedArea.x,
@@ -78,7 +77,7 @@ class EditImageTool extends ToolItem {
       this.mode === "select"
     ) {
       this.select();
-    } else if (this.startMouseX !== -1 && this.mode === "select") {
+    } else if (!mouseIsPressed && this.startMouseX !== -1 && this.mode === "select") {
       updatePixels(); // remove selection visualization
       this.saveSelectedArea(); // save the selected image
     }
@@ -127,14 +126,16 @@ class EditImageTool extends ToolItem {
     strokeWeight(1);
     drawingContext.setLineDash([5, 5]); // make lines dashed
     fill(255, 255, 255, 0);
-
-    // if(x+areaWidth <0){
-    //   areaWidth = -x;
-    // } 
-    // else if (x+areaWidth > width) {
-    //   areaWidth = width-x;
-    // }
-
+    if (x + areaWidth < 0) {
+      areaWidth = -x;
+    } else if (x + areaWidth > width) {
+      areaWidth = width - x;
+    }
+    if (y + areaHeight < 0) {
+      areaHeight = -y;
+    } else if (y + areaHeight > height) {
+      areaHeight = height - y;
+    }
     rect(x, y, areaWidth, areaHeight);
     pop();
   }
