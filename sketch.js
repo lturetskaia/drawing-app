@@ -21,13 +21,14 @@ function setup() {
   background(255);
   canvas.parent("content");
 
-  canvas.mouseReleased(() => {
+  canvas.mouseClicked((mouseEvent) => {
     if (toolbox.selectedTool.name !== "mirrorDraw" &&
         toolbox.selectedTool.name !== "rectangle" &&
         toolbox.selectedTool.name !== "editImage") {
           saveUndoSnapshot();
-        } else if ( (toolbox.selectedTool.name === "editImage" &&
-        toolbox.selectedTool.mode === "paste")){
+        } else if ( toolbox.selectedTool.name === "editImage" &&
+        toolbox.selectedTool.mode === "paste"){
+          //mouse click in paste mode pastes am image
           toolbox.selectedTool.pasteImage();
 
         }

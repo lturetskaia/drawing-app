@@ -47,10 +47,96 @@ class EditableImage {
 
   move() {
     //move the image with the mouse
-    console.log("Moving");
     this.selectedArea.x = mouseX - this.selectedArea.shiftX;
     this.selectedArea.y = mouseY - this.selectedArea.shiftY;
     set(this.selectedArea.x, this.selectedArea.y, this.image);
+  }
+
+  resize(border) {
+    //resizes the image depending on the dragged border/angle
+    if (border === "e") {
+      this.resizeRight();
+    } else if (border === "w") {
+      this.resizeLeft();
+    } else if (border === "n") {
+      this, this.resizeTop();
+    } else if (border === "s") {
+      this.resizeBottom();
+    } else if (border === "ne") {
+      this.resizeTop();
+      this.resizeRight();
+    } else if (border === "nw") {
+      this.resizeTop();
+      this.resizeLeft();
+    } else if (border === "se") {
+      this.resizeBottom();
+      this.resizeRight();
+    } else if (border === "sw") {
+      this.resizeBottom();
+      this.resizeLeft();
+    }
+
+    image(
+      this.image,
+      this.selectedArea.x,
+      this.selectedArea.y,
+      this.selectedArea.width,
+      this.selectedArea.height
+    );
+  }
+
+  resizeLeft() {
+    //resize the left border / west
+    let newWidth;
+
+    //limit resize to the left edge of the canvas
+    if (mouseX < 0) {
+      newWidth = this.selectedArea.width + this.selectedArea.x;
+      this.selectedArea.x = 0;
+    } else {
+      newWidth = this.selectedArea.x - mouseX + this.selectedArea.width;
+      this.selectedArea.x = mouseX;
+    }
+    this.selectedArea.width = newWidth;
+  }
+
+  resizeRight() {
+    //resize the right border / east
+    let newWidth = mouseX - this.selectedArea.x;
+    const rigthEdge = this.selectedArea.x + newWidth;
+
+    //limit resize to the right edge of the canvas
+    if (rigthEdge > width) {
+      newWidth = width - this.selectedArea.x - 1;
+    }
+    this.selectedArea.width = newWidth;
+  }
+
+  resizeTop() {
+    //resize the top border / north
+    let newHeight;
+
+    //limit resize to the top edge of the canvas
+    if (mouseY < 0) {
+      newHeight = this.selectedArea.height + this.selectedArea.y;
+      this.selectedArea.y = 0;
+    } else {
+      newHeight = this.selectedArea.y - mouseY + this.selectedArea.height;
+      this.selectedArea.y = mouseY;
+    }
+    this.selectedArea.height = newHeight;
+  }
+
+  resizeBottom() {
+    //resize the bottom border / south
+    let newHeight = mouseY - this.selectedArea.y;
+    const bottomEdge = this.selectedArea.y + newHeight;
+
+    //limit resize to the bottom edge of the canvas
+    if (bottomEdge > height) {
+      newHeight = height - this.selectedArea.y - 1;
+    }
+    this.selectedArea.height = newHeight;
   }
 
   paste() {
