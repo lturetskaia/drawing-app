@@ -13,12 +13,37 @@ class EraserTool extends ToolItem {
   squaresNum = 20;
 
   draw() {
-    this.updateStrokeWidth();
+    updatePixels();
     this.displayCursor();
+    this.updateStrokeWidth();
+
+    let mouseOverCanvas =
+      mouseX >= 0 && mouseX < width && mouseY >= 0 && mouseX < height;
+
     // draw on left mouse press
-    if (mouseIsPressed && mouseButton === LEFT) {
+    if (mouseIsPressed && mouseButton === LEFT && mouseOverCanvas) {
       this.erase();
-    } else {
+    } else if (this.previousMouseX >= 0) {
+      updatePixels();
+      //erase the last position of the cursor
+      push();
+      fill(255);
+      noStroke();
+      if (this.selectedShape === "square") {
+        rect(
+          pmouseX - this.strokeWeight / 2 - 1,
+          pmouseY - this.strokeWeight / 2 - 1,
+          this.strokeWeight + 2,
+          this.strokeWeight + 2
+        );
+      } else if (this.selectedShape === "ellipse") {
+        ellipse(pmouseX, pmouseY, this.strokeWeight + 2, this.strokeWeight + 2);
+      }
+
+      loadPixels(); // save the image with erased area
+      pop();
+
+      saveUndoSnapshot();
       this.previousMouseX = -1;
       this.previousMouseY = -1;
     }
@@ -37,6 +62,7 @@ class EraserTool extends ToolItem {
         : this.eraseEllipse();
       pop();
       loadPixels(); // save the new image
+      this.displayCursor();
 
       this.previousMouseX = mouseX;
       this.previousMouseY = mouseY;
@@ -45,8 +71,6 @@ class EraserTool extends ToolItem {
 
   displayCursor() {
     // update and load image for the cursor to move
-    updatePixels();
-    loadPixels();
 
     push();
     fill(255);

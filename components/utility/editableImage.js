@@ -55,25 +55,25 @@ class EditableImage {
   resize(border) {
     //resizes the image depending on the dragged border/angle
     if (border === "e") {
-      this.resizeRight();
+      this.#resizeRight();
     } else if (border === "w") {
-      this.resizeLeft();
+      this.#resizeLeft();
     } else if (border === "n") {
-      this, this.resizeTop();
+      this, this.#resizeTop();
     } else if (border === "s") {
-      this.resizeBottom();
+      this.#resizeBottom();
     } else if (border === "ne") {
-      this.resizeTop();
-      this.resizeRight();
+      this.#resizeTop();
+      this.#resizeRight();
     } else if (border === "nw") {
-      this.resizeTop();
-      this.resizeLeft();
+      this.#resizeTop();
+      this.#resizeLeft();
     } else if (border === "se") {
-      this.resizeBottom();
-      this.resizeRight();
+      this.#resizeBottom();
+      this.#resizeRight();
     } else if (border === "sw") {
-      this.resizeBottom();
-      this.resizeLeft();
+      this.#resizeBottom();
+      this.#resizeLeft();
     }
 
     image(
@@ -85,7 +85,7 @@ class EditableImage {
     );
   }
 
-  resizeLeft() {
+  #resizeLeft() {
     //resize the left border / west
     let newWidth;
 
@@ -100,7 +100,7 @@ class EditableImage {
     this.selectedArea.width = newWidth;
   }
 
-  resizeRight() {
+  #resizeRight() {
     //resize the right border / east
     let newWidth = mouseX - this.selectedArea.x;
     const rigthEdge = this.selectedArea.x + newWidth;
@@ -112,7 +112,7 @@ class EditableImage {
     this.selectedArea.width = newWidth;
   }
 
-  resizeTop() {
+  #resizeTop() {
     //resize the top border / north
     let newHeight;
 
@@ -127,7 +127,7 @@ class EditableImage {
     this.selectedArea.height = newHeight;
   }
 
-  resizeBottom() {
+  #resizeBottom() {
     //resize the bottom border / south
     let newHeight = mouseY - this.selectedArea.y;
     const bottomEdge = this.selectedArea.y + newHeight;

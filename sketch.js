@@ -23,8 +23,9 @@ function setup() {
 
   canvas.mouseClicked((mouseEvent) => {
     if (toolbox.selectedTool.name !== "mirrorDraw" &&
-        toolbox.selectedTool.name !== "rectangle" &&
-        toolbox.selectedTool.name !== "editImage") {
+        toolbox.selectedTool.name !== "shape" &&
+        toolbox.selectedTool.name !== "editImage" &&
+        toolbox.selectedTool.name !== "eraser") {
           saveUndoSnapshot();
         } else if ( toolbox.selectedTool.name === "editImage" &&
         toolbox.selectedTool.mode === "paste"){
@@ -53,14 +54,14 @@ function setup() {
   toolbox = new Toolbox();
 
   //add the tools to the toolbox.
-  toolbox.addTool(new EditImageTool("editImage", "assets/editImage.jpg"));
+  toolbox.addTool(new EditImageTool("editImage"));
   toolbox.addTool(new FreehandTool());
   toolbox.addTool(new LineToTool());
   toolbox.addTool(new SprayCanTool());
   toolbox.addTool(new MirrorDrawTool());
-  toolbox.addTool(new RectangleTool("rectangle", "assets/rectangle.jpg"));
-  toolbox.addTool(new EraserTool("eraser", "assets/eraser.jpg"));
-  toolbox.addTool(new BucketTool("bucket", "assets/bucket.png"));
+  toolbox.addTool(new ShapeTool("shape"));
+  toolbox.addTool(new EraserTool("eraser"));
+  toolbox.addTool(new BucketTool("bucket"));
 
   //create stroke tool
   strokeSlider = new StrokeSlider(1, 100);

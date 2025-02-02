@@ -65,6 +65,16 @@ class EditImageTool extends ToolItem {
     select("#cancelSelectionBtn").mouseClicked(() => this.#cancelSelection());
   }
 
+  unselectTool() {
+    cursor(ARROW);
+    select(".options").html("");
+    this.mode = "select";
+    this.image = null;
+    updatePixels();
+    //clear options
+    select(".options").html("");
+  }
+
   #selectArea() {
     // selects an area for editing
     if (this.startMouseX === -1) {
@@ -485,12 +495,5 @@ class EditImageTool extends ToolItem {
     }
   }
 
-  unselectTool() {
-    cursor(ARROW);
-    this.mode = "select";
-    this.image = null;
-    updatePixels();
-    //clear options
-    select(".options").html("");
-  }
+
 }

@@ -60,6 +60,10 @@ h1 {
   padding: 0;
 }
 
+.options button.active {
+  border: 2px solid blue;
+}
+
 button img {
   width: 100%;
   height: 100%;
@@ -190,14 +194,12 @@ button:disabled {
   display: flex;
   gap: 20px;
 }
-/* .options button {
-  box-sizing: border-box;
-  background-color: white;
-  width: 47px;
-  height: 47px;
-  border-radius: 4px;
-  padding: 0;
-} */
+
+#shapes {
+  display: flex;
+  gap: 20px;
+}
+
 .options select {
   height: 30px;
   width: 80px;
