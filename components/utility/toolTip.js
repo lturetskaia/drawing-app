@@ -37,8 +37,8 @@ class ToolTip {
       }
 
       // change tooltip position
-      const xPos = event.x;
-      const yPos = event.y;
+      const xPos = event.x + 10;
+      const yPos = event.y + 20;
       this.tooltip.style("left", `${xPos}px`);
       this.tooltip.style("top", `${yPos}px`);
 
