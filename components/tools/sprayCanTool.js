@@ -1,6 +1,7 @@
 function SprayCanTool() {
   this.name = "sprayCanTool";
   this.icon = "assets/sprayCan.jpg";
+  this.label = 'Spray';
   this.points = 40;
   this.spread = 10;
   this.draw = function () {

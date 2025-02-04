@@ -1,6 +1,7 @@
 class BucketTool extends ToolItem {
   constructor(name) {
     super(name);
+    this.label = 'Bucket';
   }
 
   #image;

@@ -17,13 +17,16 @@
     <!-- add extra scripts below -->
     <script src="./helperFunctions.js"></script>
     <script src="./components/tools/toolbox.js"></script>
+    
     <script src="./components/menu/menuBox.js"></script>
     <script src="./components/menu/menuItem.js"></script>
     <script src="./components/menu/saveCanvas.js"></script>
     <script src="./components/menu/clearCanvas.js"></script>
     <script src="./components/menu/imageUpload.js"></script>
+
     <script src="./components/menu/undo/undo.js"></script>
     <script src="./components/menu/undo/undoSnapshots.js"></script>
+
     <script src="./components/colourPalette.js"></script>
     <script src="./components/strokeSlider.js"></script>
 
@@ -37,6 +40,10 @@
     <script src="./components/tools/eraserTool.js"></script>
     <script src="./components/tools/editImage/editImageTool.js"></script>
     <script src="./components/tools/editImage/editableImage.js"></script>
+
+    <script src="./components/utility/toolTip.js"></script>
+
+
   </head>
   <body>
     <div class="wrapper">
@@ -46,11 +53,11 @@
 
       <div class="menu"></div>
 
-      <div class="colours">
+      <div class="colours" class="colour palette">
         <div class="colourSamples"></div>
         <div class="colourPalette"></div>
         <div class="colourPicker">
-          <p id="colourWheel"></p>
+          <p id="editColour"></p>
           <p id="opacityInput"></p>
         </div>
       </div>
@@ -60,6 +67,8 @@
       <div class="sidebar"></div>
 
       <div id="content"></div>
+
+      <div id="tooltip"></div>
     </div>
   </body>
 </html>

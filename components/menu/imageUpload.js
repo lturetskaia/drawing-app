@@ -1,6 +1,7 @@
 class ImageUpload extends MenuItem {
   constructor(name, icon, type) {
     super(name, icon, type);
+    this.label = 'Add image';
   }
 
   click() {

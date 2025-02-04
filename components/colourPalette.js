@@ -46,6 +46,7 @@ function ColourPalette() {
       //to be the colour value.
       const colourSwatch = createDiv();
       colourSwatch.class("colourSwatches");
+      colourSwatch.attribute('name', this.colours[i].name);
       colourSwatch.id(colourID);
 
       select(".colourPalette").child(colourSwatch);
@@ -70,6 +71,7 @@ function ColourPalette() {
       "background-color",
       color(this.selectedStrokeColour.rgba)
     );
+    select("#strokeColour").attribute('name', 'Stroke colour');
 
     const fillColourSwatch = createDiv();
     fillColourSwatch.id("fillColour");
@@ -79,6 +81,7 @@ function ColourPalette() {
       "background-color",
       color(this.selectedFillColour.rgba)
     );
+    select("#fillColour").attribute('name', 'Fill colour');
 
     //add event listeners
     strokeColourSwatch.mouseClicked(colourModeClick);
@@ -192,8 +195,9 @@ function ColourPalette() {
     const colourInput = createInput("#000000", "color");
     colourInput.id("colourInput");
 
-    RGBButton.parent("#colourWheel");
-    colourInput.parent("#colourWheel");
+    RGBButton.parent("#editColour");
+    RGBButton.attribute('id', 'changeColour');
+    colourInput.parent("#editColour");
 
     // add event listeners
     RGBButton.mouseClicked(RGBButtonClick);
@@ -217,6 +221,7 @@ function ColourPalette() {
     opacityLabel.attribute("for", "opacity");
     opacityLabel.parent("#opacityInput");
     opacityInput.parent("#opacityInput");
+    opacityInput.attribute('name', 'Opacity');
 
     opacityInput.changed(setOpacity);
   };

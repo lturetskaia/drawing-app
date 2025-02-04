@@ -8,6 +8,7 @@ class EditImageTool extends ToolItem {
     this.savedCanvas = null; // selected part of the canvas
     this.padding = 5; // padding of the image for cursor shape change
     this.resize = null; // resize direction
+    this.label = 'Select';
   }
 
   draw() {
@@ -61,8 +62,8 @@ class EditImageTool extends ToolItem {
     select("#cutBtn").mouseClicked(() => this.#cutImage());
     this.#addButton("paste");
     select("#pasteBtn").mouseClicked(() => this.#activatePaste());
-    this.#addButton("cancelSelection");
-    select("#cancelSelectionBtn").mouseClicked(() => this.#cancelSelection());
+    this.#addButton("cancel");
+    select("#cancelBtn").mouseClicked(() => this.#cancelSelection());
   }
 
   unselectTool() {
@@ -391,7 +392,7 @@ class EditImageTool extends ToolItem {
     this.startMouseX = -1;
     this.startMouseY = -1;
 
-    /// ===> store canvas w/o the selected image on it
+    // store canvas w/o the selected image on it
     // this is needed for move and resize to work correctly
     const initialCanvas = get();
     this.image.delete(); // delete the moved image at initial position
@@ -405,7 +406,7 @@ class EditImageTool extends ToolItem {
     this.#changeBtnState("copy", false);
     this.#changeBtnState("delete", false);
     this.#changeBtnState("cut", false);
-    this.#changeBtnState("cancelSelection", false);
+    this.#changeBtnState("cancel", false);
   }
 
   #copyImage() {

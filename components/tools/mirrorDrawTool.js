@@ -1,6 +1,7 @@
 function MirrorDrawTool() {
   this.name = "mirrorDraw";
   this.icon = "assets/mirrorDraw.jpg";
+  this.label = 'Mirror';
   // detects the drawing state
   // needed for undo to work correctly without saving the axis
   this.isDrawing = false;
@@ -132,7 +133,7 @@ function MirrorDrawTool() {
     select(".options").html(
       "<button id='directionButton'>Make Horizontal</button>"
     );
-    // 	//click handler
+    // click handler
     select("#directionButton").mouseClicked(function () {
       console.log(this.elt);
       const button = select("#" + this.elt.id);

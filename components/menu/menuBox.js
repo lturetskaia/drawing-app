@@ -11,7 +11,7 @@ class MenuBox {
     if (option.type === "input") {
       //when adding an input, add a hidden input and a button
       this.#addFileInput(option.name);
-      this.#addMenuButton(option.name, option.icon);
+      this.#addMenuButton(option.name, option.icon, option.label);
       // button event handler opens the file input
       select(`#${option.name}Btn`).mouseClicked(() =>
         select(`#${option.name}Input`).elt.click()
@@ -23,28 +23,31 @@ class MenuBox {
     } else if (option.type === "doubleBtn") {
       // when adding a undo/redo button, add 2 buttons and click event handlers
       // buttons are disabled by default
-      this.#addMenuButton(option.name[0], option.icon);
-      this.#addMenuButton(option.name[1], option.icon);
-      
-      select(`#${option.name[0]}Btn`).mouseClicked((event) =>
-        this.#selectOption(event.target.id)
-      );
-      select(`#${option.name[0]}Btn`).attribute('disabled', 'true');
+      this.#addMenuButton(option.name[0], option.icon, option.label[0]);
+      this.#addMenuButton(option.name[1], option.icon, option.label[1]);
 
-      select(`#${option.name[1]}Btn`).mouseClicked((event) =>
+      const undoBtn = select(`#${option.name[0]}Btn`);
+      undoBtn.mouseClicked((event) =>
         this.#selectOption(event.target.id)
       );
-      select(`#${option.name[1]}Btn`).attribute('disabled', 'true');
+      undoBtn.attribute('disabled', 'true');
+
+      const redoBtn = select(`#${option.name[1]}Btn`);
+
+      redoBtn.mouseClicked((event) =>
+        this.#selectOption(event.target.id)
+      );
+      redoBtn.attribute('disabled', 'true');
     } else {
       // when adding a button, add a button and click event handler
-      this.#addMenuButton(option.name, option.icon);
+      this.#addMenuButton(option.name, option.icon, option.label);
       select(`#${option.name}Btn`).mouseClicked((event) =>
         this.#selectOption(event.target.id)
       );
     }
   }
 
-  #addMenuButton(name, icon) {
+  #addMenuButton(name, icon, label) {
     // create a button
     const newBtn = createButton("");
     newBtn.id(`${name}Btn`);
@@ -53,6 +56,7 @@ class MenuBox {
     // add button icon
     const buttonImg = createImg(icon, name);
     buttonImg.id(name);
+    buttonImg.attribute('alt', `${label}`);
     buttonImg.parent(`${name}Btn`);
   }
 

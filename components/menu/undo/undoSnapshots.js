@@ -53,7 +53,6 @@ class UndoSnapshots {
       // switch to the next snapshot
       const nextSnapshot = this.history[this.currentSnapshotIndex + 1];
       set(0, 0, nextSnapshot);
-      // updatePixels();
       this.currentSnapshotIndex += 1;
     }
   }

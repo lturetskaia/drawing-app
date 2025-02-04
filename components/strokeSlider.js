@@ -49,6 +49,7 @@ class StrokeSlider {
       this.brushStrokeWeight
     );
     slider.id("strokeSliderInput");
+    slider.attribute('title', 'Stroke width');
 
     //create slider label
     const label = createElement("p", "1");

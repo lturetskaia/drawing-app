@@ -55,7 +55,7 @@ h1 {
   background-color: white;
   width: 47px;
   height: 47px;
-  border: 1px solid rgb(40,40,40,255);
+  border: 1px solid rgb(40, 40, 40, 255);
   border-radius: 4px;
   padding: 0;
 }
@@ -71,14 +71,18 @@ button img {
   border-radius: 4px;
 }
 
-button:hover:not([disabled]) {
-  box-shadow: 1px 1px 3px rgba(190, 190, 190, 150);
+button:hover:not([disabled]),
+.sideBarItem:hover,
+.colourSamples div:hover,
+.colourSwatches:hover {
+  box-shadow: 0px 2px 6px 0px rgba(190, 190, 190, 150);
 }
+
+
 
 button:disabled {
   background-color: dimgrey;
 }
-
 
 #redoBtn,
 #undoBtn {
@@ -154,14 +158,14 @@ button:disabled {
   width: 43px;
 }
 
-#colourWheel input {
+#editColour input {
   width: 0px;
   height: 0px;
   margin: 0px;
   padding: 0px;
 }
 
-#colourWheel button {
+#editColour button {
   background: url("assets/color-wheel.png") no-repeat;
   background-position: center;
   background-size: 55px 55px;
@@ -204,13 +208,11 @@ button:disabled {
   height: 30px;
   width: 80px;
   border-radius: 4px;
-
 }
 
 #directionButton {
   width: 80px;
 }
-
 
 .sidebar {
   padding-top: 20px;
@@ -263,7 +265,21 @@ button:disabled {
   height: 180px;
 }
 
+#tooltip {
+  position: absolute;
+  display: none;
+  padding: 7px;
+  background-color: white;
+  border: 1px solid rgb(126, 126, 126);
+  border-radius: 4px;
+}
 
-/* .footer {
-  grid-area: footer;
-} */
+#tooltip p {
+  margin: 0;
+  font-size: 14px;
+  color: black;
+}
+
+#tooltip p::first-letter {
+  text-transform: uppercase;
+}

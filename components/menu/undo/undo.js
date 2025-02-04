@@ -4,6 +4,7 @@ class Undo extends MenuItem {
     // array of recent changes
     // by default has one snapshot of clear canvas
     this.snapshots = new UndoSnapshots();
+    this.label = ['Undo', 'Redo'];
   }
 
   click(option) {

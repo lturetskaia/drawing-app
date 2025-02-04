@@ -1,6 +1,7 @@
 class ShapeTool extends ToolItem {
   constructor(name) {
     super(name);
+    this.label = 'Shape';
   }
 
   // starting point of a rectangle
@@ -143,7 +144,6 @@ class ShapeTool extends ToolItem {
     //create a button
     const newBtn = createButton("");
     newBtn.id(`${name}Btn`);
-    // select(".options").child(newBtn);
     select("#shapes").child(newBtn);
 
     // add button icon

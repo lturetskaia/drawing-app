@@ -1,7 +1,7 @@
 function LineToTool() {
   this.icon = "assets/lineTo.jpg";
   this.name = "LineTo";
-
+  this.label = 'Line';
   // default value of the starting point of a line
   let startMouseX = -1;
   let startMouseY = -1;

@@ -2,6 +2,7 @@ function FreehandTool() {
   //set an icon and a name for the object
   this.icon = "assets/freehand.jpg";
   this.name = "freehand";
+  this.label = 'Pencil';
 
   //to smoothly draw we'll draw a line from the previous mouse location
   //to the current mouse location. The following values store

@@ -4,10 +4,10 @@
 let toolbox;
 let menu;
 let strokeSlider;
+let toolTip;
 
 function setup() {
   //create a canvas to fill the content div from index.html
-
   const canvasContainer = select("#content");
   const canvas = createCanvas(
     canvasContainer.size().width,
@@ -21,6 +21,7 @@ function setup() {
   background(255);
   canvas.parent("content");
 
+  // event listener for creating undo snapshots
   canvas.mouseClicked((mouseEvent) => {
     if (toolbox.selectedTool.name !== "mirrorDraw" &&
         toolbox.selectedTool.name !== "shape" &&
@@ -29,7 +30,7 @@ function setup() {
           saveUndoSnapshot();
         } else if ( toolbox.selectedTool.name === "editImage" &&
         toolbox.selectedTool.mode === "paste"){
-          //mouse click in paste mode pastes am image
+          //mouse click in paste mode pastes an image
           toolbox.selectedTool.pasteImage();
 
         }
@@ -66,6 +67,11 @@ function setup() {
   //create stroke tool
   strokeSlider = new StrokeSlider(1, 100);
   strokeSlider.loadStrokeSlider();
+
+  //create a tooltip
+  toolTip = new ToolTip();
+  toolTip.create();
+ 
 }
 
 function draw() {

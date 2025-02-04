@@ -1,6 +1,7 @@
 class ClearCanvas extends MenuItem {
   constructor(name, icon, type) {
     super(name, icon, type);
+    this.label = 'Clear canvas';
   }
 
   click() {
