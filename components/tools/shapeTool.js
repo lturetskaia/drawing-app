@@ -12,12 +12,14 @@ class ShapeTool extends ToolItem {
 
   draw() {
     //check if mouse is in drawing position
-    let mouseOverCanvas =
-      mouseX >= 0 && mouseX < width && mouseY >= 0 && mouseX < height;
+    const mouseOverCanvas =
+      mouseX >= 0 && mouseX < width && mouseY >= 0 && mouseY < height;
     if (mouseOverCanvas) {
       cursor(CROSS);
     }
+    
     if (mouseIsPressed && mouseButton === LEFT && mouseOverCanvas) {
+      console.log('Start drawing');
       if (this.startMouseX === -1) {
         // initialize the starting point of a rectangle
         this.startMouseX = mouseX;

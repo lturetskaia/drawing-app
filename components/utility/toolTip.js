@@ -18,7 +18,6 @@ class ToolTip {
     //the timer callback completes only if the mouse stops over the element
     // otherwise it is continuously reset
     this.moveTimer = setTimeout(() => {
-      console.log("show");
 
       let label;
       if (event.target.tagName === "IMG") {
@@ -54,7 +53,6 @@ class ToolTip {
   hide() {
     clearTimeout(this.moveTimer);
     if (this.tooltip.class !== "hidden") {
-      console.log("hide");
       this.tooltip.hide();
     }
   }
