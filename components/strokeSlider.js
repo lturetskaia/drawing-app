@@ -7,7 +7,22 @@ class StrokeSlider {
   eraserStrokeWeight = 20;
   brushStrokeWeight = 1;
 
-  setStrokeWeight(value) {
+  setStrokeWeight(value, event) {
+    //check for invalid input
+    if (value < 0 || value > 100) {
+      console.log('Error');
+      // create an error message
+      const x = event.target.offsetLeft;
+      const y = event.target.offsetTop;
+      const error = new ErrorMessage(
+        "Stroke Weight Error",
+        "Please enter a value between 0 and 100.",
+        x,
+        y
+      );
+      error.show();
+      return;
+    }
     // set stroke weight for earser or brush
     if (this.selectedMode === "eraser") {
       this.eraserStrokeWeight = Number(value);
@@ -20,7 +35,7 @@ class StrokeSlider {
     select("#strokeSliderLabel").html(value);
   }
 
-  getEraserWeight(){
+  getEraserWeight() {
     return Number(this.eraserStrokeWeight);
   }
 
@@ -49,7 +64,7 @@ class StrokeSlider {
       this.brushStrokeWeight
     );
     slider.id("strokeSliderInput");
-    slider.attribute('title', 'Stroke width');
+    slider.attribute("title", "Stroke width");
 
     //create slider label
     const label = createElement("p", "1");
@@ -63,7 +78,7 @@ class StrokeSlider {
 
     //slider event handler
     select("#strokeSliderInput").input((event) =>
-      this.setStrokeWeight(event.target.value)
+      this.setStrokeWeight(event.target.value, event)
     );
   }
 }

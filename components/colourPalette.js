@@ -46,7 +46,7 @@ function ColourPalette() {
       //to be the colour value.
       const colourSwatch = createDiv();
       colourSwatch.class("colourSwatches");
-      colourSwatch.attribute('name', this.colours[i].name);
+      colourSwatch.attribute("name", this.colours[i].name);
       colourSwatch.id(colourID);
 
       select(".colourPalette").child(colourSwatch);
@@ -71,7 +71,7 @@ function ColourPalette() {
       "background-color",
       color(this.selectedStrokeColour.rgba)
     );
-    select("#strokeColour").attribute('name', 'Stroke colour');
+    select("#strokeColour").attribute("name", "Stroke colour");
 
     const fillColourSwatch = createDiv();
     fillColourSwatch.id("fillColour");
@@ -81,7 +81,7 @@ function ColourPalette() {
       "background-color",
       color(this.selectedFillColour.rgba)
     );
-    select("#fillColour").attribute('name', 'Fill colour');
+    select("#fillColour").attribute("name", "Fill colour");
 
     //add event listeners
     strokeColourSwatch.mouseClicked(colourModeClick);
@@ -196,7 +196,7 @@ function ColourPalette() {
     colourInput.id("colourInput");
 
     RGBButton.parent("#editColour");
-    RGBButton.attribute('id', 'changeColour');
+    RGBButton.attribute("id", "changeColour");
     colourInput.parent("#editColour");
 
     // add event listeners
@@ -221,7 +221,7 @@ function ColourPalette() {
     opacityLabel.attribute("for", "opacity");
     opacityLabel.parent("#opacityInput");
     opacityInput.parent("#opacityInput");
-    opacityInput.attribute('name', 'Opacity');
+    opacityInput.attribute("name", "Opacity");
 
     opacityInput.changed(setOpacity);
   };
@@ -232,6 +232,17 @@ function ColourPalette() {
     //check validity of user input and reset if invalid
     if (opacityValue > 100 || opacityValue < 0) {
       updateOpacityInput();
+      
+      // create an error message
+      const x = event.target.offsetLeft;
+      const y = event.target.offsetTop;
+      const error = new ErrorMessage(
+        "Opacity Error",
+        "Please enter a value between 0 and 100.",
+        x,
+        y
+      );
+      error.show();
       return;
     }
 
@@ -247,8 +258,7 @@ function ColourPalette() {
           this.selectedFillColour.rgba
         })`
       );
-    } 
-    else {
+    } else {
       this.selectedStrokeColour.rgba[3] = +alphaValue;
       stroke(this.selectedStrokeColour.rgba);
       console.log(
@@ -261,7 +271,7 @@ function ColourPalette() {
 
   const updateOpacityInput = () => {
     let opacityValue;
-    if (this.mode === 'stroke'){
+    if (this.mode === "stroke") {
       const alphaValue = this.selectedStrokeColour.rgba[3];
       opacityValue = map(alphaValue, 0, 255, 100, 0).toFixed();
     } else {
