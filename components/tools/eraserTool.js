@@ -76,7 +76,7 @@ class EraserTool extends ToolItem {
     push();
     fill(255);
     stroke(0);
-    strokeWeight(1);
+    strokeWeight(2);
 
     //display cursor depending on the shape of eraser
     if (this.selectedShape === "square") {
