@@ -453,14 +453,14 @@ class EditImageTool extends ToolItem {
     this.#changeBtnState("delete", true);
     this.#changeBtnState("cut", true);
     this.#changeBtnState("paste", true);
-    this.#changeBtnState("cancelSelection", true);
+    this.#changeBtnState("cancel", true);
   }
 
   #activatePaste() {
     // switches to paste mode
     this.mode = "paste";
     this.#changeBtnState("paste", true);
-    this.#changeBtnState("cancelSelection", false);
+    this.#changeBtnState("cancel", false);
   }
 
   #addButton(name) {
