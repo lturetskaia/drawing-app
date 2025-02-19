@@ -162,7 +162,7 @@ class EraserTool extends ToolItem {
   }
 
   updateStrokeWidth() {
-    const eraserWeight = select("#strokeSliderInput").value();
+    const eraserWeight = strokeSlider.eraserStrokeWeight;
     if (this.strokeWeight !== eraserWeight) {
       this.strokeWeight = eraserWeight;
     }
