@@ -228,8 +228,29 @@ function ColourPalette() {
 
   const setOpacity = (event) => {
     const opacityValue = +event.target.value;
+    console.log(opacityValue);
+    console.log(typeof opacityValue);
 
-    //check validity of user input and reset if invalid
+    //check if  input is not a number or NaN
+    if (typeof opacityValue !== 'number' || !Number.isFinite(opacityValue)){
+      console.log('The opacity value is not a number!');
+      //reset opacity value to the previous valid value
+      updateOpacityInput();
+      
+      // create an error message
+      const x = event.target.offsetLeft;
+      const y = event.target.offsetTop;
+      const error = new ErrorMessage(
+        "Opacity Error",
+        "Incorrect value type! Please enter a number between 0 and 100.",
+        x,
+        y
+      );
+      error.show();
+      return;
+    }
+
+    //check if the number is valid
     if (opacityValue > 100 || opacityValue < 0) {
       updateOpacityInput();
       
@@ -238,7 +259,7 @@ function ColourPalette() {
       const y = event.target.offsetTop;
       const error = new ErrorMessage(
         "Opacity Error",
-        "Please enter a value between 0 and 100.",
+        "Incorrect value! Please enter a number between 0 and 100.",
         x,
         y
       );

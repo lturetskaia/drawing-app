@@ -5,6 +5,6 @@ class SaveCanvas extends MenuItem{
   }
 
   click() {
-    saveCanvas("image", "jpg");
+    saveCanvas("myImage", "jpg");
   }
 }
