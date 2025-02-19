@@ -9,14 +9,14 @@ class StrokeSlider {
 
   setStrokeWeight(value, event) {
     //check for invalid input
-    if (value < 0 || value > 100) {
+    if (value < 1 || value > 100) {
       console.log('Error');
       // create an error message
       const x = event.target.offsetLeft;
       const y = event.target.offsetTop;
       const error = new ErrorMessage(
         "Stroke Weight Error",
-        "Please enter a value between 0 and 100.",
+        "Please choose a value between 0 and 100.",
         x,
         y
       );
