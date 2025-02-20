@@ -1,4 +1,6 @@
-//The BucketTool is based on an enhanced version of the basic floodfill pseudocode algorithm
+//The BucketTool is based on an enhanced version 
+// of the basic 4-way floodfill pseudocode algorithm
+// https://en.wikipedia.org/wiki/Flood_fill
 
 class BucketTool extends ToolItem {
   constructor(name) {
