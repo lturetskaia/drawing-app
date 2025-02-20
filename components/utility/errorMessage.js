@@ -1,6 +1,5 @@
 class ErrorMessage {
   constructor(title, message, x, y) {
-    console.log(x, y);
     this.title = title;
     this.message = message;
     this.xPos = x;
@@ -8,7 +7,7 @@ class ErrorMessage {
   }
 
   show() {
-    this.displayMessage();
+    this.#createMessage();
 
     //after 3 seconds remove the error message from the dom
     setTimeout(() => {
@@ -16,7 +15,7 @@ class ErrorMessage {
     }, 3000);
   }
 
-  displayMessage() {
+  #createMessage() {
     //create a div with a paragraph containing a message
     const errorBox = createDiv();
     errorBox.id("errorBox");
