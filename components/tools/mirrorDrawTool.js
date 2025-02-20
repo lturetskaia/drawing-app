@@ -135,7 +135,6 @@ function MirrorDrawTool() {
     );
     // click handler
     select("#directionButton").mouseClicked(function () {
-      console.log(this.elt);
       const button = select("#" + this.elt.id);
       if (self.axis == "x") {
         self.axis = "y";

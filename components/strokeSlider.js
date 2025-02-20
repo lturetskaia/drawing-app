@@ -30,7 +30,6 @@ class StrokeSlider {
   #setStrokeWeight(value, event) {
     //check for invalid input
     if (value < 1 || value > 100) {
-      console.log("Error");
       // create an error message
       const x = event.target.offsetLeft;
       const y = event.target.offsetTop;

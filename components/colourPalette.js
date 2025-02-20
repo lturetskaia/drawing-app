@@ -128,14 +128,10 @@ function ColourPalette() {
       this.selectedStrokeColour = { ...newColour };
       select("#strokeColour").style("background-color", newColourObject);
       stroke(newColourObject);
-      console.log(
-        `Set stroke colour to rgba(${this.selectedStrokeColour.rgba})`
-      );
     } else {
       this.selectedFillColour = { ...newColour };
       select("#fillColour").style("background-color", newColourObject);
       fill(newColourObject);
-      console.log(`Set fill colour to rgba(${this.selectedFillColour.rgba})`);
     }
 
     isColourInput ? null : select(`#${event.target.id}`).addClass("active");
@@ -228,15 +224,12 @@ function ColourPalette() {
 
   const setOpacity = (event) => {
     const opacityValue = +event.target.value;
-    console.log(opacityValue);
-    console.log(typeof opacityValue);
 
     //check if  input is not a number or NaN
-    if (typeof opacityValue !== 'number' || !Number.isFinite(opacityValue)){
-      console.log('The opacity value is not a number!');
+    if (typeof opacityValue !== "number" || !Number.isFinite(opacityValue)) {
       //reset opacity value to the previous valid value
       updateOpacityInput();
-      
+
       // create an error message
       const x = event.target.offsetLeft;
       const y = event.target.offsetTop;
@@ -253,7 +246,7 @@ function ColourPalette() {
     //check if the number is valid
     if (opacityValue > 100 || opacityValue < 0) {
       updateOpacityInput();
-      
+
       // create an error message
       const x = event.target.offsetLeft;
       const y = event.target.offsetTop;
@@ -274,19 +267,9 @@ function ColourPalette() {
     if (this.mode === "fill") {
       this.selectedFillColour.rgba[3] = +alphaValue;
       fill(this.selectedFillColour.rgba);
-      console.log(
-        `Opacity set to ${+alphaValue}(${opacityValue}%) on current fill colour(${
-          this.selectedFillColour.rgba
-        })`
-      );
     } else {
       this.selectedStrokeColour.rgba[3] = +alphaValue;
       stroke(this.selectedStrokeColour.rgba);
-      console.log(
-        `Opacity set to ${+alphaValue}(${opacityValue}%) on current stroke colour(${
-          this.selectedStrokeColour.rgba
-        })`
-      );
     }
   };
 

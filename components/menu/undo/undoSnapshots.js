@@ -38,12 +38,9 @@ class UndoSnapshots {
     if (this.currentSnapshotIndex > 0) {
       //if the current snapshot is not the oldest snapshot saved
       // switch to the previous snapshot
-      console.log(this.currentSnapshotIndex);
       const prevSnapshot = this.history[this.currentSnapshotIndex - 1];
       set(0, 0, prevSnapshot);
       this.currentSnapshotIndex -= 1;
-      console.log(this.currentSnapshotIndex);
-      console.log(this.history);
     }
   }
 
