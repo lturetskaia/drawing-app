@@ -6,9 +6,9 @@ class ShapeTool extends ToolItem {
 
   // starting point of a rectangle
   // set to default value -1
-  startMouseX = -1;
-  startMouseY = -1;
-  currentShape = "rectangle";
+  #startMouseX = -1;
+  #startMouseY = -1;
+  #currentShape = "rectangle";
 
   draw() {
     //check if mouse is in drawing position
@@ -19,11 +19,10 @@ class ShapeTool extends ToolItem {
     }
     
     if (mouseIsPressed && mouseButton === LEFT && mouseOverCanvas) {
-      console.log('Start drawing');
-      if (this.startMouseX === -1) {
+      if (this.#startMouseX === -1) {
         // initialize the starting point of a rectangle
-        this.startMouseX = mouseX;
-        this.startMouseY = mouseY;
+        this.#startMouseX = mouseX;
+        this.#startMouseY = mouseY;
         loadPixels();
         // save the state of pixels
       } else {
@@ -35,7 +34,7 @@ class ShapeTool extends ToolItem {
         this.#drawSizeLabel();
       }
     } else {
-      if (this.startMouseX !== -1) {
+      if (this.#startMouseX !== -1) {
         // when the drawing is done display the previous state before drawing
         // this is needed to erase the dimesions label
         updatePixels();
@@ -45,8 +44,8 @@ class ShapeTool extends ToolItem {
         saveUndoSnapshot();
 
         //reset the initial drawing point to default
-        this.startMouseX = -1;
-        this.startMouseY = -1;
+        this.#startMouseX = -1;
+        this.#startMouseY = -1;
       }
     }
   }
@@ -74,55 +73,55 @@ class ShapeTool extends ToolItem {
   }
 
   #selectShape(target) {
-    select("#" + this.currentShape + "Btn").removeClass("active");
+    select("#" + this.#currentShape + "Btn").removeClass("active");
 
-    this.currentShape = target.id.slice(0, -3); // get the id minus 3 last characters
+    this.#currentShape = target.id.slice(0, -3); // get the id minus 3 last characters
 
-    select("#" + this.currentShape + "Btn").addClass("active"); // add blue border
+    select("#" + this.#currentShape + "Btn").addClass("active"); // add blue border
   }
 
   #drawShape() {
-    if (this.currentShape === "rectangle") {
+    if (this.#currentShape === "rectangle") {
       rect(
-        this.startMouseX,
-        this.startMouseY,
-        mouseX - this.startMouseX,
-        mouseY - this.startMouseY
+        this.#startMouseX,
+        this.#startMouseY,
+        mouseX - this.#startMouseX,
+        mouseY - this.#startMouseY
       );
-    } else if (this.currentShape === "circle") {
+    } else if (this.#currentShape === "circle") {
       ellipse(
-        this.startMouseX + (mouseX - this.startMouseX) / 2,
-        this.startMouseY + (mouseY - this.startMouseY) / 2,
-        mouseX - this.startMouseX,
-        mouseY - this.startMouseY
+        this.#startMouseX + (mouseX - this.#startMouseX) / 2,
+        this.#startMouseY + (mouseY - this.#startMouseY) / 2,
+        mouseX - this.#startMouseX,
+        mouseY - this.#startMouseY
       );
-    } else if (this.currentShape === "triangle") {
+    } else if (this.#currentShape === "triangle") {
       triangle(
-        this.startMouseX,
+        this.#startMouseX,
         mouseY,
-        this.startMouseX + (mouseX - this.startMouseX) / 2,
-        this.startMouseY,
+        this.#startMouseX + (mouseX - this.#startMouseX) / 2,
+        this.#startMouseY,
         mouseX,
         mouseY
       );
-    } else if (this.currentShape === "heart") {
+    } else if (this.#currentShape === "heart") {
       beginShape();
-      vertex(this.startMouseX, this.startMouseY);
+      vertex(this.#startMouseX, this.#startMouseY);
       bezierVertex(
-        this.startMouseX - (mouseX - this.startMouseX)/2,
-        this.startMouseY - (mouseY - this.startMouseY)/2,
-        this.startMouseX - (mouseX - this.startMouseX),
-        this.startMouseY + (mouseY - this.startMouseY)/4,
-        this.startMouseX,
-        this.startMouseY + (mouseY - this.startMouseY)
+        this.#startMouseX - (mouseX - this.#startMouseX)/2,
+        this.#startMouseY - (mouseY - this.#startMouseY)/2,
+        this.#startMouseX - (mouseX - this.#startMouseX),
+        this.#startMouseY + (mouseY - this.#startMouseY)/4,
+        this.#startMouseX,
+        this.#startMouseY + (mouseY - this.#startMouseY)
       ); // left part
       bezierVertex(
-        this.startMouseX + (mouseX - this.startMouseX),
-        this.startMouseY + (mouseY - this.startMouseY)/4,
-        this.startMouseX + (mouseX - this.startMouseX)/2,
-        this.startMouseY - (mouseY - this.startMouseY)/2,
-        this.startMouseX,
-        this.startMouseY
+        this.#startMouseX + (mouseX - this.#startMouseX),
+        this.#startMouseY + (mouseY - this.#startMouseY)/4,
+        this.#startMouseX + (mouseX - this.#startMouseX)/2,
+        this.#startMouseY - (mouseY - this.#startMouseY)/2,
+        this.#startMouseX,
+        this.#startMouseY
       ); // right part
       endShape();
     }
@@ -134,7 +133,7 @@ class ShapeTool extends ToolItem {
     noStroke();
     textSize(14);
     text(
-      `${abs(mouseX - this.startMouseX)} x ${abs(mouseY - this.startMouseY)}`,
+      `${abs(mouseX - this.#startMouseX)} x ${abs(mouseY - this.#startMouseY)}`,
       mouseX + 5,
       mouseY - 5
     );
