@@ -9,10 +9,12 @@ function SprayCanTool() {
     //spread describes how far to spread the paint from the mouse pointer
     //points holds how many pixels of paint for each mouse press.
     if (mouseIsPressed && mouseButton === LEFT) {
-      const spread = strokeSlider.brushStrokeWeight / 2;
+      // const spread = strokeSlider.brushStrokeWeight / 2;
+      const brushWeight = strokeSlider.getBrushWeight();
+      const spread = brushWeight / 2;
       //map the number of points based on the stroke width
       const points = map(
-        strokeSlider.brushStrokeWeight,
+        brushWeight,
         1,
         100,
         this.minMaxPoints[0],

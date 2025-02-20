@@ -19,7 +19,7 @@ class EraserTool extends ToolItem {
     this.updateStrokeWidth();
 
     let mouseOverCanvas =
-      mouseX >= 0 && mouseX < width && mouseY >= 0 && mouseX < height;
+      mouseX >= 0 && mouseX < width && mouseY >= 0 && mouseY < height;
 
     // draw on left mouse press
     if (mouseIsPressed && mouseButton === LEFT && mouseOverCanvas) {
@@ -154,7 +154,6 @@ class EraserTool extends ToolItem {
   }
 
   unselectTool() {
-    console.log("Unselect eraser");
     //clear options
     select(".options").html("");
     // change slider mode back to 'brush'
@@ -162,7 +161,7 @@ class EraserTool extends ToolItem {
   }
 
   updateStrokeWidth() {
-    const eraserWeight = strokeSlider.eraserStrokeWeight;
+    const eraserWeight = strokeSlider.getEraserWeight();
     if (this.strokeWeight !== eraserWeight) {
       this.strokeWeight = eraserWeight;
     }

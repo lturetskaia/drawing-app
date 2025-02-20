@@ -3,14 +3,34 @@ class StrokeSlider {
     this.minValue = min;
     this.maxValue = max;
   }
-  selectedMode = "brush"; // 'brush' or 'eraser'
-  eraserStrokeWeight = 20;
-  brushStrokeWeight = 1;
+  #selectedMode = "brush"; // 'brush' or 'eraser'
+  #eraserStrokeWeight = 20;
+  #brushStrokeWeight = 1;
 
-  setStrokeWeight(value, event) {
+  getEraserWeight() {
+    return this.#eraserStrokeWeight;
+  }
+
+  getBrushWeight() {
+    return this.#brushStrokeWeight;
+  }
+
+  changeMode(mode) {
+    //changes between slider modes and corresponding values
+    this.#selectedMode = mode;
+    const strokeValue =
+      this.#selectedMode === "brush"
+        ? this.#brushStrokeWeight
+        : this.#eraserStrokeWeight;
+    select("#strokeSliderInput").value(strokeValue);
+    select("#strokeSliderLabel").html(strokeValue);
+    strokeWeight(strokeValue);
+  }
+
+  #setStrokeWeight(value, event) {
     //check for invalid input
     if (value < 1 || value > 100) {
-      console.log('Error');
+      console.log("Error");
       // create an error message
       const x = event.target.offsetLeft;
       const y = event.target.offsetTop;
@@ -23,34 +43,19 @@ class StrokeSlider {
       error.show();
       return;
     }
-    // set stroke weight for earser or brush
-    if (this.selectedMode === "eraser") {
-      this.eraserStrokeWeight = Number(value);
+    // set stroke weight for eraser or brush
+    if (this.#selectedMode === "eraser") {
+      this.#eraserStrokeWeight = Number(value);
       strokeWeight(value);
     } else {
-      this.brushStrokeWeight = Number(value);
+      this.#brushStrokeWeight = Number(value);
       strokeWeight(value);
     }
     //change value on the label
     select("#strokeSliderLabel").html(value);
   }
 
-  getEraserWeight() {
-    return Number(this.eraserStrokeWeight);
-  }
 
-  changeMode(mode) {
-    //changes between slider modes and corresponding values
-    this.selectedMode = mode;
-    console.log(strokeSlider.brushStrokeWeight);
-    const strokeValue =
-      this.selectedMode === "brush"
-        ? this.brushStrokeWeight
-        : this.eraserStrokeWeight;
-    select("#strokeSliderInput").value(strokeValue);
-    select("#strokeSliderLabel").html(strokeValue);
-    strokeWeight(strokeValue);
-  }
 
   loadStrokeSlider() {
     //create slider div
@@ -61,7 +66,7 @@ class StrokeSlider {
     const slider = createSlider(
       this.minValue,
       this.maxValue,
-      this.brushStrokeWeight
+      this.#brushStrokeWeight
     );
     slider.id("strokeSliderInput");
     slider.attribute("title", "Stroke width");
@@ -78,7 +83,7 @@ class StrokeSlider {
 
     //slider event handler
     select("#strokeSliderInput").input((event) =>
-      this.setStrokeWeight(event.target.value, event)
+      this.#setStrokeWeight(event.target.value, event)
     );
   }
 }
