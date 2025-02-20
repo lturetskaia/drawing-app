@@ -4,18 +4,16 @@ class EraserTool extends ToolItem {
     this.label = "Eraser";
   }
 
-  previousMouseX = -1;
-  previousMouseY = -1;
-  strokeWeight = 20;
+  #previousMouseX = -1;
+  #previousMouseY = -1;
+  #strokeWeight = 20;
 
-  selectedShape = "square"; // 'square' is a default shape
-  squaresAmountMin = 20; // amount of squares drawn to make a contunuous erased line at 100 width
-  squaresAmountMax = 700; // amount of squares drawn to make a contunuous erased line at 1px width
-  squaresNum = 20;
+  #selectedShape = "square"; // 'square' is a default shape
+  #squaresNum = 20; // dynamic number of squares mapped from the strokeWeight, default is 20
 
   draw() {
     updatePixels();
-    this.displayCursor();
+    this.#displayCursor();
     this.updateStrokeWidth();
 
     let mouseOverCanvas =
@@ -23,104 +21,103 @@ class EraserTool extends ToolItem {
 
     // draw on left mouse press
     if (mouseIsPressed && mouseButton === LEFT && mouseOverCanvas) {
-      this.erase();
-    } else if (this.previousMouseX >= 0) {
+      this.#erase();
+    } else if (this.#previousMouseX >= 0) {
       updatePixels();
       //erase the last position of the cursor
       push();
       fill(255);
       noStroke();
-      if (this.selectedShape === "square") {
+      if (this.#selectedShape === "square") {
         rect(
-          pmouseX - this.strokeWeight / 2 - 1,
-          pmouseY - this.strokeWeight / 2 - 1,
-          this.strokeWeight + 2,
-          this.strokeWeight + 2
+          pmouseX - this.#strokeWeight / 2 - 1,
+          pmouseY - this.#strokeWeight / 2 - 1,
+          this.#strokeWeight + 2,
+          this.#strokeWeight + 2
         );
-      } else if (this.selectedShape === "ellipse") {
-        ellipse(pmouseX, pmouseY, this.strokeWeight + 2, this.strokeWeight + 2);
+      } else if (this.#selectedShape === "ellipse") {
+        ellipse(pmouseX, pmouseY, this.#strokeWeight + 2, this.#strokeWeight + 2);
       }
 
       loadPixels(); // save the image with erased area
       pop();
 
       saveUndoSnapshot();
-      this.previousMouseX = -1;
-      this.previousMouseY = -1;
+      this.#previousMouseX = -1;
+      this.#previousMouseY = -1;
     }
   }
 
-  erase() {
-    if (this.previousMouseX == -1) {
-      this.previousMouseX = mouseX;
-      this.previousMouseY = mouseY;
-      this.squaresNum = map(this.strokeWeight, 1, 100, 700, 20);
+  #erase() {
+    if (this.#previousMouseX == -1) {
+      this.#previousMouseX = mouseX;
+      this.#previousMouseY = mouseY;
+      this.#squaresNum = map(this.#strokeWeight, 1, 100, 700, 20);
     } else {
       updatePixels(); // remove the cursor image
       push();
-      this.selectedShape === "square"
-        ? this.eraseSquare()
-        : this.eraseEllipse();
+      this.#selectedShape === "square"
+        ? this.#eraseSquare()
+        : this.#eraseEllipse();
       pop();
       loadPixels(); // save the new image
-      this.displayCursor();
+      this.#displayCursor();
 
-      this.previousMouseX = mouseX;
-      this.previousMouseY = mouseY;
+      this.#previousMouseX = mouseX;
+      this.#previousMouseY = mouseY;
     }
   }
 
-  displayCursor() {
+  #displayCursor() {
     // update and load image for the cursor to move
-
     push();
     fill(255);
     stroke(0);
     strokeWeight(2);
 
     //display cursor depending on the shape of eraser
-    if (this.selectedShape === "square") {
+    if (this.#selectedShape === "square") {
       rect(
-        mouseX - this.strokeWeight / 2,
-        mouseY - this.strokeWeight / 2,
-        this.strokeWeight,
-        this.strokeWeight
+        mouseX - this.#strokeWeight / 2,
+        mouseY - this.#strokeWeight / 2,
+        this.#strokeWeight,
+        this.#strokeWeight
       );
     } else {
-      ellipse(mouseX, mouseY, this.strokeWeight, this.strokeWeight);
+      ellipse(mouseX, mouseY, this.#strokeWeight, this.#strokeWeight);
     }
     pop();
   }
 
-  eraseEllipse() {
+  #eraseEllipse() {
     stroke(255);
-    line(this.previousMouseX, this.previousMouseY, mouseX, mouseY);
+    line(this.#previousMouseX, this.#previousMouseY, mouseX, mouseY);
   }
 
-  eraseSquare() {
+  #eraseSquare() {
     fill(255);
     noStroke();
 
-    let prevMouseX = this.previousMouseX - this.strokeWeight / 2;
-    let prevMouseY = this.previousMouseY - this.strokeWeight / 2;
-    const mousePosX = mouseX - this.strokeWeight / 2;
-    const mousePosY = mouseY - this.strokeWeight / 2;
+    let prevMouseX = this.#previousMouseX - this.#strokeWeight / 2;
+    let prevMouseY = this.#previousMouseY - this.#strokeWeight / 2;
+    const mousePosX = mouseX - this.#strokeWeight / 2;
+    const mousePosY = mouseY - this.#strokeWeight / 2;
     // distance between current and previous position
     const distX = mousePosX - prevMouseX;
     const distY = mousePosY - prevMouseY;
     // threshold value for drawing a sequence of squares
-    const threshold = this.strokeWeight / 2;
+    const threshold = this.#strokeWeight / 2;
 
     if (abs(distX) <= threshold && abs(distY) <= threshold) {
-      rect(mousePosX, mousePosY, this.strokeWeight, this.strokeWeight);
+      rect(mousePosX, mousePosY, this.#strokeWeight, this.#strokeWeight);
     } else {
       // distance between squares for X and Y
-      const deltaX = distX / this.squaresNum;
-      const deltaY = distY / this.squaresNum;
+      const deltaX = distX / this.#squaresNum;
+      const deltaY = distY / this.#squaresNum;
 
       // draw
-      for (let i = 0; i < this.squaresNum; i++) {
-        rect(prevMouseX, prevMouseY, this.strokeWeight, this.strokeWeight);
+      for (let i = 0; i < this.#squaresNum; i++) {
+        rect(prevMouseX, prevMouseY, this.#strokeWeight, this.#strokeWeight);
         prevMouseX += deltaX;
         prevMouseY += deltaY;
       }
@@ -128,13 +125,7 @@ class EraserTool extends ToolItem {
   }
 
   populateOptions() {
-    console.log("Populating options");
-
     //add shape select element
-    this.addShapeSelect();
-  }
-
-  addShapeSelect() {
     // create a label for select element
     const dropdownLabel = createElement("label", "Shape: ");
     dropdownLabel.attribute("for", "dropdown");
@@ -150,7 +141,7 @@ class EraserTool extends ToolItem {
 
     //add dropdown event handler
     //change selectedShape to the selected value
-    dropdown.changed(() => (this.selectedShape = dropdown.selected()));
+    dropdown.changed(() => (this.#selectedShape = dropdown.selected()));
   }
 
   unselectTool() {
@@ -158,12 +149,14 @@ class EraserTool extends ToolItem {
     select(".options").html("");
     // change slider mode back to 'brush'
     strokeSlider.changeMode("brush");
+    // change the eraser shape to default
+    this.#selectedShape = "square";
   }
 
   updateStrokeWidth() {
     const eraserWeight = strokeSlider.getEraserWeight();
-    if (this.strokeWeight !== eraserWeight) {
-      this.strokeWeight = eraserWeight;
+    if (this.#strokeWeight !== eraserWeight) {
+      this.#strokeWeight = eraserWeight;
     }
   }
 }
