@@ -1,3 +1,5 @@
+//The BucketTool is based on an enhanced version of the basic floodfill pseudocode algorithm
+
 class BucketTool extends ToolItem {
   constructor(name) {
     super(name);
@@ -21,7 +23,7 @@ class BucketTool extends ToolItem {
       this.#newColour = colour;
       this.#seedColour = get(x, y);
 
-      //if the seed and new colours are tha same, do nothing
+      //if the seed and new colour are the same, do nothing
       if (this.#newColour.toString() === this.#seedColour.toString()) {
         return;
       }
