@@ -2,22 +2,22 @@ class ToolTip {
   constructor() {
     this.text = "Test";
     this.tooltip = select("#tooltip");
-    this.moveTimer = null; // timer for tooltip to appear
+    this.hoverTimer = null; // timer for tooltip to appear
     this.timeout = 200; // timeout in ms
   }
 
   create() {
     const tooltipText = createP();
     this.tooltip.child(tooltipText);
-    // this.show();
-    this.setEventListeners();
+    this.#setEventListeners();
   }
-  show(event) {
+
+  #show(event) {
     // clear the previous timeout
-    clearTimeout(this.moveTimer);
+    clearTimeout(this.hoverTimer);
     //the timer callback completes only if the mouse stops over the element
     // otherwise it is continuously reset
-    this.moveTimer = setTimeout(() => {
+    this.hoverTimer = setTimeout(() => {
 
       let label;
       if (event.target.tagName === "IMG") {
@@ -50,14 +50,14 @@ class ToolTip {
     }, this.timeout);
   }
 
-  hide() {
-    clearTimeout(this.moveTimer);
+  #hide() {
+    clearTimeout(this.hoverTimer);
     if (this.tooltip.class !== "hidden") {
       this.tooltip.hide();
     }
   }
 
-  setEventListeners() {
+  #setEventListeners() {
     const sidebar = select(".sidebar").elt;
     const menuBox = select(".menu").elt;
     const options = select(".options").elt;
@@ -66,24 +66,24 @@ class ToolTip {
     for (let i = 0; i < imgBubble.length; i++) {
       //event listener for moving mouse over an img item
       imgBubble[i].addEventListener("mousemove", (event) =>
-        event.target.tagName === "IMG" ? this.show(event) : null
+        event.target.tagName === "IMG" ? this.#show(event) : null
       );
 
       //event listener for mouse leaving an img item
       imgBubble[i].addEventListener("mouseout", (event) =>
-        event.target.tagName === "IMG" ? this.hide() : null
+        event.target.tagName === "IMG" ? this.#hide() : null
       );
     }
 
     const coloursBubble = select(".colours").elt;
 
     coloursBubble.addEventListener("mousemove", (event) =>
-      event.target.id ? this.show(event) : null
+      event.target.id ? this.#show(event) : null
     );
 
     // event listener for mouse leaving an img item
     coloursBubble.addEventListener("mouseout", (event) =>
-      event.target.tagName === "DIV" ? this.hide() : null
+      event.target.tagName === "DIV" ? this.#hide() : null
     );
   
   }
