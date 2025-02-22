@@ -58,7 +58,7 @@ function setup() {
   toolbox.addTool(new EditImageTool("editImage"));
   toolbox.addTool(new FreehandTool('freehand'));
   toolbox.addTool(new LineToTool('lineTo'));
-  toolbox.addTool(new SprayCanTool());
+  toolbox.addTool(new SprayCanTool('sprayCan'));
   toolbox.addTool(new MirrorDrawTool('mirrorDraw'));
   toolbox.addTool(new ShapeTool("shape"));
   toolbox.addTool(new EraserTool("eraser"));

@@ -1,11 +1,9 @@
 class MirrorDrawTool extends ToolItem {
-  
-  constructor(name){
+  constructor(name) {
     super(name);
-    this.label = 'LineMirror';
-    this.label = 'Mirror';
+    this.label = "Mirror";
   }
-  
+
   // detects the drawing state
   // needed for undo to work correctly without saving the axis
   #isDrawing = false;
@@ -52,14 +50,20 @@ class MirrorDrawTool extends ToolItem {
         //line of symmetry
         const oX = this.#calculateOpposite(mouseX, "x");
         const oY = this.#calculateOpposite(mouseY, "y");
-        line(this.#previousOppositeMouseX, this.#previousOppositeMouseY, oX, oY);
+        line(
+          this.#previousOppositeMouseX,
+          this.#previousOppositeMouseY,
+          oX,
+          oY
+        );
         this.#previousOppositeMouseX = oX;
         this.#previousOppositeMouseY = oY;
       }
     }
     //if the mouse isn't pressed reset the previous values to -1
     else {
-      const mouseOverCanvas = mouseX >= 0 && mouseY <= width && mouseY >=0 && mouseY <= height;
+      const mouseOverCanvas =
+        mouseX >= 0 && mouseY <= width && mouseY >= 0 && mouseY <= height;
       if (this.#isDrawing === true && mouseOverCanvas) {
         // when the mouseButton is released after drawing
         // save an undo snapshot and reset isDrawing to false
@@ -90,7 +94,7 @@ class MirrorDrawTool extends ToolItem {
     }
     //return to the original stroke
     pop();
-  };
+  }
 
   /*calculate an opposite coordinate the other side of the
    *symmetry line.
@@ -117,7 +121,7 @@ class MirrorDrawTool extends ToolItem {
     else {
       return this.#lineOfSymmetry - (n - this.#lineOfSymmetry);
     }
-  };
+  }
 
   //when the tool is deselected update the pixels to just show the drawing and
   //hide the line of symmetry. Also clear options
@@ -125,7 +129,7 @@ class MirrorDrawTool extends ToolItem {
     updatePixels();
     //clear options
     select(".options").html("");
-  };
+  }
 
   //adds a button and click handler to the options area. When clicked
   //toggle the line of symmetry between horizonatl to vertical
@@ -134,7 +138,7 @@ class MirrorDrawTool extends ToolItem {
       "<button id='directionButton'>Make Horizontal</button>"
     );
     // click handler
-    select("#directionButton").mouseClicked( (event) => {
+    select("#directionButton").mouseClicked((event) => {
       const button = select("#" + event.elt.id);
       if (this.#axis == "x") {
         this.#axis = "y";
@@ -146,5 +150,5 @@ class MirrorDrawTool extends ToolItem {
         button.html("Make Horizontal");
       }
     });
-  };
+  }
 }
