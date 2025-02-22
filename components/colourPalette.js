@@ -135,6 +135,8 @@ function ColourPalette() {
     }
 
     isColourInput ? null : select(`#${event.target.id}`).addClass("active");
+    
+    updateOpacityInput();
   };
 
   const colourModeClick = (event) => {
