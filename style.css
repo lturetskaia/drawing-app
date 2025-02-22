@@ -215,7 +215,7 @@ button:disabled {
 }
 
 .sidebar {
-  padding-top: 20px;
+  padding-top: 50px;
   grid-area: sidebar;
   grid-row: 3/5;
   display: flex;
@@ -291,15 +291,3 @@ button:disabled {
 #tooltip p::first-letter {
   text-transform: uppercase;
 }
-
-/* #errorMessage {
-  position: absolute;
-  width: 150px;
-  height: 30px;
-  padding: 10px;
-  background-color: white;
-  border: 1px solid rgb(126, 126, 126);
-  border-radius: 4px;
-
-
-} */
