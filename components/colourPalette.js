@@ -24,7 +24,6 @@ class ColourPalette {
     { name: "aqua", rgba: [0, 255, 255, 255] },
   ];
  
-
   // for fill and stroke colours
   // if the colour is a preset, presetName has a name - otherwise it's null
   #selectedStrokeColour = {
@@ -36,8 +35,6 @@ class ColourPalette {
     rgba: [255, 255, 255, 255],
     presetName: "white",
   };
-// current opacity value
-  // #opacity = 0;
 
   //create colour swatches for all preset colours
   #addColourSwatches(){
