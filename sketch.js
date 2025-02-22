@@ -38,6 +38,7 @@ function setup() {
 
   //create the colour palette
   const colourPalette = new ColourPalette();
+  colourPalette.loadColoursMenu();
 
   // create menu and add menu options
   menu = new MenuBox();

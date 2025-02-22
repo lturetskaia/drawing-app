@@ -1,6 +1,9 @@
 //Displays and handles the colour palette.
-function ColourPalette() {
-  this.colours = [
+class ColourPalette {
+   //mode 'fill' or 'stroke'
+  #mode = "stroke";
+  // preset colours
+  #colours = [
     { name: "black", rgba: [0, 0, 0, 255] },
     { name: "white", rgba: [255, 255, 255, 255] },
     { name: "gray", rgba: [128, 128, 128, 255] },
@@ -20,47 +23,47 @@ function ColourPalette() {
     { name: "teal", rgba: [0, 128, 128, 255] },
     { name: "aqua", rgba: [0, 255, 255, 255] },
   ];
-  //mode 'fill' or 'stroke'
-  this.mode = "stroke";
+ 
 
-  //initial colours for fill and stroke
+  // for fill and stroke colours
   // if the colour is a preset, presetName has a name - otherwise it's null
-  this.selectedStrokeColour = {
+  #selectedStrokeColour = {
     rgba: [0, 0, 0, 255],
     presetName: "black",
   };
-  this.selectedFillColour = {
+
+  selectedFillColour = {
     rgba: [255, 255, 255, 255],
     presetName: "white",
   };
-
-  this.opacity = 0;
+// current opacity value
+  // #opacity = 0;
 
   //create colour swatches for all preset colours
-  const addColourSwatches = () => {
+  #addColourSwatches(){
     //for each colour create a new div in the html for the colourSwatches
-    for (let i = 0; i < this.colours.length; i++) {
-      const colourID = this.colours[i].name + "Swatch";
+    for (let i = 0; i < this.#colours.length; i++) {
+      const colourID = this.#colours[i].name + "Swatch";
 
       //using p5.dom add the swatch to the palette and set its background colour
       //to be the colour value.
       const colourSwatch = createDiv();
       colourSwatch.class("colourSwatches");
-      colourSwatch.attribute("name", this.colours[i].name);
+      colourSwatch.attribute("name", this.#colours[i].name);
       colourSwatch.id(colourID);
 
       select(".colourPalette").child(colourSwatch);
       select("#" + colourID).style(
         "background-color",
-        color(this.colours[i].rgba)
+        color(this.#colours[i].rgba)
       );
 
-      colourSwatch.mouseClicked(setColour);
+      colourSwatch.mouseClicked((event) => this.#setColour(event));
     }
   };
 
   //create fill and stroke colour samples
-  const addColourModeSamples = () => {
+  #addColourModeSamples(){
     //for stroke/fill samples create a new div
     //set the background colour to selectedStrokeColour or selectedFillColour
     const strokeColourSwatch = createDiv();
@@ -69,7 +72,7 @@ function ColourPalette() {
     select(".colourSamples").child(strokeColourSwatch);
     select("#strokeColour").style(
       "background-color",
-      color(this.selectedStrokeColour.rgba)
+      color(this.#selectedStrokeColour.rgba)
     );
     select("#strokeColour").attribute("name", "Stroke colour");
 
@@ -84,11 +87,11 @@ function ColourPalette() {
     select("#fillColour").attribute("name", "Fill colour");
 
     //add event listeners
-    strokeColourSwatch.mouseClicked(colourModeClick);
-    fillColourSwatch.mouseClicked(colourModeClick);
+    strokeColourSwatch.mouseClicked((event) => this.#colourModeClick(event));
+    fillColourSwatch.mouseClicked((event) => this.#colourModeClick(event));
   };
 
-  const setColour = (event) => {
+  #setColour(event){
     //remove border on colour swatches
     if (this.selectedFillColour.presetName !== null) {
       select("#" + this.selectedFillColour.presetName + "Swatch").removeClass(
@@ -96,8 +99,8 @@ function ColourPalette() {
       );
     }
 
-    if (this.selectedStrokeColour.presetName !== null) {
-      select("#" + this.selectedStrokeColour.presetName + "Swatch").removeClass(
+    if (this.#selectedStrokeColour.presetName !== null) {
+      select("#" + this.#selectedStrokeColour.presetName + "Swatch").removeClass(
         "active"
       );
     }
@@ -112,7 +115,7 @@ function ColourPalette() {
       newColour = { rgba: [...newColourObject.levels], presetName: null };
     } else {
       const colourName = event.target.id.split("Swatch")[0];
-      const selectedColour = this.colours.filter(
+      const selectedColour = this.#colours.filter(
         (colour) => colour.name === colourName
       );
       newColour = {
@@ -124,8 +127,8 @@ function ColourPalette() {
 
     //set the selected colour to fill or stroke
     //and update the corresponding colour mode element
-    if (this.mode === "stroke") {
-      this.selectedStrokeColour = { ...newColour };
+    if (this.#mode === "stroke") {
+      this.#selectedStrokeColour = { ...newColour };
       select("#strokeColour").style("background-color", newColourObject);
       stroke(newColourObject);
     } else {
@@ -135,20 +138,21 @@ function ColourPalette() {
     }
 
     isColourInput ? null : select(`#${event.target.id}`).addClass("active");
+    this.#updateOpacityInput();
   };
 
-  const colourModeClick = (event) => {
+  #colourModeClick(event){
     //remove the old border from colourMode element
-    select(`#${this.mode}Colour`).removeClass("active");
+    select(`#${this.#mode}Colour`).removeClass("active");
 
     //remove the old border on current swatch colour
     const isStrokePreset =
-      this.mode === "stroke" && this.selectedStrokeColour.presetName !== null;
+      this.#mode === "stroke" && this.#selectedStrokeColour.presetName !== null;
     const isFillPreset =
-      this.mode === "fill" && this.selectedFillColour.presetName !== null;
+      this.#mode === "fill" && this.selectedFillColour.presetName !== null;
 
     if (isStrokePreset) {
-      select("#" + this.selectedStrokeColour.presetName + "Swatch").removeClass(
+      select("#" + this.#selectedStrokeColour.presetName + "Swatch").removeClass(
         "active"
       );
     } else if (isFillPreset) {
@@ -159,24 +163,24 @@ function ColourPalette() {
 
     // set the selected mode to fill or stroke
     const newMode = event.target.id.split("Colour")[0];
-    this.mode = newMode;
+    this.#mode = newMode;
 
     //update the opcity input value
-    updateOpacityInput();
+    this.#updateOpacityInput();
 
     //add new border on active colour mode
-    select(`#${this.mode}Colour`).addClass("active");
+    select(`#${this.#mode}Colour`).addClass("active");
 
     // add new border on the colour swatch of the selected mode
     if (
-      this.mode === "stroke" &&
-      this.selectedStrokeColour.presetName !== null
+      this.#mode === "stroke" &&
+      this.#selectedStrokeColour.presetName !== null
     ) {
-      select("#" + this.selectedStrokeColour.presetName + "Swatch").addClass(
+      select("#" + this.#selectedStrokeColour.presetName + "Swatch").addClass(
         "active"
       );
     } else if (
-      this.mode === "fill" &&
+      this.#mode === "fill" &&
       this.selectedFillColour.presetName !== null
     ) {
       select("#" + this.selectedFillColour.presetName + "Swatch").addClass(
@@ -185,7 +189,7 @@ function ColourPalette() {
     }
   };
 
-  const addRGBWheel = () => {
+  #addRGBWheel(){
     //create an RGB button and a hidden colour input
     const RGBButton = createButton("");
     const colourInput = createInput("#000000", "color");
@@ -196,17 +200,17 @@ function ColourPalette() {
     colourInput.parent("#editColour");
 
     // add event listeners
-    RGBButton.mouseClicked(RGBButtonClick);
-    colourInput.changed(setColour);
+    RGBButton.mouseClicked(this.#RGBButtonClick);
+    colourInput.changed((event) => this.#setColour(event));
   };
 
-  const RGBButtonClick = () => {
+  #RGBButtonClick(){
     //imitates a click on the hidden colour input element
     const colourInput = select("#colourInput").elt;
     colourInput.click();
   };
 
-  const addOpacityInput = () => {
+  #addOpacityInput(){
     //create opacity label and input
     const opacityInput = createInput("0", "number");
     opacityInput.id("opacity");
@@ -219,16 +223,16 @@ function ColourPalette() {
     opacityInput.parent("#opacityInput");
     opacityInput.attribute("name", "Opacity");
 
-    opacityInput.changed(setOpacity);
+    opacityInput.changed((event) => this.#setOpacity(event));
   };
 
-  const setOpacity = (event) => {
+  #setOpacity(event){
     const opacityValue = +event.target.value;
 
     //check if  input is not a number or NaN
     if (typeof opacityValue !== "number" || !Number.isFinite(opacityValue)) {
       //reset opacity value to the previous valid value
-      updateOpacityInput();
+      this.#updateOpacityInput();
 
       // create an error message
       const x = event.target.offsetLeft;
@@ -245,7 +249,7 @@ function ColourPalette() {
 
     //check if the number is valid
     if (opacityValue > 100 || opacityValue < 0) {
-      updateOpacityInput();
+      this.#updateOpacityInput();
 
       // create an error message
       const x = event.target.offsetLeft;
@@ -264,19 +268,19 @@ function ColourPalette() {
     const alphaValue = map(opacityValue, 0, 100, 255, 0).toFixed();
 
     //set opacity on stroke or fill
-    if (this.mode === "fill") {
+    if (this.#mode === "fill") {
       this.selectedFillColour.rgba[3] = +alphaValue;
       fill(this.selectedFillColour.rgba);
     } else {
-      this.selectedStrokeColour.rgba[3] = +alphaValue;
-      stroke(this.selectedStrokeColour.rgba);
+      this.#selectedStrokeColour.rgba[3] = +alphaValue;
+      stroke(this.#selectedStrokeColour.rgba);
     }
   };
 
-  const updateOpacityInput = () => {
+  #updateOpacityInput(){
     let opacityValue;
-    if (this.mode === "stroke") {
-      const alphaValue = this.selectedStrokeColour.rgba[3];
+    if (this.#mode === "stroke") {
+      const alphaValue = this.#selectedStrokeColour.rgba[3];
       opacityValue = map(alphaValue, 0, 255, 100, 0).toFixed();
     } else {
       const alphaValue = this.selectedFillColour.rgba[3];
@@ -287,21 +291,19 @@ function ColourPalette() {
   };
 
   //load in the colours
-  this.loadColoursMenu = function () {
+  loadColoursMenu(){
     //set the fill to white and stroke to black
     //at the start of the programme running
     fill(color(this.selectedFillColour.rgba));
-    stroke(color(this.selectedStrokeColour.rgba));
+    stroke(color(this.#selectedStrokeColour.rgba));
 
     //create preset colour swatches, mode samples, rgb wheel, opacity input
-    addColourSwatches();
-    addColourModeSamples();
-    addRGBWheel();
-    addOpacityInput();
+    this.#addColourSwatches();
+    this.#addColourModeSamples();
+    this.#addRGBWheel();
+    this.#addOpacityInput();
 
     select(".colourSwatches").addClass("active");
     select("#strokeColour").addClass("active");
   };
-  //call the loadColours function now it is declared
-  this.loadColoursMenu();
 }
