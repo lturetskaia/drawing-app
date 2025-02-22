@@ -59,7 +59,7 @@ function setup() {
   toolbox.addTool(new FreehandTool('freehand'));
   toolbox.addTool(new LineToTool('lineTo'));
   toolbox.addTool(new SprayCanTool());
-  toolbox.addTool(new MirrorDrawTool());
+  toolbox.addTool(new MirrorDrawTool('mirrorDraw'));
   toolbox.addTool(new ShapeTool("shape"));
   toolbox.addTool(new EraserTool("eraser"));
   toolbox.addTool(new BucketTool("bucket"));

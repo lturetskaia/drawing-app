@@ -1,5 +1,5 @@
 class LineToTool extends ToolItem {
-  constructor(name){ // lineTo
+  constructor(name){
     super(name);
     this.label = 'Line';
   }

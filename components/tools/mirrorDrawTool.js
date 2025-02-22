@@ -1,30 +1,30 @@
-function MirrorDrawTool() {
-  this.name = "mirrorDraw";
-  this.icon = "assets/mirrorDraw.jpg";
-  this.label = 'Mirror';
+class MirrorDrawTool extends ToolItem {
+  
+  constructor(name){
+    super(name);
+    this.label = 'LineMirror';
+    this.label = 'Mirror';
+  }
+  
   // detects the drawing state
   // needed for undo to work correctly without saving the axis
-  this.isDrawing = false;
+  #isDrawing = false;
 
   //which axis is being mirrored (x or y) x is default
-  this.axis = "x";
+  #axis = "x";
   //line of symmetry is halfway across the screen
-  this.lineOfSymmetry = width / 2;
-
-  //this changes in the p5.dom click handler. So storing it as
-  //a variable self now means we can still access this in the handler
-  const self = this;
+  #lineOfSymmetry = width / 2;
 
   //where was the mouse on the last time draw was called.
   //set it to -1 to begin with
-  let previousMouseX = -1;
-  let previousMouseY = -1;
+  #previousMouseX = -1;
+  #previousMouseY = -1;
 
   //mouse coordinates for the other side of the Line of symmetry.
-  let previousOppositeMouseX = -1;
-  let previousOppositeMouseY = -1;
+  #previousOppositeMouseX = -1;
+  #previousOppositeMouseY = -1;
 
-  this.draw = function () {
+  draw() {
     //display the last save state of pixels
     updatePixels();
 
@@ -32,45 +32,45 @@ function MirrorDrawTool() {
     if (mouseIsPressed && mouseButton === LEFT) {
       //if the previous values are -1 set them to the current mouse location
       //and mirrored positions
-      if (previousMouseX == -1) {
-        previousMouseX = mouseX;
-        previousMouseY = mouseY;
-        previousOppositeMouseX = this.calculateOpposite(mouseX, "x");
-        previousOppositeMouseY = this.calculateOpposite(mouseY, "y");
+      if (this.#previousMouseX == -1) {
+        this.#previousMouseX = mouseX;
+        this.#previousMouseY = mouseY;
+        this.#previousOppositeMouseX = this.#calculateOpposite(mouseX, "x");
+        this.#previousOppositeMouseY = this.#calculateOpposite(mouseY, "y");
 
-        this.isDrawing = true;
+        this.#isDrawing = true;
       }
 
       //if there are values in the previous locations
       //draw a line between them and the current positions
       else {
-        line(previousMouseX, previousMouseY, mouseX, mouseY);
-        previousMouseX = mouseX;
-        previousMouseY = mouseY;
+        line(this.#previousMouseX, this.#previousMouseY, mouseX, mouseY);
+        this.#previousMouseX = mouseX;
+        this.#previousMouseY = mouseY;
 
         //these are for the mirrored drawing the other side of the
         //line of symmetry
-        const oX = this.calculateOpposite(mouseX, "x");
-        const oY = this.calculateOpposite(mouseY, "y");
-        line(previousOppositeMouseX, previousOppositeMouseY, oX, oY);
-        previousOppositeMouseX = oX;
-        previousOppositeMouseY = oY;
+        const oX = this.#calculateOpposite(mouseX, "x");
+        const oY = this.#calculateOpposite(mouseY, "y");
+        line(this.#previousOppositeMouseX, this.#previousOppositeMouseY, oX, oY);
+        this.#previousOppositeMouseX = oX;
+        this.#previousOppositeMouseY = oY;
       }
     }
     //if the mouse isn't pressed reset the previous values to -1
     else {
       const mouseOverCanvas = mouseX >= 0 && mouseY <= width && mouseY >=0 && mouseY <= height;
-      if (this.isDrawing === true && mouseOverCanvas) {
+      if (this.#isDrawing === true && mouseOverCanvas) {
         // when the mouseButton is released after drawing
         // save an undo snapshot and reset isDrawing to false
         saveUndoSnapshot();
-        this.isDrawing = false;
+        this.#isDrawing = false;
       }
-      previousMouseX = -1;
-      previousMouseY = -1;
+      this.#previousMouseX = -1;
+      this.#previousMouseY = -1;
 
-      previousOppositeMouseX = -1;
-      previousOppositeMouseY = -1;
+      this.#previousOppositeMouseX = -1;
+      this.#previousOppositeMouseY = -1;
     }
 
     //after the drawing is done save the pixel state. We don't want the
@@ -83,7 +83,7 @@ function MirrorDrawTool() {
     strokeWeight(3);
     stroke("red");
     //draw the line of symmetry
-    if (this.axis == "x") {
+    if (this.#axis == "x") {
       line(width / 2, 0, width / 2, height);
     } else {
       line(0, height / 2, width, height / 2);
@@ -98,30 +98,30 @@ function MirrorDrawTool() {
    *@param a [x,y]: the axis of the coordinate (y or y)
    *@return number: the opposite coordinate
    */
-  this.calculateOpposite = function (n, a) {
+  #calculateOpposite(n, a) {
     //if the axis isn't the one being mirrored return the same
     //value
-    if (a != this.axis) {
+    if (a != this.#axis) {
       return n;
     }
 
     //if n is less than the line of symmetry return a coorindate
     //that is far greater than the line of symmetry by the distance from
     //n to that line.
-    if (n < this.lineOfSymmetry) {
-      return this.lineOfSymmetry + (this.lineOfSymmetry - n);
+    if (n < this.#lineOfSymmetry) {
+      return this.#lineOfSymmetry + (this.#lineOfSymmetry - n);
     }
 
     //otherwise a coordinate that is smaller than the line of symmetry
     //by the distance between it and n.
     else {
-      return this.lineOfSymmetry - (n - this.lineOfSymmetry);
+      return this.#lineOfSymmetry - (n - this.#lineOfSymmetry);
     }
   };
 
   //when the tool is deselected update the pixels to just show the drawing and
   //hide the line of symmetry. Also clear options
-  this.unselectTool = function () {
+  unselectTool() {
     updatePixels();
     //clear options
     select(".options").html("");
@@ -129,20 +129,20 @@ function MirrorDrawTool() {
 
   //adds a button and click handler to the options area. When clicked
   //toggle the line of symmetry between horizonatl to vertical
-  this.populateOptions = function () {
+  populateOptions() {
     select(".options").html(
       "<button id='directionButton'>Make Horizontal</button>"
     );
     // click handler
-    select("#directionButton").mouseClicked(function () {
-      const button = select("#" + this.elt.id);
-      if (self.axis == "x") {
-        self.axis = "y";
-        self.lineOfSymmetry = height / 2;
+    select("#directionButton").mouseClicked( (event) => {
+      const button = select("#" + event.elt.id);
+      if (this.#axis == "x") {
+        this.#axis = "y";
+        this.#lineOfSymmetry = height / 2;
         button.html("Make Vertical");
       } else {
-        self.axis = "x";
-        self.lineOfSymmetry = width / 2;
+        this.#axis = "x";
+        this.#lineOfSymmetry = width / 2;
         button.html("Make Horizontal");
       }
     });
