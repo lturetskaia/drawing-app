@@ -1,4 +1,4 @@
-class EditImageTool extends ToolItem {
+class SelectTool extends ToolItem {
   constructor(name) {
     super(name);
     this.mode = "select"; // 'select' is the default mode
@@ -8,7 +8,6 @@ class EditImageTool extends ToolItem {
     this.savedCanvas = null; // selected part of the canvas
     this.padding = 5; // padding of the image for cursor shape change
     this.resize = null; // resize direction
-    this.label = 'Select';
   }
 
   draw() {

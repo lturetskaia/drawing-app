@@ -23,21 +23,25 @@ function setup() {
 
   // event listener for creating undo snapshots
   canvas.mouseClicked((mouseEvent) => {
-    if (toolbox.selectedTool.name !== "mirrorDraw" &&
-        toolbox.selectedTool.name !== "shape" &&
-        toolbox.selectedTool.name !== "editImage" &&
-        toolbox.selectedTool.name !== "eraser") {
-          saveUndoSnapshot();
-        } else if ( toolbox.selectedTool.name === "editImage" &&
-        toolbox.selectedTool.mode === "paste"){
-          //mouse click in paste mode pastes an image
-          toolbox.selectedTool.pasteImage();
-
-        }
+    if (
+      toolbox.selectedTool.name !== "mirror" &&
+      toolbox.selectedTool.name !== "shape" &&
+      toolbox.selectedTool.name !== "select" &&
+      toolbox.selectedTool.name !== "eraser"
+    ) {
+      saveUndoSnapshot();
+    } else if (
+      toolbox.selectedTool.name === "select" &&
+      toolbox.selectedTool.mode === "paste"
+    ) {
+      //mouse click in paste mode pastes an image
+      toolbox.selectedTool.pasteImage();
+    }
   });
 
   //create the colour palette
   const colourPalette = new ColourPalette();
+  colourPalette.loadColoursMenu();
 
   // create menu and add menu options
   menu = new MenuBox();
@@ -55,11 +59,11 @@ function setup() {
   toolbox = new Toolbox();
 
   //add the tools to the toolbox.
-  toolbox.addTool(new EditImageTool("editImage"));
-  toolbox.addTool(new FreehandTool());
-  toolbox.addTool(new LineToTool());
-  toolbox.addTool(new SprayCanTool());
-  toolbox.addTool(new MirrorDrawTool());
+  toolbox.addTool(new SelectTool("select"));
+  toolbox.addTool(new FreehandTool("pencil"));
+  toolbox.addTool(new LineToTool("line"));
+  toolbox.addTool(new SprayCanTool("spray"));
+  toolbox.addTool(new MirrorDrawTool("mirror"));
   toolbox.addTool(new ShapeTool("shape"));
   toolbox.addTool(new EraserTool("eraser"));
   toolbox.addTool(new BucketTool("bucket"));
@@ -71,7 +75,6 @@ function setup() {
   //create a tooltip
   toolTip = new ToolTip();
   toolTip.create();
- 
 }
 
 function draw() {
@@ -89,5 +92,4 @@ function draw() {
   } else {
     alert("it doesn't look like your tool has a draw method!");
   }
-
 }

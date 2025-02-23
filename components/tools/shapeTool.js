@@ -1,7 +1,6 @@
 class ShapeTool extends ToolItem {
   constructor(name) {
     super(name);
-    this.label = 'Shape';
   }
 
   // starting point of a rectangle
