@@ -24,14 +24,14 @@ function setup() {
   // event listener for creating undo snapshots
   canvas.mouseClicked((mouseEvent) => {
     if (
-      toolbox.selectedTool.name !== "mirrorDraw" &&
+      toolbox.selectedTool.name !== "mirror" &&
       toolbox.selectedTool.name !== "shape" &&
-      toolbox.selectedTool.name !== "editImage" &&
+      toolbox.selectedTool.name !== "select" &&
       toolbox.selectedTool.name !== "eraser"
     ) {
       saveUndoSnapshot();
     } else if (
-      toolbox.selectedTool.name === "editImage" &&
+      toolbox.selectedTool.name === "select" &&
       toolbox.selectedTool.mode === "paste"
     ) {
       //mouse click in paste mode pastes an image
