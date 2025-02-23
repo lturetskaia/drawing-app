@@ -23,17 +23,20 @@ function setup() {
 
   // event listener for creating undo snapshots
   canvas.mouseClicked((mouseEvent) => {
-    if (toolbox.selectedTool.name !== "mirrorDraw" &&
-        toolbox.selectedTool.name !== "shape" &&
-        toolbox.selectedTool.name !== "editImage" &&
-        toolbox.selectedTool.name !== "eraser") {
-          saveUndoSnapshot();
-        } else if ( toolbox.selectedTool.name === "editImage" &&
-        toolbox.selectedTool.mode === "paste"){
-          //mouse click in paste mode pastes an image
-          toolbox.selectedTool.pasteImage();
-
-        }
+    if (
+      toolbox.selectedTool.name !== "mirrorDraw" &&
+      toolbox.selectedTool.name !== "shape" &&
+      toolbox.selectedTool.name !== "editImage" &&
+      toolbox.selectedTool.name !== "eraser"
+    ) {
+      saveUndoSnapshot();
+    } else if (
+      toolbox.selectedTool.name === "editImage" &&
+      toolbox.selectedTool.mode === "paste"
+    ) {
+      //mouse click in paste mode pastes an image
+      toolbox.selectedTool.pasteImage();
+    }
   });
 
   //create the colour palette
@@ -56,14 +59,14 @@ function setup() {
   toolbox = new Toolbox();
 
   //add the tools to the toolbox.
-  toolbox.addTool(new SelectTool("editImage"));
-  toolbox.addTool(new FreehandTool('freehand'));
-  toolbox.addTool(new LineToTool('lineTo'));
-  toolbox.addTool(new SprayCanTool('sprayCan'));
-  toolbox.addTool(new MirrorDrawTool('mirrorDraw'));
-  toolbox.addTool(new ShapeTool("shape"));
-  toolbox.addTool(new EraserTool("eraser"));
-  toolbox.addTool(new BucketTool("bucket"));
+  toolbox.addTool(new SelectTool("editImage", "Select"));
+  toolbox.addTool(new FreehandTool("freehand", "Pencil"));
+  toolbox.addTool(new LineToTool("lineTo", "Line"));
+  toolbox.addTool(new SprayCanTool("sprayCan", "Spray"));
+  toolbox.addTool(new MirrorDrawTool("mirrorDraw", "Mirror"));
+  toolbox.addTool(new ShapeTool("shape", "Shape"));
+  toolbox.addTool(new EraserTool("eraser", "Eraser"));
+  toolbox.addTool(new BucketTool("bucket", "Bucket"));
 
   //create stroke tool
   strokeSlider = new StrokeSlider(1, 100);
@@ -72,7 +75,6 @@ function setup() {
   //create a tooltip
   toolTip = new ToolTip();
   toolTip.create();
- 
 }
 
 function draw() {
@@ -90,5 +92,4 @@ function draw() {
   } else {
     alert("it doesn't look like your tool has a draw method!");
   }
-
 }

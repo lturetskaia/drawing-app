@@ -1,7 +1,6 @@
 class LineToTool extends ToolItem {
-  constructor(name){
-    super(name);
-    this.label = 'Line';
+  constructor(name, label){
+    super(name, label);
   }
   // default value of the starting point of a line
   #startMouseX = -1;

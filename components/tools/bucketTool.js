@@ -3,9 +3,8 @@
 // https://en.wikipedia.org/wiki/Flood_fill
 
 class BucketTool extends ToolItem {
-  constructor(name) {
-    super(name);
-    this.label = 'Bucket';
+  constructor(name, label) {
+    super(name, label);
   }
 
   #image;

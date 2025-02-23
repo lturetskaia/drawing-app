@@ -1,6 +1,6 @@
 class SelectTool extends ToolItem {
-  constructor(name) {
-    super(name);
+  constructor(name, label) {
+    super(name, label);
     this.mode = "select"; // 'select' is the default mode
     this.image = null; // no selected image by default
     this.startMouseX = -1;
@@ -8,7 +8,6 @@ class SelectTool extends ToolItem {
     this.savedCanvas = null; // selected part of the canvas
     this.padding = 5; // padding of the image for cursor shape change
     this.resize = null; // resize direction
-    this.label = 'Select';
   }
 
   draw() {

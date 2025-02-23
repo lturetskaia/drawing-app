@@ -1,7 +1,6 @@
 class EraserTool extends ToolItem {
-  constructor(name) {
-    super(name);
-    this.label = "Eraser";
+  constructor(name, label) {
+    super(name, label);
   }
 
   #previousMouseX = -1;

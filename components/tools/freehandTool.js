@@ -1,7 +1,6 @@
 class FreehandTool extends ToolItem {
-  constructor(name){
-    super(name);
-    this.label = 'Pencil';
+  constructor(name, label){
+    super(name, label);
   }
   
 
