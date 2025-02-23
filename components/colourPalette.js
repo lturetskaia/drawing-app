@@ -135,12 +135,7 @@ class ColourPalette {
     }
 
     isColourInput ? null : select(`#${event.target.id}`).addClass("active");
-<<<<<<< HEAD
-    
-    updateOpacityInput();
-=======
     this.#updateOpacityInput();
->>>>>>> refactoring-components
   };
 
   #colourModeClick(event){
