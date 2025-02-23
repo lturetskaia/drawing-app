@@ -56,7 +56,7 @@ function setup() {
   toolbox = new Toolbox();
 
   //add the tools to the toolbox.
-  toolbox.addTool(new EditImageTool("editImage"));
+  toolbox.addTool(new SelectTool("editImage"));
   toolbox.addTool(new FreehandTool('freehand'));
   toolbox.addTool(new LineToTool('lineTo'));
   toolbox.addTool(new SprayCanTool('sprayCan'));

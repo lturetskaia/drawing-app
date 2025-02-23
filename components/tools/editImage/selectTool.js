@@ -1,4 +1,4 @@
-class EditImageTool extends ToolItem {
+class SelectTool extends ToolItem {
   constructor(name) {
     super(name);
     this.mode = "select"; // 'select' is the default mode
