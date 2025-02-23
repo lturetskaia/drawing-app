@@ -4,6 +4,7 @@ class SprayCanTool extends ToolItem {
   }
 
   #minMaxPoints = [5, 500];
+  
   draw() {
     //if the mouse is pressed paint on the canvas
     //spread describes how far to spread the paint from the mouse pointer

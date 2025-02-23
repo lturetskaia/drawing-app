@@ -1,4 +1,4 @@
-class LineToTool extends ToolItem {
+class LineTool extends ToolItem {
   constructor(name){
     super(name);
   }

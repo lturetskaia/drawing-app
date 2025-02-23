@@ -60,8 +60,8 @@ function setup() {
 
   //add the tools to the toolbox.
   toolbox.addTool(new SelectTool("select"));
-  toolbox.addTool(new FreehandTool("pencil"));
-  toolbox.addTool(new LineToTool("line"));
+  toolbox.addTool(new PencilTool("pencil"));
+  toolbox.addTool(new LineTool("line"));
   toolbox.addTool(new SprayCanTool("spray"));
   toolbox.addTool(new MirrorDrawTool("mirror"));
   toolbox.addTool(new ShapeTool("shape"));

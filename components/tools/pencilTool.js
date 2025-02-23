@@ -1,4 +1,4 @@
-class FreehandTool extends ToolItem {
+class PencilTool extends ToolItem {
   constructor(name){
     super(name);
   }
