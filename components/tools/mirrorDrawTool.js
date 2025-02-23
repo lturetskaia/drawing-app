@@ -138,7 +138,7 @@ class MirrorDrawTool extends ToolItem {
     );
     // click handler
     select("#directionButton").mouseClicked((event) => {
-      const button = select("#" + event.elt.id);
+      const button = select("#" + event.target.id);
       if (this.#axis == "x") {
         this.#axis = "y";
         this.#lineOfSymmetry = height / 2;
