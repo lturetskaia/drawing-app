@@ -13,7 +13,7 @@ class EraserTool extends ToolItem {
   draw() {
     updatePixels();
     this.#displayCursor();
-    this.updateStrokeWidth();
+    this.#updateStrokeWidth();
 
     let mouseOverCanvas =
       mouseX >= 0 && mouseX < width && mouseY >= 0 && mouseY < height;
@@ -152,7 +152,7 @@ class EraserTool extends ToolItem {
     this.#selectedShape = "square";
   }
 
-  updateStrokeWidth() {
+  #updateStrokeWidth() {
     const eraserWeight = strokeSlider.getEraserWeight();
     if (this.#strokeWeight !== eraserWeight) {
       this.#strokeWeight = eraserWeight;
