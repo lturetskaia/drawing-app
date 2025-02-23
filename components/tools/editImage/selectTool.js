@@ -1,6 +1,6 @@
 class SelectTool extends ToolItem {
-  constructor(name, label) {
-    super(name, label);
+  constructor(name) {
+    super(name);
     this.mode = "select"; // 'select' is the default mode
     this.image = null; // no selected image by default
     this.startMouseX = -1;

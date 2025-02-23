@@ -1,6 +1,6 @@
 class SprayCanTool extends ToolItem {
-  constructor(name, label) {
-    super(name, label);
+  constructor(name) {
+    super(name);
   }
 
   #minMaxPoints = [5, 500];

@@ -1,8 +1,7 @@
 class ToolItem {
   //constructs darwing tools
-  constructor(name, label) {
+  constructor(name) {
     this.name = name;
     this.icon = `assets/${name}.jpg`;
-    this.label = label;
   }
 }

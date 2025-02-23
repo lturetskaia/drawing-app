@@ -1,6 +1,6 @@
 class MirrorDrawTool extends ToolItem {
-  constructor(name, label) {
-    super(name, label);
+  constructor(name) {
+    super(name);
   }
 
   // detects the drawing state

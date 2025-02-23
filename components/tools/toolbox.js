@@ -20,8 +20,8 @@ class Toolbox {
   }
 
   //add a new tool icon to the html page
-  #addToolIcon(icon, name, label) {
-    const sideBarItem = createDiv(`<img src=${icon} alt = ${label} ></div>`);
+  #addToolIcon(icon, name) {
+    const sideBarItem = createDiv(`<img src=${icon} alt = ${name} ></div>`);
     sideBarItem.class("sideBarItem");
     sideBarItem.id(name + "sideBarItem");
     const sidebar = select(".sidebar");

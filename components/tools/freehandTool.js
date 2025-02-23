@@ -1,6 +1,6 @@
 class FreehandTool extends ToolItem {
-  constructor(name, label){
-    super(name, label);
+  constructor(name){
+    super(name);
   }
   
 

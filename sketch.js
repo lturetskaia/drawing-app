@@ -59,14 +59,14 @@ function setup() {
   toolbox = new Toolbox();
 
   //add the tools to the toolbox.
-  toolbox.addTool(new SelectTool("editImage", "Select"));
-  toolbox.addTool(new FreehandTool("freehand", "Pencil"));
-  toolbox.addTool(new LineToTool("lineTo", "Line"));
-  toolbox.addTool(new SprayCanTool("sprayCan", "Spray"));
-  toolbox.addTool(new MirrorDrawTool("mirrorDraw", "Mirror"));
-  toolbox.addTool(new ShapeTool("shape", "Shape"));
-  toolbox.addTool(new EraserTool("eraser", "Eraser"));
-  toolbox.addTool(new BucketTool("bucket", "Bucket"));
+  toolbox.addTool(new SelectTool("select"));
+  toolbox.addTool(new FreehandTool("pencil"));
+  toolbox.addTool(new LineToTool("line"));
+  toolbox.addTool(new SprayCanTool("spray"));
+  toolbox.addTool(new MirrorDrawTool("mirror"));
+  toolbox.addTool(new ShapeTool("shape"));
+  toolbox.addTool(new EraserTool("eraser"));
+  toolbox.addTool(new BucketTool("bucket"));
 
   //create stroke tool
   strokeSlider = new StrokeSlider(1, 100);
