@@ -1,5 +1,5 @@
-//The BucketTool is based on an enhanced version 
-// of the basic 4-way floodfill pseudocode algorithm
+//The BucketTool is based on an enhanced version
+// of the span flood fill algorithm
 // https://en.wikipedia.org/wiki/Flood_fill
 
 class BucketTool extends ToolItem {
@@ -16,8 +16,6 @@ class BucketTool extends ToolItem {
     const pointIsValid =
       mouseX >= 0 && mouseX <= width && mouseY >= 0 && mouseY <= height;
     if (pointIsValid) {
-      const start = new Date();
-
       const x = floor(mouseX);
       const y = floor(mouseY);
       // set new and old colour value
@@ -33,101 +31,84 @@ class BucketTool extends ToolItem {
       this.#image = drawingContext.getImageData(0, 0, width, height);
 
       this.#floodFill(x, y);
+      
     }
   }
 
-  #floodFill(initialX, initialY) {
-    let currentPixel = {
-      x: initialX,
-      y: initialY,
-      index: this.#getIndex(initialX, initialY),
-    };
+  #floodFill(x, y) {
+    //stack of valid pixels
+    const pixelStack = [[x, y]];
 
-    //create a queue for finding and colouring neighbouring  pixels
-    let queue = [];
-    queue.push(currentPixel);
+    while (pixelStack.length > 0) {
+      const [currX, currY] = pixelStack.pop();
+      let leftX = currX; // left edge of the row
 
-    while (queue.length > 0) {
-      currentPixel = queue.pop();
-      this.#colourPixel(currentPixel.index); // colour the pixel
-      let neighbours = this.#findNeighbours(currentPixel); // find valid neighbours
-      queue.push(...neighbours); // add valid neigbours to queue
+      //find the leftmost point of the row
+      while (leftX > 0 && this.#isSeedColour(leftX, currY)) {
+        leftX--;
+      }
+
+      let rightX = currX;
+
+      //find the leftmost point of the row
+      while (rightX < width && this.#isSeedColour(rightX, currY)) {
+        rightX++;
+      }
+
+      //colour the found span
+      this.#colourSpan(leftX, rightX, currY);
+
+      for (let deltaY of [-1, 1]) {
+        const nextY = currY + deltaY;
+
+        if (nextY < 0 || nextY >= height) {
+          continue;
+        }
+
+        let i = leftX; // this is the current leftmost point of the upper/lower row
+        while (i <= rightX) { //scan from the leftmost point to the rightmost point
+          let spanFound = false;
+
+          while (i <= rightX && this.#isSeedColour(i, nextY)) {
+            if (!spanFound) {
+              pixelStack.push([i, nextY]);
+              spanFound = true;
+            }
+            i++;
+          }
+          i++;
+        }
+      }
     }
 
     //load the new image to the canvas
     drawingContext.putImageData(this.#image, 0, 0);
   }
 
-  #findNeighbours(currentPixel) {
-    //find the neighbouring pixels of the current pixel (left,right, top, bottom)
-    const possibleNeighbours = [
-      {
-        // left
-        x: currentPixel.x - 1,
-        y: currentPixel.y,
-        index: currentPixel.index - 4,
-      },
-      {
-        //right
-        x: currentPixel.x + 1,
-        y: currentPixel.y,
-        index: currentPixel.index + 4,
-      },
-      {
-        // top
-        x: currentPixel.x,
-        y: currentPixel.y - 1,
-        index: currentPixel.index - width * 4,
-      },
-      {
-        //bottom
-        x: currentPixel.x,
-        y: currentPixel.y + 1,
-        index: currentPixel.index + width * 4,
-      },
-    ];
-
-    const validNeighbours = [];
-
-    //check if the neighbours are valid and fill validNeighbours array
-    for (let i = 0; i < possibleNeighbours.length; i++) {
-      if (this.#isValidPixel(possibleNeighbours[i])) {
-        validNeighbours.push(possibleNeighbours[i]);
-      }
-    }
-    return validNeighbours;
-  }
-
-  #colourPixel(index) {
-    const imagePixels = this.#image.data; // access pixel array within image
-    let pixelIndex = index; // starting point
-
+  #colourSpan(leftX, rightX, y) {
+    // const imagePixels = this.#image.data; // access pixel array within image
+    let pixelIndex = this.#getIndex(leftX, y); // starting point
+    const spanLength = 4 * (rightX - leftX);
     // find the four values of the pixel and change them to the corresponding new values
-    for (let i = 0; i < 4; i++) {
-      imagePixels[pixelIndex] = this.#newColour[i];
+    for (let i = 0; i < spanLength; i++) {
+      this.#image.data[pixelIndex] = this.#newColour[i % 4];
       pixelIndex++;
     }
   }
 
-  #isValidPixel(pixel) {
-    // check if the pixel is inside the canvas
-    const isInsideCanvas =
-      pixel.x >= 0 && pixel.x < width && pixel.y >= 0 && pixel.y < height;
-
+  #isSeedColour(x, y) {
+    let pixelIndex = this.#getIndex(x, y);
     // check if the pixel is the same colour as the seed point
     let isSeedColour = true;
-    if (isInsideCanvas) {
-      let pixelIndex = pixel.index;
-      for (let i = 0; i < 4; i++) {
-        if (this.#image.data[pixelIndex] !== this.#seedColour[i]) {
-          isSeedColour = false;
-          break;
-        }
-        pixelIndex++;
+    for (let i = 0; i < 4; i++) {
+      if (this.#image.data[pixelIndex] !== this.#seedColour[i]) {
+        isSeedColour = false;
+        break;
       }
+      pixelIndex++;
     }
-    const pixelIsValid = isInsideCanvas && isSeedColour;
-    return pixelIsValid;
+
+    return isSeedColour;
   }
 
   #getIndex(x, y) {
