@@ -21,4 +21,9 @@ This a drawing app built using JavaScript, P5.js and P5.Sound libraries. The fol
     - delete to the selected area;
     - cancel selection;
 * EraserTool with circle and square shape for erasing parts of the canvas;
-* tooltips for showing tips on tools and function icons;
+* tooltips for showing tips on tools and function icons;  
+
+  
+Try the live version of the app here:  
+  
+[START DRAWING](https://teapod.dev/drawing-app/)
